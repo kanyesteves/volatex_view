@@ -8,12 +8,39 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/user',
+    name: 'user',
+    component: () => import(/* webpackChunkName: "about" */ '../views/UserView.vue')
+  },
+  {
+    path: '/customer',
+    name: 'customer',
+    component: () => import(/* webpackChunkName: "about" */ '../views/CustomerView.vue')
+  },
+  {
+    path: '/tear',
+    name: 'tear',
+    component: () => import(/* webpackChunkName: "about" */ '../views/TearView.vue')
+  },
+  {
+    path: '/operator',
+    name: 'operator',
+    component: () => import(/* webpackChunkName: "about" */ '../views/OperatorView.vue')
+  },
+  {
+    path: '/wire',
+    name: 'wire',
+    component: () => import(/* webpackChunkName: "about" */ '../views/WireView.vue')
+  },
+  {
+    path: '/orderOfOperation',
+    name: 'orderOfOperation',
+    component: () => import(/* webpackChunkName: "about" */ '../views/OrderOfOperation.vue')
+  },
+  {
+    path: '/notfound',
+    name: 'notfound',
+    component: () => import(/* webpackChunkName: "about" */ '../views/NotFoundView.vue')
   }
 ]
 
