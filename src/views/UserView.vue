@@ -1,7 +1,7 @@
 <template>
   <div class="user">
     <GlobalToolbar />
-    <h1>Tela de Usuários</h1>
+    <h1>Tela de usuários</h1>
   </div>
 </template>
 
