@@ -4,6 +4,7 @@ import router from './router'
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
 import Ripple from 'primevue/ripple';
+import Tooltip from 'primevue/tooltip';
 
 
 import 'primeicons/primeicons.css'
@@ -16,12 +17,17 @@ app.use(PrimeVue, {
     options: {
       prefix: 'p',
       darkModeSelector: 'dark',
-      cssLayer: false
+      cssLayer: {
+        name: 'primevue',
+        order: 'tailwind-base, primevue, tailwind-utilities'
+    }
     }
   }
 });
 
 app.directive('ripple', Ripple);
+app.directive('tooltip', Tooltip);
+
 app.use(router)
 app.use(PrimeVue)
 app.mount('#app')

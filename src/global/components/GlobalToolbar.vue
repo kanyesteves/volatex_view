@@ -1,13 +1,13 @@
 <template>
   <div class="card">
-    <GlobalMenu :is-visible="visible" />
+    <GlobalMenu v-model="visible" />
     <Toolbar>
       <template #start>
         <Button icon="pi pi-bars" @click="onMenuClick" />
       </template>
 
       <template #end>
-        <Avatar icon="pi pi-user" class="mr-2" size="small" style="background-color: #ece9fc; color: #2a1261" />
+        <Button v-tooltip.bottom="'Logout'" icon="pi pi-sign-out" class="flex-auto ml-2" severity="danger" text></Button>
       </template>
     </Toolbar>
   </div>
@@ -18,12 +18,12 @@ import { ref } from 'vue';
 import Button from 'primevue/button';
 import GlobalMenu from './GlobalMenu.vue';
 import Toolbar from 'primevue/toolbar';
-import Avatar from 'primevue/avatar';
 
 const visible = ref(false)
 
 const onMenuClick = () => {
   visible.value = true
 }
+
 
 </script>

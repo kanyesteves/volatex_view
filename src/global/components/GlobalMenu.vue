@@ -17,19 +17,11 @@
 
 
 <script lang="ts" setup>
-import { ref, watch, defineProps } from 'vue';
+import { ref, defineModel } from 'vue';
 import Drawer from 'primevue/drawer';
 import Menu from 'primevue/menu';
 
-const props = defineProps({
-  isVisible: Boolean
-})
-
-const visible = ref(false);
-
-watch(() => props.isVisible, (newVal) => {
-  visible.value = newVal;
-});
+const visible = defineModel()
 
 const items = ref([
     {
@@ -43,22 +35,22 @@ const items = ref([
       route: '/customer'
     },
     {
-      label: 'Tear',
+      label: 'Teares',
       icon: 'pi pi-cog',
       route: '/tear'
     },
     {
-      label: 'Operador',
+      label: 'Operadores',
       icon: 'pi pi-wrench',
       route: '/operator'
     },
     {
-      label: 'Fio',
+      label: 'Fios',
       icon: 'pi pi-sliders-h',
       route: '/wire'
     },
     {
-      label: 'Orderm de Operação',
+      label: 'Orderns de Operação',
       icon: 'pi pi-stopwatch',
       route: '/orderOfOperation'
     },
