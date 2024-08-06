@@ -4,8 +4,8 @@
 
 <style>
 #app {
-  width: 100%;
   padding: 0.8rem;
+  height: 100vh;
   background-color: #f7f3ffba;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

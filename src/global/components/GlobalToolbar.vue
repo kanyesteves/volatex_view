@@ -6,6 +6,10 @@
         <Button icon="pi pi-bars" @click="onMenuClick" />
       </template>
 
+      <template #center>
+        <h1>CONTROLE DE PRODUÇÃO - VOLATEX MALHAS</h1>
+      </template>
+
       <template #end>
         <Button v-tooltip.bottom="'Logout'" icon="pi pi-sign-out" class="flex-auto ml-2" severity="danger" text></Button>
       </template>
@@ -27,3 +31,11 @@ const onMenuClick = () => {
 
 
 </script>
+
+<style module>
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+</style>

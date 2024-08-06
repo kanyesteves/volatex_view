@@ -7,6 +7,9 @@
         <Button :class="$style.buttons" size="small" label="Remover" severity="danger" raised @click="$emit('onRemoveUser')" />
       </template>
 
+      <template #end>
+        <Button v-tooltip.bottom="'Exportar'" icon="pi pi-file-export" class="flex-auto ml-2" severity="info" text></Button>
+      </template>
     </Toolbar>
   </div>
 </template>
