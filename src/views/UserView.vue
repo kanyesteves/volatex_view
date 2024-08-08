@@ -11,6 +11,8 @@
     </div>
 
     <SaveUser v-model="new_user" />
+
+    <!-- <UpdateUser v-model="new_user" /> -->
     
     <DeleteUser v-model="remove_user" />
 

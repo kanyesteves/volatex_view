@@ -1,7 +1,11 @@
 <template>
   <div class="card">
-    <DataTable :value="products" tableStyle="min-width: 50rem">
+    <DataTable v-model:selection="userSelected" :value="users" :metaKeySelection="false"
+               @rowSelect="onRowSelect" showGridlines dataKey="id" tableStyle="min-width: 50rem">
+
+        <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
         <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
+
     </DataTable>
   </div>
 
@@ -18,17 +22,22 @@ onMounted(() => {
   onLoadUsers()
 })
 
-
-const products = ref();
+const userSelected = ref();
+const users = ref([]);
 const columns = [
   { field: 'name', header: 'Nome' },
   { field: 'email', header: 'E-mail' },
   { field: 'office', header: 'Cargo' }
 ];
 
+const user_id_selected = ref()
+const onRowSelect = (event) => {
+  user_id_selected.value = event.data.id
+}
+
 const onLoadUsers = debounce(() => {
   userService.getAll().then((response) => {
-    console.log(response)
+    users.value = response.data
   })
 })
 
