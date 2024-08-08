@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <DataTable v-model:selection="userSelected" :value="users" :metaKeySelection="false"
-               @rowSelect="onRowSelect" showGridlines dataKey="id" tableStyle="min-width: 50rem">
+               @rowSelect="onRowSelect" @rowUnselect="onRowUnSelect" stripedRows dataKey="id" tableStyle="min-width: 50rem">
 
         <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
         <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
@@ -12,16 +12,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, defineEmits, defineModel } from 'vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Button from 'primevue/button';
 import { debounce } from 'lodash';
 import userService from '@/system/services/userService';
+
+const emit = defineEmits(['selected', 'unselected'])
 
 onMounted(() => {
   onLoadUsers()
 })
 
+const refresh =  defineModel()
 const userSelected = ref();
 const users = ref([]);
 const columns = [
@@ -30,9 +34,12 @@ const columns = [
   { field: 'office', header: 'Cargo' }
 ];
 
-const user_id_selected = ref()
 const onRowSelect = (event) => {
-  user_id_selected.value = event.data.id
+  emit('selected', event)
+}
+
+const onRowUnSelect = () => {
+  emit('unselected')
 }
 
 const onLoadUsers = debounce(() => {
