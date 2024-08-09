@@ -6,7 +6,7 @@
 #app {
   padding: 0.8rem;
   height: 100vh;
-  background-color: #f7f3ffba;
+  background-color: #ceb8fb5a;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

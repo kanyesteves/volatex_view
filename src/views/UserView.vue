@@ -8,10 +8,10 @@
         @onNewUser="onNewUser" 
         @onRemoveUser="onRemoveUser"/>
 
-      <ListUser v-model="refresh" @selected="rowSelected" @unselected="rowUnSelected" />
+      <ListUser :refresh="refresh" @selected="rowSelected" @unselected="rowUnSelected" />
     </div>
 
-    <SaveUser v-model="new_user" />
+    <SaveUser @refreshTable="refreshTable" v-model="new_user" />
 
     <!-- <UpdateUser v-model="new_user" /> -->
     
@@ -57,6 +57,7 @@ const onRemoveUser = () => {
 const refresh = ref(false)
 const refreshTable = () => {
   refresh.value = true
+  setVisibleToolbar.value = false
 }
 
 </script>

@@ -8,14 +8,14 @@
             <InputGroupAddon>
                 <i class="pi pi-user"></i>
             </InputGroupAddon>
-              <InputText placeholder="Nome" id="username" v-model="user" class="flex-auto" autocomplete="off" />
+              <InputText placeholder="Nome" id="username" v-model="form.name" class="flex-auto" autocomplete="off" />
           </InputGroup>
 
           <InputGroup :style="{ 'margin-left': '1rem' }">
             <InputGroupAddon>
                 <i class="pi pi-key"></i>
             </InputGroupAddon>
-            <Password placeholder="Senha" id="passwd" v-model="password" toggleMask />
+            <Password placeholder="Senha" id="passwd" v-model="form.password" toggleMask />
           </InputGroup>
         </div>
 
@@ -24,20 +24,20 @@
             <InputGroupAddon>
                 <i class="pi pi-envelope"></i>
             </InputGroupAddon>
-              <InputText placeholder="E-mail" id="email" v-model="email" class="flex-auto" autocomplete="off" />
+              <InputText placeholder="E-mail" id="email" v-model="form.email" class="flex-auto" autocomplete="off" />
           </InputGroup>
 
           <InputGroup :style="{ 'margin-left': '1rem' }">
             <InputGroupAddon>
                 <i class="pi pi-wrench"></i>
             </InputGroupAddon>
-              <InputText placeholder="Cargo" id="office" v-model="office" class="flex-auto" autocomplete="off" />
+              <InputText placeholder="Cargo" id="office" v-model="form.office" class="flex-auto" autocomplete="off" />
           </InputGroup>
         </div>
 
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Criar" @click="visible = false"></Button>
+          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Criar" @click="onSaveUser"></Button>
         </div>
 
       </Dialog>
@@ -46,21 +46,33 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref } from 'vue'
+import { defineModel, ref, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
-
+import userService from '@/system/services/userService';
+import type Form from '@/system/type/userType'
 
 const visible = defineModel()
+const emit = defineEmits(['refreshTable'])
 
-const password = ref(null)
-const user = ref(null)
-const office = ref(null)
-const email = ref(null)
+const form = ref<Form>({})
+
+const onSaveUser = async () => {
+
+  await userService.save(form.value).then(async (response) => {
+
+    if (response.status === 201) {
+      console.log(response.data);
+      visible.value = false
+      emit('refreshTable')
+    }
+  })
+
+}
 
 </script>
 

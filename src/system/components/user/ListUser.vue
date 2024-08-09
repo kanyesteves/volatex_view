@@ -1,31 +1,34 @@
 <template>
   <div class="card">
-    <DataTable v-model:selection="userSelected" :value="users" :metaKeySelection="false"
+    <DataTable v-model:selection="userSelected" scrollable scrollHeight="800px" :value="users" :metaKeySelection="false"
                @rowSelect="onRowSelect" @rowUnselect="onRowUnSelect" stripedRows dataKey="id" tableStyle="min-width: 50rem">
 
-        <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-        <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
+      <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
+      <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
 
     </DataTable>
   </div>
-
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, defineEmits, defineModel } from 'vue'
+import { ref, onMounted, defineEmits, defineProps, watch } from 'vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import Button from 'primevue/button';
 import { debounce } from 'lodash';
 import userService from '@/system/services/userService';
 
 const emit = defineEmits(['selected', 'unselected'])
+const props = defineProps(['refresh'])
 
 onMounted(() => {
   onLoadUsers()
 })
 
-const refresh =  defineModel()
+watch(() => props.refresh, () => {
+  onLoadUsers();
+});
+
+const loadTable = ref(false)
 const userSelected = ref();
 const users = ref([]);
 const columns = [
@@ -42,10 +45,18 @@ const onRowUnSelect = () => {
   emit('unselected')
 }
 
-const onLoadUsers = debounce(() => {
-  userService.getAll().then((response) => {
-    users.value = response.data
+const onLoadUsers = debounce(async () => {
+  loadTable.value = true
+  await userService.getAll().then((response) => {
+    if (response.status === 200) {
+      loadTable.value = false
+      users.value = response.data
+    }
   })
 })
 
 </script>
+
+<style module>
+
+</style>

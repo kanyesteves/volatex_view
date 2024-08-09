@@ -8,7 +8,7 @@
       </template>
 
       <template #end>
-        <Button v-tooltip.bottom="'Exportar'" icon="pi pi-file-export" class="flex-auto ml-2" severity="info" text></Button>
+        <Button label="Exportar" icon="pi pi-download" size="small" />
       </template>
     </Toolbar>
   </div>
