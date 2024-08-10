@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <DataTable v-model:selection="userSelected" scrollable scrollHeight="800px" :value="users" :metaKeySelection="false"
+    <DataTable v-model:selection="userSelected" scrollable :scroll-height="screenHeight" :value="users" :metaKeySelection="false"
                @rowSelect="onRowSelect" @rowUnselect="onRowUnSelect" stripedRows dataKey="id" tableStyle="min-width: 50rem">
 
       <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
@@ -22,12 +22,15 @@ const props = defineProps(['refresh'])
 
 onMounted(() => {
   onLoadUsers()
+  responsiveScreen();
 })
 
 watch(() => props.refresh, () => {
   onLoadUsers();
 });
 
+const windowHeight = ref(window.innerHeight);
+const screenHeight = ref()
 const loadTable = ref(false)
 const userSelected = ref();
 const users = ref([]);
@@ -39,11 +42,11 @@ const columns = [
 
 const onRowSelect = (event) => {
   emit('selected', event)
-}
+};
 
 const onRowUnSelect = () => {
   emit('unselected')
-}
+};
 
 const onLoadUsers = debounce(async () => {
   loadTable.value = true
@@ -53,7 +56,15 @@ const onLoadUsers = debounce(async () => {
       users.value = response.data
     }
   })
-})
+});
+
+const responsiveScreen = () => {
+  if (windowHeight.value === 993)
+    screenHeight.value = "800px"
+
+  if (windowHeight.value === 813)
+    screenHeight.value = "640px"
+};
 
 </script>
 
