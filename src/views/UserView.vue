@@ -39,6 +39,7 @@ import ToolbarUser from '../system/components/user/ToolbarUser.vue';
 import SaveUser from '@/system/components/user/SaveUser.vue';
 import DeleteUser from '@/system/components/user/DeleteUser.vue';
 import ListUser from '@/system/components/user/ListUser.vue';
+import UpdateUser from '@/system/components/user/UpdateUser.vue'
 
 const user_selected = ref({
   id: '',

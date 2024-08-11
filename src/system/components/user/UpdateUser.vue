@@ -37,7 +37,7 @@
 
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Criar" @click="onSaveUser"></Button>
+          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" @click="onSaveUser"></Button>
         </div>
 
       </Dialog>
@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, defineModel, defineProps, ref, defineEmits } from 'vue'
+import { defineModel, defineProps, ref, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
@@ -60,24 +60,19 @@ const visible = defineModel()
 const emit = defineEmits(['refreshTable'])
 const props = defineProps(['user'])
 
-const form = ref<Form>({})
-
-onMounted(() => {
-  onOpenEdit();
-})
-
-const onOpenEdit = () => {
-  form.value = props.user
-}
+const form = ref<Form>(props.user)
 
 const onSaveUser = async () => {
 
   await userService.save(form.value).then(async (response) => {
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       visible.value = false
       emit('refreshTable')
     }
+  }).catch((error) => {
+
+    console.log(error)
   })
 
 }

@@ -2,9 +2,9 @@
   <div class=" card">
     <Toolbar :class="$style.tolbarbox">
       <template #start>
-        <Button size="small" label="Novo" raised @click="$emit('onNewUser')" />
-        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Editar" severity="info" raised @click="$emit('onEditUser')" />
-        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Remover" severity="danger" raised @click="$emit('onRemoveUser')" />
+        <Button size="small" label="Novo" raised @click="emit('onNewUser')" />
+        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Editar" severity="info" raised @click="emit('onEditUser')" />
+        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Remover" severity="danger" raised @click="emit('onRemoveUser')" />
       </template>
 
       <template #end>
@@ -15,11 +15,12 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel } from 'vue';
+import { defineModel, defineEmits } from 'vue';
 import Button from 'primevue/button';
 import Toolbar from 'primevue/toolbar';
 
 const setVisibleToolbar = defineModel()
+const emit = defineEmits(['onNewUser', 'onEditUser', 'onRemoveUser'])
 
 </script>
 
