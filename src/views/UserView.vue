@@ -6,16 +6,28 @@
       <ToolbarUser
         v-model="setVisibleToolbar"
         @onNewUser="onNewUser" 
-        @onRemoveUser="onRemoveUser"/>
+        @onEditUser="onEditUser" 
+        @onRemoveUser="onRemoveUser" />
 
-      <ListUser :refresh="refresh" @selected="rowSelected" @unselected="rowUnSelected" />
+      <ListUser 
+        :refresh="refresh" 
+        @selected="rowSelected" 
+        @unselected="rowUnSelected" />
     </div>
 
-    <SaveUser @refreshTable="refreshTable" v-model="new_user" />
+    <SaveUser 
+      @refreshTable="refreshTable" 
+      v-model="new_user" />
 
-    <!-- <UpdateUser v-model="new_user" /> -->
+    <UpdateUser 
+      @refreshTable="refreshTable" 
+      v-model="edit_user"
+      :user="user_selected" />
     
-    <DeleteUser @refreshTable="refreshTable" v-model="remove_user" :user="user_selected" />
+    <DeleteUser 
+      @refreshTable="refreshTable" 
+      v-model="remove_user" 
+      :user="user_selected" />
 
   </div>
 </template>
@@ -31,22 +43,30 @@ import ListUser from '@/system/components/user/ListUser.vue';
 const user_selected = ref({
   id: '',
   name: '',
+  email: '',
+  office: ''
 })
-const setVisibleToolbar = ref(false)
+const setVisibleToolbar = ref([])
 
 const rowSelected = (event) => {
   user_selected.value.id = event.data.id
   user_selected.value.name = event.data.name
-  setVisibleToolbar.value = true
+  setVisibleToolbar.value.push(event.data.id)
 }
 
-const rowUnSelected = () => {
-  setVisibleToolbar.value = false
+const rowUnSelected = (event) => {
+  const index = setVisibleToolbar.value.indexOf(event.data.id);
+  setVisibleToolbar.value.splice(index, 1)
 }
 
 const new_user = ref(false)
 const onNewUser = () => {
   new_user.value = true
+}
+
+const edit_user = ref(false)
+const onEditUser = () => {
+  edit_user.value = true
 }
 
 const remove_user = ref(false)
@@ -57,7 +77,7 @@ const onRemoveUser = () => {
 const refresh = ref(false)
 const refreshTable = () => {
   refresh.value = true
-  setVisibleToolbar.value = false
+  setVisibleToolbar.value = []
 }
 
 </script>

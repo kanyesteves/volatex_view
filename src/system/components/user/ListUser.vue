@@ -1,7 +1,15 @@
 <template>
   <div class="card">
-    <DataTable v-model:selection="userSelected" scrollable :scroll-height="screenHeight" :value="users" :metaKeySelection="false"
-               @rowSelect="onRowSelect" @rowUnselect="onRowUnSelect" stripedRows dataKey="id" tableStyle="min-width: 50rem">
+    <DataTable 
+      stripedRows scrollable
+      v-model:selection="userSelected"
+      :scroll-height="screenHeight" 
+      :value="users" 
+      :metaKeySelection="false"
+      @rowSelect="onRowSelect" 
+      @rowUnselect="onRowUnSelect" 
+      dataKey="id" 
+      tableStyle="min-width: 50rem">
 
       <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
       <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
@@ -34,6 +42,7 @@ const screenHeight = ref()
 const loadTable = ref(false)
 const userSelected = ref();
 const users = ref([]);
+
 const columns = [
   { field: 'name', header: 'Nome' },
   { field: 'email', header: 'E-mail' },
@@ -44,8 +53,8 @@ const onRowSelect = (event) => {
   emit('selected', event)
 };
 
-const onRowUnSelect = () => {
-  emit('unselected')
+const onRowUnSelect = (event) => {
+  emit('unselected', event)
 };
 
 const onLoadUsers = debounce(async () => {

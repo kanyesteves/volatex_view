@@ -3,8 +3,8 @@
     <Toolbar :class="$style.tolbarbox">
       <template #start>
         <Button size="small" label="Novo" raised @click="$emit('onNewUser')" />
-        <Button :disabled="!setVisibleToolbar" :class="$style.buttons" size="small" label="Editar" severity="info" raised @click="$emit('onUpdateUser')" />
-        <Button :disabled="!setVisibleToolbar" :class="$style.buttons" size="small" label="Remover" severity="danger" raised @click="$emit('onRemoveUser')" />
+        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Editar" severity="info" raised @click="$emit('onEditUser')" />
+        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Remover" severity="danger" raised @click="$emit('onRemoveUser')" />
       </template>
 
       <template #end>

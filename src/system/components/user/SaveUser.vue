@@ -66,7 +66,6 @@ const onSaveUser = async () => {
   await userService.save(form.value).then(async (response) => {
 
     if (response.status === 201) {
-      console.log(response.data);
       visible.value = false
       emit('refreshTable')
     }
