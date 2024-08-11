@@ -36,6 +36,7 @@
         </div>
 
         <div :class="$style.space_bottons">
+          <Toast />
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
           <Button :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" @click="onSaveUser"></Button>
         </div>
@@ -54,9 +55,11 @@ import Password from 'primevue/password';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import userService from '@/system/services/userService';
+import { useToast } from 'primevue/usetoast';
 import type Form from '@/system/type/userType'
 
 const visible = defineModel()
+const toast = useToast();
 const emit = defineEmits(['refreshTable'])
 const props = defineProps(['user'])
 
@@ -72,7 +75,13 @@ const onSaveUser = async () => {
     }
   }).catch((error) => {
 
-    console.log(error)
+    if (error.response.status === 422) {
+      toast.add({ severity: 'error', summary: 'Erro ao atulizar', detail: 'Campos inválidos', life: 3000 });
+    }
+
+    if (error.response.status === 500) {
+      toast.add({ severity: 'error', summary: 'Erro ao atulizar', detail: 'Erro no servidor', life: 3000 });
+    }
   })
 
 }

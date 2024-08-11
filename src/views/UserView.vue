@@ -52,6 +52,8 @@ const setVisibleToolbar = ref([])
 const rowSelected = (event) => {
   user_selected.value.id = event.data.id
   user_selected.value.name = event.data.name
+  user_selected.value.email = event.data.email
+  user_selected.value.office = event.data.office
   setVisibleToolbar.value.push(event.data.id)
 }
 
