@@ -1,7 +1,7 @@
 <template>
   <div class=" card">
     <div class="card flex justify-center">
-      <Dialog v-model:visible="visible" modal header="Editar usuário" :style="{ width: '45rem' }">
+      <Dialog v-model:visible="visible" modal header="Novo usuário" :style="{ width: '45rem' }">
 
         <div :class="$style.div_box" class="flex items-center">
           <InputGroup>
@@ -36,9 +36,8 @@
         </div>
 
         <div :class="$style.space_bottons">
-          <Toast />
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" @click="onSaveUser"></Button>
+          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Criar" @click="onSaveUser"></Button>
         </div>
 
       </Dialog>
@@ -47,40 +46,28 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, defineProps, ref, defineEmits } from 'vue'
+import { defineModel, ref, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
-import userService from '@/system/services/userService';
-import { useToast } from 'primevue/usetoast';
-import type Form from '@/system/type/userType'
+import userService from '@/pages/services/userService';
+import type Form from '@/pages/type/userType'
 
 const visible = defineModel()
-const toast = useToast();
 const emit = defineEmits(['refreshTable'])
-const props = defineProps(['user'])
 
-const form = ref<Form>(props.user)
+const form = ref<Form>({})
 
 const onSaveUser = async () => {
 
   await userService.save(form.value).then(async (response) => {
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       visible.value = false
       emit('refreshTable')
-    }
-  }).catch((error) => {
-
-    if (error.response.status === 422) {
-      toast.add({ severity: 'error', summary: 'Erro ao atulizar', detail: 'Campos inválidos', life: 3000 });
-    }
-
-    if (error.response.status === 500) {
-      toast.add({ severity: 'error', summary: 'Erro ao atulizar', detail: 'Erro no servidor', life: 3000 });
     }
   })
 

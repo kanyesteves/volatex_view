@@ -1,7 +1,7 @@
 <template>
   <div class=" card">
     <div class="card flex justify-center">
-      <Dialog v-model:visible="visible" modal header="Novo usuário" :style="{ width: '45rem' }">
+      <Dialog v-model:visible="visible" modal header="Novo cliente" :style="{ width: '45rem' }">
 
         <div :class="$style.div_box" class="flex items-center">
           <InputGroup>
@@ -13,31 +13,15 @@
 
           <InputGroup :style="{ 'margin-left': '1rem' }">
             <InputGroupAddon>
-                <i class="pi pi-key"></i>
+                <i class="pi pi-shopping-bag"></i>
             </InputGroupAddon>
-            <Password placeholder="Senha" id="passwd" v-model="form.password" toggleMask />
-          </InputGroup>
-        </div>
-
-        <div :class="$style.div_box" class="flex items-center">
-          <InputGroup>
-            <InputGroupAddon>
-                <i class="pi pi-envelope"></i>
-            </InputGroupAddon>
-              <InputText placeholder="E-mail" id="email" v-model="form.email" class="flex-auto" autocomplete="off" />
-          </InputGroup>
-
-          <InputGroup :style="{ 'margin-left': '1rem' }">
-            <InputGroupAddon>
-                <i class="pi pi-wrench"></i>
-            </InputGroupAddon>
-              <InputText placeholder="Cargo" id="office" v-model="form.office" class="flex-auto" autocomplete="off" />
+            <InputText placeholder="Artigo" id="article" v-model="form.article" />
           </InputGroup>
         </div>
 
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Criar" @click="onSaveUser"></Button>
+          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Criar" @click="onSaveCustomer"></Button>
         </div>
 
       </Dialog>
@@ -50,20 +34,19 @@ import { defineModel, ref, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
-import Password from 'primevue/password';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
-import userService from '@/system/services/userService';
-import type Form from '@/system/type/userType'
+import customerService from '@/pages/services/customerService';
+import type Form from '@/pages/type/customerType'
 
 const visible = defineModel()
 const emit = defineEmits(['refreshTable'])
 
 const form = ref<Form>({})
 
-const onSaveUser = async () => {
+const onSaveCustomer = async () => {
 
-  await userService.save(form.value).then(async (response) => {
+  await customerService.save(form.value).then(async (response) => {
 
     if (response.status === 201) {
       visible.value = false

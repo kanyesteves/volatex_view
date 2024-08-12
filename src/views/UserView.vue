@@ -35,11 +35,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
-import ToolbarUser from '../system/components/user/ToolbarUser.vue';
-import SaveUser from '@/system/components/user/SaveUser.vue';
-import DeleteUser from '@/system/components/user/DeleteUser.vue';
-import ListUser from '@/system/components/user/ListUser.vue';
-import UpdateUser from '@/system/components/user/UpdateUser.vue'
+import ToolbarUser from '../pages/components/user/ToolbarUser.vue';
+import SaveUser from '@/pages/components/user/SaveUser.vue';
+import DeleteUser from '@/pages/components/user/DeleteUser.vue';
+import ListUser from '@/pages/components/user/ListUser.vue';
+import UpdateUser from '@/pages/components/user/UpdateUser.vue'
 
 const user_selected = ref({
   id: '',

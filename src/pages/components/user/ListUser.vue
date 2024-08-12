@@ -23,7 +23,7 @@ import { ref, onMounted, defineEmits, defineProps, watch } from 'vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { debounce } from 'lodash';
-import userService from '@/system/services/userService';
+import userService from '@/pages/services/userService';
 
 const emit = defineEmits(['selected', 'unselected'])
 const props = defineProps(['refresh'])

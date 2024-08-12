@@ -13,7 +13,7 @@
 import { defineModel, defineProps, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
-import userService from '@/system/services/userService';
+import userService from '@/pages/services/userService';
 import { useToast } from 'primevue/usetoast';
 
 const toast = useToast();
