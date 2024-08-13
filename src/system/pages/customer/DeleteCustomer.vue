@@ -1,10 +1,10 @@
 <template>
   <Dialog v-model:visible="visible" modal header="Aviso de confirmação" :style="{ width: '25rem' }">
-    <span>Tem certeza que deseja remover o usuário <b>{{ props.user.name }}</b>?</span>
+    <span>Tem certeza que deseja remover o cliente <b>{{ props.customer.name }}</b>?</span>
 
     <div :class="$style.space_bottons">
       <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-      <Button :style="{ 'margin-left': '1rem' }" type="button" severity="danger" label="Remover" @click="onRemoveUser"></Button>
+      <Button :style="{ 'margin-left': '1rem' }" type="button" severity="danger" label="Remover" @click="onRemoveCustomer"></Button>
     </div>
   </Dialog>
 </template>
@@ -13,19 +13,20 @@
 import { defineModel, defineProps, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
-import userService from '@/pages/services/userService';
+import customerService from '@/system/services/customerService';
 import { useToast } from 'primevue/usetoast';
 
 const toast = useToast();
 const visible = defineModel()
-const props = defineProps(['user'])
+const props = defineProps(['customer'])
 
 const emit = defineEmits(['refreshTable'])
 
-const onRemoveUser = () => {
-  userService.remove(props.user.id).then((response) => {
+const onRemoveCustomer = () => {
+  customerService.remove(props.customer.id).then((response) => {
     toast.add({ severity: 'success', summary: 'Sucesso',  detail: response.data, life: 2000 })
     visible.value = false
+    location.reload()
     emit('refreshTable')
   })
 }

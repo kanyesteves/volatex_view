@@ -2,9 +2,9 @@
   <div class="card">
     <DataTable 
       stripedRows scrollable
-      v-model:selection="userSelected"
+      v-model:selection="customerSelected"
       :scroll-height="screenHeight" 
-      :value="users" 
+      :value="customers" 
       :metaKeySelection="false"
       @rowSelect="onRowSelect" 
       @rowUnselect="onRowUnSelect" 
@@ -23,30 +23,29 @@ import { ref, onMounted, defineEmits, defineProps, watch } from 'vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { debounce } from 'lodash';
-import userService from '@/pages/services/userService';
+import customerService from '@/system/services/customerService';
 
 const emit = defineEmits(['selected', 'unselected'])
 const props = defineProps(['refresh'])
 
 onMounted(() => {
-  onLoadUsers()
+  onLoadCustomer()
   responsiveScreen();
 })
 
 watch(() => props.refresh, () => {
-  onLoadUsers();
+  onLoadCustomer();
 });
 
 const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()
 const loadTable = ref(false)
-const userSelected = ref();
-const users = ref([]);
+const customerSelected = ref();
+const customers = ref([]);
 
 const columns = [
   { field: 'name', header: 'Nome' },
-  { field: 'email', header: 'E-mail' },
-  { field: 'office', header: 'Cargo' }
+  { field: 'article', header: 'Artigo' }
 ];
 
 const onRowSelect = (event) => {
@@ -57,12 +56,12 @@ const onRowUnSelect = (event) => {
   emit('unselected', event)
 };
 
-const onLoadUsers = debounce(async () => {
+const onLoadCustomer = debounce(async () => {
   loadTable.value = true
-  await userService.getAll().then((response) => {
+  await customerService.getAll().then((response) => {
     if (response.status === 200) {
       loadTable.value = false
-      users.value = response.data
+      customers.value = response.data
     }
   })
 });
@@ -71,7 +70,7 @@ const responsiveScreen = () => {
   if (windowHeight.value === 993)
     screenHeight.value = "800px"
 
-  if (windowHeight.value === 813)
+  if (windowHeight.value >= 813)
     screenHeight.value = "640px"
 };
 

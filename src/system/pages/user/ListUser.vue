@@ -2,9 +2,9 @@
   <div class="card">
     <DataTable 
       stripedRows scrollable
-      v-model:selection="customerSelected"
+      v-model:selection="userSelected"
       :scroll-height="screenHeight" 
-      :value="customers" 
+      :value="users" 
       :metaKeySelection="false"
       @rowSelect="onRowSelect" 
       @rowUnselect="onRowUnSelect" 
@@ -23,29 +23,30 @@ import { ref, onMounted, defineEmits, defineProps, watch } from 'vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { debounce } from 'lodash';
-import customerService from '@/pages/services/customerService';
+import userService from '@/system/services/userService';
 
 const emit = defineEmits(['selected', 'unselected'])
 const props = defineProps(['refresh'])
 
 onMounted(() => {
-  onLoadCustomer()
+  onLoadUsers()
   responsiveScreen();
 })
 
 watch(() => props.refresh, () => {
-  onLoadCustomer();
+  onLoadUsers();
 });
 
 const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()
 const loadTable = ref(false)
-const customerSelected = ref();
-const customers = ref([]);
+const userSelected = ref();
+const users = ref([]);
 
 const columns = [
   { field: 'name', header: 'Nome' },
-  { field: 'article', header: 'Artigo' }
+  { field: 'email', header: 'E-mail' },
+  { field: 'office', header: 'Cargo' }
 ];
 
 const onRowSelect = (event) => {
@@ -56,12 +57,12 @@ const onRowUnSelect = (event) => {
   emit('unselected', event)
 };
 
-const onLoadCustomer = debounce(async () => {
+const onLoadUsers = debounce(async () => {
   loadTable.value = true
-  await customerService.getAll().then((response) => {
+  await userService.getAll().then((response) => {
     if (response.status === 200) {
       loadTable.value = false
-      customers.value = response.data
+      users.value = response.data
     }
   })
 });

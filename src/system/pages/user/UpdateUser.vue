@@ -54,9 +54,9 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
-import userService from '@/pages/services/userService';
+import userService from '@/system/services/userService';
 import { useToast } from 'primevue/usetoast';
-import type Form from '@/pages/type/userType'
+import type Form from '@/system/type/userType'
 
 const visible = defineModel()
 const toast = useToast();
@@ -67,21 +67,10 @@ const form = ref<Form>(props.user)
 
 const onSaveUser = async () => {
 
-  await userService.save(form.value).then(async (response) => {
-
-    if (response.status === 200) {
-      visible.value = false
-      emit('refreshTable')
-    }
-  }).catch((error) => {
-
-    if (error.response.status === 422) {
-      toast.add({ severity: 'error', summary: 'Erro ao atulizar', detail: 'Campos inválidos', life: 3000 });
-    }
-
-    if (error.response.status === 500) {
-      toast.add({ severity: 'error', summary: 'Erro ao atulizar', detail: 'Erro no servidor', life: 3000 });
-    }
+  await userService.save(form.value).then(async () => {
+    visible.value = false
+    location.reload()
+    emit('refreshTable')
   })
 
 }

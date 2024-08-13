@@ -19,17 +19,29 @@
       @refreshTable="refreshTable" 
       v-model="new_customer" />
 
+    <UpdateCustomer 
+      @refreshTable="refreshTable" 
+      v-model="edit_customer" 
+      :customer="customer_selected" />
+
+    <DeleteCustomer
+      @refreshTable="refreshTable" 
+      v-model="remove_customer"
+      :customer="customer_selected" />
+
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
-import ToolbarCustomer from '@/pages/components/customer/ToolbarCustomer.vue';
-import ListCustomer from '@/pages/components/customer/ListCustomer.vue';
-import SaveCustomer from '@/pages/components/customer/SaveCustomer.vue';
+import ToolbarCustomer from '@/system/pages/customer/ToolbarCustomer.vue';
+import ListCustomer from '@/system/pages/customer/ListCustomer.vue';
+import SaveCustomer from '@/system/pages/customer/SaveCustomer.vue';
+import UpdateCustomer from '@/system/pages/customer/UpdateCustomer.vue';
+import DeleteCustomer from '@/system/pages/customer/DeleteCustomer.vue';
 
-const user_selected = ref({
+const customer_selected = ref({
   id: '',
   name: '',
   article: ''
@@ -37,9 +49,9 @@ const user_selected = ref({
 const setVisibleToolbar = ref([])
 
 const rowSelected = (event) => {
-  user_selected.value.id = event.data.id
-  user_selected.value.name = event.data.name
-  user_selected.value.article = event.data.article
+  customer_selected.value.id = event.data.id
+  customer_selected.value.name = event.data.name
+  customer_selected.value.article = event.data.article
   setVisibleToolbar.value.push(event.data.id)
 }
 
