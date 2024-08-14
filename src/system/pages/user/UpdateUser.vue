@@ -55,11 +55,9 @@ import Password from 'primevue/password';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import userService from '@/system/services/userService';
-import { useToast } from 'primevue/usetoast';
 import type Form from '@/system/type/userType'
 
 const visible = defineModel()
-const toast = useToast();
 const emit = defineEmits(['refreshTable'])
 const props = defineProps(['user'])
 
