@@ -5,7 +5,7 @@
 
         <div :class="$style.div_box_" class="flex items-center">
           <InputGroup >
-              <ToggleButton v-model="form.status" class="w-24" onLabel="Ativo" offLabel="Inativo" />
+            <ToggleButton v-model="form.status" class="w-24" onLabel="Ativo" offLabel="Inativo" />
           </InputGroup>
         </div>
 
@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref, defineEmits, onMounted } from 'vue'
+import { defineModel, ref, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
@@ -53,8 +53,6 @@ const props = defineProps(['tear'])
 const form = ref<Form>(props.tear)
 
 const onSaveTear = async () => {
-  form.value.status = (form.value.status == 'Ativo') ? true : false
-    
   await tearService.save(form.value).then(async (response) => {
     visible.value = false
     location.reload()

@@ -42,16 +42,12 @@ import UpdateCustomer from '@/system/pages/customer/UpdateCustomer.vue';
 import DeleteCustomer from '@/system/pages/customer/DeleteCustomer.vue';
 
 const customer_selected = ref({
-  id: '',
-  name: '',
-  article: ''
+  id: ''
 })
 const setVisibleToolbar = ref([])
 
 const rowSelected = (event) => {
   customer_selected.value.id = event.data.id
-  customer_selected.value.name = event.data.name
-  customer_selected.value.article = event.data.article
   setVisibleToolbar.value.push(event.data.id)
 }
 
