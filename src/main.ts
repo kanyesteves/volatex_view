@@ -19,12 +19,10 @@ app.use(PrimeVue, {
     options: {
       prefix: 'p',
       darkModeSelector: 'dark',
-      cssLayer: {
-        name: 'primevue',
-        order: 'tailwind-base, primevue, tailwind-utilities'
+      cssLayer: false
     }
-    }
-  }
+  },
+  ripple: true
 });
 
 app.directive('ripple', Ripple);
