@@ -35,8 +35,8 @@ class tearService {
   }
 
   /**
-   * Remove um usuário em específico
-   * @param {number} id: campo com Id do usuário para ser removido
+   * Remove um tear em específico
+   * @param {number} id: campo com Id do tear para ser removido
    * @return {Array} Data: informações complementares e código de sucesso ou erro
    */
   async remove(id: number): Promise<any>{
