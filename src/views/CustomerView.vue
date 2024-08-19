@@ -34,20 +34,25 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { debounce } from 'lodash';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarCustomer from '@/system/pages/customer/ToolbarCustomer.vue';
 import ListCustomer from '@/system/pages/customer/ListCustomer.vue';
 import SaveCustomer from '@/system/pages/customer/SaveCustomer.vue';
 import UpdateCustomer from '@/system/pages/customer/UpdateCustomer.vue';
 import DeleteCustomer from '@/system/pages/customer/DeleteCustomer.vue';
+import customerService from '@/system/services/customerService';
 
 const customer_selected = ref({
-  id: ''
+  id: '',
+  name: '',
+  article: ''
 })
 const setVisibleToolbar = ref([])
 
 const rowSelected = (event) => {
   customer_selected.value.id = event.data.id
+  customer_selected.value.name = event.data.name
   setVisibleToolbar.value.push(event.data.id)
 }
 
@@ -63,6 +68,7 @@ const onNewCustomer = () => {
 
 const edit_customer = ref(false)
 const onEditCustomer = () => {
+  getCustomerById()
   edit_customer.value = true
 }
 
@@ -76,5 +82,15 @@ const refreshTable = () => {
   refresh.value = true
   setVisibleToolbar.value = []
 }
+
+const getCustomerById = debounce(async () => {
+  await customerService.get(customer_selected.value.id).then(async (response) => {
+    if (response.status == 200) {
+      customer_selected.value.id = response.data.id
+      customer_selected.value.name = response.data.name
+      customer_selected.value.article = response.data.article
+    }
+  });
+});
 
 </script>

@@ -31,6 +31,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { debounce } from 'lodash';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarTear from '@/system/pages/tear/ToolbarTear.vue';
 import ListTear from '@/system/pages/tear/ListTear.vue';
@@ -39,13 +40,18 @@ import UpdateTear from '@/system/pages/tear/UpdateTear.vue';
 import DeleteTear from '@/system/pages/tear/DeleteTear.vue';
 import tearService from '@/system/services/tearService';
 
-const tear_selected_id = ref()
-const tear_selected = ref({})
+const tear_selected = ref({
+  id: 0,
+  name: '',
+  model: '',
+  status: false
+})
 
 const setVisibleToolbar = ref([])
 
 const rowSelected = (event) => {
-  tear_selected_id.value = event.data.id
+  tear_selected.value.id = event.data.id
+  tear_selected.value.name = event.data.name
   setVisibleToolbar.value.push(event.data.id)
 }
 
@@ -62,11 +68,7 @@ const onNewTear = () => {
 
 const edit_tear = ref(false)
 const onEditTear = () => {
-  tearService.get(tear_selected_id.value).then(async (response) => {
-    if (response.status == 200) {
-      tear_selected.value = response.data
-    }
-  });
+  getTearById()
   edit_tear.value = true
 }
 
@@ -80,5 +82,16 @@ const refreshTable = () => {
   refresh.value = true
   setVisibleToolbar.value = []
 }
+
+const getTearById = debounce(async () => {
+  await tearService.get(tear_selected.value.id).then(async (response) => {
+    if (response.status == 200) {
+      tear_selected.value.id = response.data.id
+      tear_selected.value.name = response.data.name
+      tear_selected.value.model = response.data.model
+      tear_selected.value.status = response.data.status
+    }
+  });
+});
 
 </script>
