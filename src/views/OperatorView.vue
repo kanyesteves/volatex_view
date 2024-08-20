@@ -13,7 +13,21 @@
       @unselected="rowUnSelected" />
 
     </div>
-    <h1>Tela de Operadores</h1>
+
+    <SaveOperator
+      @refreshTable="refreshTable" 
+      v-model="new_operator" />
+
+    <UpdateOperator
+      @refreshTable="refreshTable" 
+      v-model="edit_operator" 
+      :operator="operator_selected" />
+
+    <DeleteOperator
+      @refreshTable="refreshTable" 
+      v-model="remove_operator" 
+      :operator="operator_selected" />
+
 </template>
 
 <script lang="ts" setup>
@@ -22,14 +36,19 @@ import { debounce } from 'lodash';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarOperator from '@/system/pages/operator/ToolbarOperator.vue';
 import ListOperator from '@/system/pages/operator/ListOperator.vue';
+import SaveOperator from '@/system/pages/operator/SaveOperator.vue';
+import UpdateOperator from '@/system/pages/operator/UpdateOperator.vue';
 import operatorService from '@/system/services/operatorService';
-
+import DeleteOperator from '@/system/pages/operator/DeleteOperator.vue';
 
 const operator_selected = ref({
   id: 0,
   name: '',
   office: '',
-  turn: ''
+  turn: {
+    name: '',
+    value: ''
+  }
 })
 
 const setVisibleToolbar = ref([])
@@ -46,20 +65,20 @@ const rowUnSelected = (event) => {
   setVisibleToolbar.value.splice(index, 1)
 }
 
-const new_tear = ref(false)
+const new_operator = ref(false)
 const onNewOperator = () => {
-  new_tear.value = true
+  new_operator.value = true
 }
 
-const edit_tear = ref(false)
+const edit_operator = ref(false)
 const onEditOperator = () => {
-  getTearById()
-  edit_tear.value = true
+  getOperatorById()
+  edit_operator.value = true
 }
 
-const remove_tear = ref(false)
+const remove_operator = ref(false)
 const onRemoveOperator = () => {
-  remove_tear.value = true
+  remove_operator.value = true
 }
 
 const refresh = ref(false)
@@ -68,15 +87,26 @@ const refreshTable = () => {
   setVisibleToolbar.value = []
 }
 
-const getTearById = debounce(async () => {
+const getOperatorById = debounce(async () => {
   await operatorService.get(operator_selected.value.id).then(async (response) => {
     if (response.status == 200) {
       operator_selected.value.id = response.data.id
       operator_selected.value.name = response.data.name
       operator_selected.value.office = response.data.office
-      operator_selected.value.turn = response.data.turn
+      operator_selected.value.turn = formatDataTurn(response.data.turn)
     }
   });
+  console.log(operator_selected)
 });
+
+const formatDataTurn = (turn) => {
+  if (turn == 'primeiro') {
+    return {name: '1º Primeiro', value: 'primeiro'}
+  } else if (turn == 'segundo') {
+    return {name: '2º Segundo', value: 'segundo'}
+  } else if (turn == 'terceiro') {
+    return {name: '3º Terceiro', value: 'terceiro'}
+  }
+}
 
 </script>

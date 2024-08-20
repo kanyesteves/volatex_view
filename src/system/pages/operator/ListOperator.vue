@@ -43,9 +43,9 @@ watch(() => props.refresh, () => {
 });
 
 const columns = [
+  { field: 'turn', header: 'Turno' },
   { field: 'name', header: 'Nome' },
   { field: 'office', header: 'Cargo' },
-  { field: 'turn', header: 'Turno' },
 ];
 
 const onRowSelect = (event) => {
