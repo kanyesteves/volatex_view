@@ -1,6 +1,6 @@
 <template>
   <Dialog v-model:visible="visible" modal header="Aviso de confirmação" :style="{ width: '25rem' }">
-    <span>Tem certeza que deseja remover o tear <b>{{ props.operator.name }}</b>?</span>
+    <span>Tem certeza que deseja remover o operador <b>{{ props.operator.name }}</b>?</span>
 
     <div :class="$style.space_bottons">
       <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
@@ -19,7 +19,6 @@ import { useToast } from 'primevue/usetoast';
 const toast = useToast();
 const visible = defineModel()
 const props = defineProps(['operator'])
-
 const emit = defineEmits(['refreshTable'])
 
 const onRemoveOperator = () => {
