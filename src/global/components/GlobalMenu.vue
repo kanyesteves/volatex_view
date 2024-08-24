@@ -31,7 +31,7 @@ const items = ref([
     },
     {
       label: 'Clientes',
-      icon: 'pi pi-building',
+      icon: 'pi pi-address-book',
       route: '/customer'
     },
     {
