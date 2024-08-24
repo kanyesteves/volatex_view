@@ -34,7 +34,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/orderOfOperation',
     name: 'orderOfOperation',
-    component: () => import(/* webpackChunkName: "orderOfOperation" */ '../views/OrderOfOperation.vue')
+    component: () => import(/* webpackChunkName: "orderOfOperation" */ '../views/OrderOfOperationView.vue')
   },
   {
     path: '/notfound',

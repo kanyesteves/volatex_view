@@ -5,7 +5,7 @@
         <Button size="small" label="Novo" raised @click="emit('onNewOp')" />
         <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Editar" severity="info" raised @click="emit('onEditOp')" />
         <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Remover" severity="danger" raised @click="emit('onRemoveOp')" />
-        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Fechar" severity="warn" raised @click="emit('onDoneOp')" />
+        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Fechar Ordem de Operação" severity="warn" raised @click="emit('onDoneOp')" />
       </template>
 
       <template #end>
