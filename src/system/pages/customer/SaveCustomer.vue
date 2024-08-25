@@ -6,14 +6,14 @@
         <div :class="$style.div_box" class="flex items-center">
           <InputGroup>
             <InputGroupAddon>
-                <i class="pi pi-user"></i>
+                <i class="pi pi-address-book"></i>
             </InputGroupAddon>
               <InputText placeholder="Nome" id="username" v-model="form.name" class="flex-auto" autocomplete="off" />
           </InputGroup>
 
           <InputGroup :style="{ 'margin-left': '1rem' }">
             <InputGroupAddon>
-                <i class="pi pi-shopping-bag"></i>
+                <i class="pi pi-thumbtack"></i>
             </InputGroupAddon>
             <InputText placeholder="Artigo" id="article" v-model="form.article" />
           </InputGroup>

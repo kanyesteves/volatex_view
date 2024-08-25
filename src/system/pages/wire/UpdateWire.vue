@@ -6,7 +6,7 @@
         <div :class="$style.div_box" class="flex items-center">
           <InputGroup>
             <InputGroupAddon>
-                <i class="pi pi-user"></i>
+                <i class="pi pi pi-sliders-h"></i>
             </InputGroupAddon>
               <InputText placeholder="Nome" id="wirename" v-model="form.name" class="flex-auto" autocomplete="off" />
           </InputGroup>

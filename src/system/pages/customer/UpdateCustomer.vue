@@ -6,15 +6,17 @@
         <div :class="$style.div_box" class="flex items-center">
           <InputGroup>
             <InputGroupAddon>
-                <i class="pi pi-user"></i>
+                <i class="pi pi-address-book"></i>
             </InputGroupAddon>
               <InputText placeholder="Nome" id="username" v-model="form.name" class="flex-auto" autocomplete="off" />
           </InputGroup>
 
           <InputGroup :style="{ 'margin-left': '1rem' }">
             <InputGroupAddon>
-                <i class="pi pi-shopping-bag"></i>
+                <i class="pi pi-thumbtack"></i>
             </InputGroupAddon>
+            <!-- <MultiSelect v-model="form.article" :options="cities" optionLabel="name" filter placeholder="Artigos"
+            :maxSelectedLabels="3" class="w-full md:w-80" /> -->
             <InputText placeholder="Artigo" id="article" v-model="form.article" />
           </InputGroup>
         </div>
@@ -34,6 +36,7 @@ import { defineModel, ref, defineEmits, defineProps } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+import MultiSelect from 'primevue/multiselect';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import customerService from '@/system/services/customerService';
