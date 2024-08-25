@@ -1,14 +1,14 @@
 <template>
   <div class=" card">
     <div class="card flex justify-center">
-      <Dialog v-model:visible="visible" modal header="Editar fio" :style="{ width: '45rem' }">
+      <Dialog v-model:visible="visible" modal header="Editar artigo" :style="{ width: '45rem' }">
 
         <div :class="$style.div_box" class="flex items-center">
           <InputGroup>
             <InputGroupAddon>
-                <i class="pi pi-user"></i>
+                <i class="pi pi-thumbtack"></i>
             </InputGroupAddon>
-              <InputText placeholder="Nome" id="wirename" v-model="form.name" class="flex-auto" autocomplete="off" />
+              <InputText placeholder="Nome" id="articlename" v-model="form.name" class="flex-auto" autocomplete="off" />
           </InputGroup>
 
           <InputGroup :style="{ 'margin-left': '1rem' }">
@@ -21,7 +21,7 @@
 
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" @click="onSaveWire"></Button>
+          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" @click="onSaveArticle"></Button>
         </div>
 
       </Dialog>
@@ -36,18 +36,18 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
-import wireService from '@/system/services/wireService';
-import type Form from '@/system/type/wireType'
+import articleService from '@/system/services/articleService';
+import type Form from '@/system/type/customerType'
 
 const visible = defineModel()
 const emit = defineEmits(['refreshTable'])
-const props = defineProps(['wire'])
+const props = defineProps(['article'])
 
-const form = ref<Form>(props.wire)
+const form = ref<Form>(props.article)
 
-const onSaveWire = async () => {
+const onSaveArticle = async () => {
 
-  await wireService.save(form.value).then(async () => {
+  await articleService.save(form.value).then(async () => {
     visible.value = false
     location.reload()
     emit('refreshTable')

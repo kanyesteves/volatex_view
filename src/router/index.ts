@@ -32,6 +32,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "wire" */ '../views/WireView.vue')
   },
   {
+    path: '/article',
+    name: 'article',
+    component: () => import(/* webpackChunkName: "article" */ '../views/ArticleView.vue')
+  },
+  {
     path: '/orderOfOperation',
     name: 'orderOfOperation',
     component: () => import(/* webpackChunkName: "orderOfOperation" */ '../views/OrderOfOperationView.vue')

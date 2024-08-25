@@ -50,6 +50,11 @@ const items = ref([
       route: '/wire'
     },
     {
+      label: 'Artigos',
+      icon: 'pi pi-thumbtack',
+      route: '/article'
+    },
+    {
       label: 'Orderns de Operação',
       icon: 'pi pi-stopwatch',
       route: '/orderOfOperation'

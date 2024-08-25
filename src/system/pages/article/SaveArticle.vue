@@ -1,14 +1,14 @@
 <template>
   <div class=" card">
     <div class="card flex justify-center">
-      <Dialog v-model:visible="visible" modal header="Editar fio" :style="{ width: '45rem' }">
+      <Dialog v-model:visible="visible" modal header="Novo artigo" :style="{ width: '45rem' }">
 
         <div :class="$style.div_box" class="flex items-center">
           <InputGroup>
             <InputGroupAddon>
-                <i class="pi pi-user"></i>
+                <i class="pi pi-thumbtack"></i>
             </InputGroupAddon>
-              <InputText placeholder="Nome" id="wirename" v-model="form.name" class="flex-auto" autocomplete="off" />
+              <InputText placeholder="Nome" id="articlename" v-model="form.name" class="flex-auto" autocomplete="off" />
           </InputGroup>
 
           <InputGroup :style="{ 'margin-left': '1rem' }">
@@ -21,7 +21,7 @@
 
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" @click="onSaveWire"></Button>
+          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Criar" @click="onSaveArticle"></Button>
         </div>
 
       </Dialog>
@@ -30,27 +30,28 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref, defineEmits, defineProps } from 'vue'
+import { defineModel, ref, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
-import wireService from '@/system/services/wireService';
-import type Form from '@/system/type/wireType'
+import articleService from '@/system/services/articleService';
+import type Form from '@/system/type/articleType';
 
 const visible = defineModel()
 const emit = defineEmits(['refreshTable'])
-const props = defineProps(['wire'])
 
-const form = ref<Form>(props.wire)
+const form = ref<Form>({})
 
-const onSaveWire = async () => {
+const onSaveArticle = async () => {
 
-  await wireService.save(form.value).then(async () => {
-    visible.value = false
-    location.reload()
-    emit('refreshTable')
+  await articleService.save(form.value).then(async (response) => {
+    if (response.status === 201) {
+      visible.value = false
+      location.reload()
+      emit('refreshTable')
+    }
   })
 
 }
