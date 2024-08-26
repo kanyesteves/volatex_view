@@ -42,7 +42,8 @@ import articleService from '@/system/services/articleService';
 const article_selected = ref({
   id: '',
   name: '',
-  description: ''
+  description: '',
+  file_path: ''
 })
 
 const setVisibleToolbar = ref([])
@@ -86,6 +87,7 @@ const getArticleById = debounce(async () => {
       article_selected.value.id = response.data.id
       article_selected.value.name = response.data.name
       article_selected.value.description = response.data.description
+      article_selected.value.file_path = response.data.file_path
     }
   });
 });
