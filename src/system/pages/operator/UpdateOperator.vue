@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref, defineEmits } from 'vue'
+import { defineModel, ref } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
@@ -47,7 +47,6 @@ import operatorService from '@/system/services/operatorService';
 import type Form from '@/system/type/operatorType'
 
 const visible = defineModel()
-const emit = defineEmits(['refreshTable'])
 const options = ref([
   {name: '1º Primeiro', value: 'primeiro'},
   {name: '2º Segundo', value: 'segundo'},
@@ -63,7 +62,6 @@ const onSaveOperator = async () => {
   await operatorService.save(form.value).then(async (response) => {
     visible.value = false
     location.reload()
-    emit('refreshTable')
   })
 
 }

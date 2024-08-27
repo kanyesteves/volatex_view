@@ -8,23 +8,19 @@
       @onRemoveOperator="onRemoveOperator" />
 
     <ListOperator
-      :refresh="refresh" 
       @selected="rowSelected" 
       @unselected="rowUnSelected" />
 
     </div>
 
     <SaveOperator
-      @refreshTable="refreshTable" 
       v-model="new_operator" />
 
     <UpdateOperator
-      @refreshTable="refreshTable" 
       v-model="edit_operator" 
       :operator="operator_selected" />
 
     <DeleteOperator
-      @refreshTable="refreshTable" 
       v-model="remove_operator" 
       :operator="operator_selected" />
 
@@ -79,12 +75,6 @@ const onEditOperator = () => {
 const remove_operator = ref(false)
 const onRemoveOperator = () => {
   remove_operator.value = true
-}
-
-const refresh = ref(false)
-const refreshTable = () => {
-  refresh.value = true
-  setVisibleToolbar.value = []
 }
 
 const getOperatorById = debounce(async () => {

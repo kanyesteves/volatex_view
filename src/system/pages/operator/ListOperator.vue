@@ -19,14 +19,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, defineEmits, defineProps, watch } from 'vue'
+import { ref, onMounted, defineEmits } from 'vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { debounce } from 'lodash';
 import operatorService from '@/system/services/operatorService';
 
 const emit = defineEmits(['selected', 'unselected'])
-const props = defineProps(['refresh'])
 
 onMounted(() => {
   onLoadOperators()
@@ -37,10 +36,6 @@ const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()
 const operatorSelected = ref();
 const operators = ref([]);
-
-watch(() => props.refresh, () => {
-  onLoadOperators();
-});
 
 const columns = [
   { field: 'turn', header: 'Turno' },
