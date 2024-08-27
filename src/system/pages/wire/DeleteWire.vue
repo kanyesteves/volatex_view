@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, defineProps, defineEmits } from 'vue'
+import { defineModel, defineProps } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import wireService from '@/system/services/wireService';
@@ -19,14 +19,12 @@ import { useToast } from 'primevue/usetoast';
 const toast = useToast();
 const visible = defineModel()
 const props = defineProps(['wire'])
-const emit = defineEmits(['refreshTable'])
 
 const onRemoveWire = () => {
   wireService.remove(props.wire.id).then((response) => {
     toast.add({ severity: 'success', summary: 'Sucesso',  detail: response.data, life: 2000 })
     visible.value = false
     location.reload()
-    emit('refreshTable')
   })
 }
 

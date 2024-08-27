@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref, defineEmits, defineProps } from 'vue'
+import { defineModel, ref, defineProps } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
@@ -40,7 +40,6 @@ import wireService from '@/system/services/wireService';
 import type Form from '@/system/type/wireType'
 
 const visible = defineModel()
-const emit = defineEmits(['refreshTable'])
 const props = defineProps(['wire'])
 
 const form = ref<Form>(props.wire)
@@ -50,7 +49,6 @@ const onSaveWire = async () => {
   await wireService.save(form.value).then(async () => {
     visible.value = false
     location.reload()
-    emit('refreshTable')
   })
 
 }

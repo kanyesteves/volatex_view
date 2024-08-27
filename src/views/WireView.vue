@@ -8,22 +8,18 @@
       @onRemoveWire="onRemoveWire" />
 
     <ListWire
-      :refresh="refresh" 
       @selected="rowSelected" 
       @unselected="rowUnSelected" />
   </div>
 
   <SaveWire
-    @refreshTable="refreshTable" 
     v-model="new_wire" />
 
   <UpdateWire 
-    @refreshTable="refreshTable" 
     v-model="edit_wire" 
     :wire="wire_selected" />
 
   <DeleteWire
-    @refreshTable="refreshTable" 
     v-model="remove_wire"
     :wire="wire_selected" />
 </template>
@@ -72,12 +68,6 @@ const onEditWire = () => {
 const remove_wire = ref(false)
 const onRemoveWire = () => {
   remove_wire.value = true
-}
-
-const refresh = ref(false)
-const refreshTable = () => {
-  refresh.value = true
-  setVisibleToolbar.value = []
 }
 
 const getWireById = debounce(async () => {
