@@ -8,22 +8,18 @@
       @onRemoveTear="onRemoveTear" />
 
     <ListTear 
-      :refresh="refresh" 
       @selected="rowSelected" 
       @unselected="rowUnSelected" />
   </div>
 
   <SaveTear
-    @refreshTable="refreshTable" 
     v-model="new_tear" />
 
   <UpdateTear 
-    @refreshTable="refreshTable" 
     v-model="edit_tear"
     :tear="tear_selected" />
 
   <DeleteTear
-    @refreshTable="refreshTable" 
     v-model="remove_tear" 
     :tear="tear_selected" />
 
@@ -75,12 +71,6 @@ const onEditTear = () => {
 const remove_tear = ref(false)
 const onRemoveTear = () => {
   remove_tear.value = true
-}
-
-const refresh = ref(false)
-const refreshTable = () => {
-  refresh.value = true
-  setVisibleToolbar.value = []
 }
 
 const getTearById = debounce(async () => {
