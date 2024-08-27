@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref, defineEmits, defineProps } from 'vue'
+import { defineModel, ref, defineProps } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
@@ -43,7 +43,6 @@ import customerService from '@/system/services/customerService';
 import type Form from '@/system/type/customerType'
 
 const visible = defineModel()
-const emit = defineEmits(['refreshTable'])
 const props = defineProps(['customer'])
 
 const form = ref<Form>(props.customer)
@@ -53,7 +52,6 @@ const onSaveCustomer = async () => {
   await customerService.save(form.value).then(async () => {
     visible.value = false
     location.reload()
-    emit('refreshTable')
   })
 
 }

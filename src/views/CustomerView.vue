@@ -10,22 +10,18 @@
         @onRemoveCustomer="onRemoveCustomer" />
 
       <ListCustomer
-        :refresh="refresh" 
         @selected="rowSelected" 
         @unselected="rowUnSelected" />
     </div>
 
     <SaveCustomer
-      @refreshTable="refreshTable" 
       v-model="new_customer" />
 
     <UpdateCustomer 
-      @refreshTable="refreshTable" 
       v-model="edit_customer" 
       :customer="customer_selected" />
 
     <DeleteCustomer
-      @refreshTable="refreshTable" 
       v-model="remove_customer"
       :customer="customer_selected" />
 
@@ -75,12 +71,6 @@ const onEditCustomer = () => {
 const remove_customer = ref(false)
 const onRemoveCustomer = () => {
   remove_customer.value = true
-}
-
-const refresh = ref(false)
-const refreshTable = () => {
-  refresh.value = true
-  setVisibleToolbar.value = []
 }
 
 const getCustomerById = debounce(async () => {

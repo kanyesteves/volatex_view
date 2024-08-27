@@ -19,23 +19,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, defineEmits, defineProps, watch } from 'vue'
+import { ref, onMounted, defineEmits } from 'vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { debounce } from 'lodash';
 import customerService from '@/system/services/customerService';
 
 const emit = defineEmits(['selected', 'unselected'])
-const props = defineProps(['refresh'])
 
 onMounted(() => {
   onLoadCustomer()
   responsiveScreen();
 })
-
-watch(() => props.refresh, () => {
-  onLoadCustomer();
-});
 
 const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()

@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, defineProps, defineEmits } from 'vue'
+import { defineModel, defineProps } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import customerService from '@/system/services/customerService';
@@ -20,14 +20,12 @@ const toast = useToast();
 const visible = defineModel()
 const props = defineProps(['customer'])
 
-const emit = defineEmits(['refreshTable'])
 
 const onRemoveCustomer = () => {
   customerService.remove(props.customer.id).then((response) => {
     toast.add({ severity: 'success', summary: 'Sucesso',  detail: response.data, life: 2000 })
     visible.value = false
     location.reload()
-    emit('refreshTable')
   })
 }
 
