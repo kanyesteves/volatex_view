@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref, defineEmits } from 'vue'
+import { defineModel, ref } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
@@ -57,7 +57,6 @@ import userService from '@/system/services/userService';
 import type Form from '@/system/type/userType'
 
 const visible = defineModel()
-const emit = defineEmits(['refreshTable'])
 
 const form = ref<Form>({})
 
@@ -68,7 +67,6 @@ const onSaveUser = async () => {
     if (response.status === 201) {
       visible.value = false
       location.reload()
-      emit('refreshTable')
     }
   })
 

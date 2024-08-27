@@ -10,22 +10,18 @@
         @onRemoveUser="onRemoveUser" />
 
       <ListUser 
-        :refresh="refresh" 
         @selected="rowSelected" 
         @unselected="rowUnSelected" />
     </div>
 
     <SaveUser 
-      @refreshTable="refreshTable" 
       v-model="new_user" />
 
     <UpdateUser 
-      @refreshTable="refreshTable" 
       v-model="edit_user"
       :user="user_selected" />
     
     <DeleteUser 
-      @refreshTable="refreshTable" 
       v-model="remove_user" 
       :user="user_selected" />
 
@@ -76,12 +72,6 @@ const onEditUser = () => {
 const remove_user = ref(false)
 const onRemoveUser = () => {
   remove_user.value = true
-}
-
-const refresh = ref(false)
-const refreshTable = () => {
-  refresh.value = true
-  setVisibleToolbar.value = []
 }
 
 const getUserById = debounce(async () => {
