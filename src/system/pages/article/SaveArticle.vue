@@ -19,33 +19,6 @@
           </InputGroup>
         </div>
 
-        <div :class="$style.div_box" class="flex items-center">
-          <InputGroup>
-            <FileUpload
-              name="file"
-              mode="advanced"
-              url="http://localhost:8000/articles/upload/"
-              accept="application/pdf"
-              :maxFileSize="999999"
-              @upload="uploadFile"
-              chooseLabel="Selecionar ficha técnica"
-              uploadLabel="Enviar"
-              cancelLabel="Cancelar">
-              <template #content="slotProps">
-                <div v-if="slotProps.files && slotProps.files.length">
-                  <div v-for="file in slotProps.files" :key="file.name" class="p-d-flex p-ai-center">
-                    <i v-if="file.type === 'application/pdf'" class="pi pi-file-pdf p-mr-2" style="font-size: 2em; color: red;"></i>
-                    <span>{{ file.name }}</span>
-                  </div>
-                </div>
-              </template>
-              <template #empty>
-                <span>Arraste e solte os arquivos aqui para fazer upload.</span>
-              </template>
-            </FileUpload>
-          </InputGroup>
-        </div>
-
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
           <Button :style="{ 'margin-left': '1rem' }" type="button" label="Criar" @click="onSaveArticle"></Button>
@@ -63,7 +36,6 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
-import FileUpload from 'primevue/fileupload';
 import articleService from '@/system/services/articleService';
 import type Form from '@/system/type/articleType';
 

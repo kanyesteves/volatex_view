@@ -19,12 +19,6 @@
           </InputGroup>
         </div>
 
-        <div :class="$style.div_box" class="flex items-center">
-          <InputGroup>
-            <FileUpload mode="basic" :url="'/src/uploads/ficha-'+form.name" accept="application/pdf" :maxFileSize="1000000" :auto="true" chooseLabel="Anexar ficha técnica" />
-          </InputGroup>
-        </div>
-
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
           <Button :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" @click="onSaveArticle"></Button>
@@ -42,7 +36,6 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
-import FileUpload from 'primevue/fileupload';
 import articleService from '@/system/services/articleService';
 import type Form from '@/system/type/customerType'
 
