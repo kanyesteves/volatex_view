@@ -20,22 +20,17 @@
 
 <script lang="ts" setup>
 import { debounce } from 'lodash';
-import { ref, onMounted, defineEmits, defineProps, watch } from 'vue'
+import { ref, onMounted, defineEmits } from 'vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import articleService from '@/system/services/articleService';
 
 const emit = defineEmits(['selected', 'unselected'])
-const props = defineProps(['refresh'])
 
 onMounted(() => {
   onLoadArticle()
   responsiveScreen();
 })
-
-watch(() => props.refresh, () => {
-  onLoadArticle();
-});
 
 const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()

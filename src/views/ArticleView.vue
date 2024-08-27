@@ -8,22 +8,18 @@
       @onRemoveArticle="onRemoveArticle" />
 
     <ListArticle
-      :refresh="refresh" 
       @selected="rowSelected" 
       @unselected="rowUnSelected" />
   </div>
 
   <SaveArticle
-    @refreshTable="refreshTable" 
     v-model="new_article" />
 
   <UpdateArticle 
-    @refreshTable="refreshTable" 
     v-model="edit_article" 
     :article="article_selected" />
 
   <DeleteArticle
-    @refreshTable="refreshTable" 
     v-model="remove_article"
     :article="article_selected" />
 </template>
@@ -72,12 +68,6 @@ const onEditArticle = () => {
 const remove_article = ref(false)
 const onRemoveArticle = () => {
   remove_article.value = true
-}
-
-const refresh = ref(false)
-const refreshTable = () => {
-  refresh.value = true
-  setVisibleToolbar.value = []
 }
 
 const getArticleById = debounce(async () => {
