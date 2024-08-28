@@ -4,7 +4,6 @@
       <template #start>
         <Button size="small" label="Novo" raised @click="emit('onNewOp')" />
         <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Editar" severity="info" raised @click="emit('onEditOp')" />
-        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Remover" severity="danger" raised @click="emit('onRemoveOp')" />
         <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Fechar Ordem de Operação" severity="warn" raised @click="emit('onDoneOp')" />
       </template>
 
@@ -21,7 +20,7 @@ import Button from 'primevue/button';
 import Toolbar from 'primevue/toolbar';
 
 const setVisibleToolbar = defineModel()
-const emit = defineEmits(['onNewOp', 'onEditOp', 'onRemoveOp', 'onDoneOp'])
+const emit = defineEmits(['onNewOp', 'onEditOp', 'onDoneOp'])
 
 </script>
 

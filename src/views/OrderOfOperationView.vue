@@ -5,11 +5,12 @@
       v-model="setVisibleToolbar"
       @onNewOp="onNewOp" 
       @onEditOp="onEditOp" 
-      @onRemoveOp="onRemoveOp" 
       @onDoneOp="onDoneOp" />
 
+    <ListOrderOfOperation
+      @selected="rowSelected" 
+      @unselected="rowUnSelected" />
   </div>
-  <h1>Tela de Ordem de Operação</h1>
 </template>
 
 <script lang="ts" setup>
@@ -17,7 +18,10 @@ import { ref } from 'vue'
 import { debounce } from 'lodash'
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarOrderOfOperation from '@/system/pages/orderOfOperation/ToolbarOrderOfOperation.vue';
+import ListOrderOfOperation from '@/system/pages/orderOfOperation/ListOrderOfOperation.vue';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
+import articleService from '@/system/services/articleService';
+import wireService from '@/system/services/wireService';
 
 const setVisibleToolbar = ref([])
 
@@ -25,8 +29,8 @@ const op_selected = ref({
   id: 0,
   code: '',
   weight_per_piece: 0,
-  customer_id: '',
-  wire_id: '',
+  article: {},
+  wires: {},
   total_weight: 0,
   status: ''
 });
@@ -44,18 +48,17 @@ const rowUnSelected = (event) => {
 
 const new_op = ref(false)
 const onNewOp = () => {
+  getAllArticles()
+  getAllWires()
   new_op.value = true
 }
 
 const edit_op = ref(false)
 const onEditOp = () => {
   getOpById()
+  getAllArticles()
+  getAllWires()
   edit_op.value = true
-}
-
-const remove_op = ref(false)
-const onRemoveOp = () => {
-  remove_op.value = true
 }
 
 const done_op = ref(false)
@@ -69,12 +72,30 @@ const getOpById = debounce(async () => {
       op_selected.value.id = response.data.id
       op_selected.value.code = response.data.code
       op_selected.value.weight_per_piece = response.data.weight_per_piece
-      op_selected.value.customer_id = response.data.customer_id
-      op_selected.value.wire_id = response.data.wire_id
+      op_selected.value.article = response.data.article
+      op_selected.value.wires = response.data.wires
       op_selected.value.total_weight = response.data.total_weight
       op_selected.value.status = response.data.status
     }
   });
 });
+
+const articles = ref([])
+const getAllArticles = debounce(async () => {
+  await articleService.getAll().then((response) => {
+    if (response.status == 200) {
+      articles.value = response.data
+    }
+  })
+})
+
+const wires = ref([])
+const getAllWires = debounce(async () => {
+  await wireService.getAll().then((response) => {
+    if (response.status == 200) {
+      wires.value = response.data
+    }
+  })
+})
 
 </script>
