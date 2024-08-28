@@ -15,9 +15,8 @@
             <InputGroupAddon>
                 <i class="pi pi-thumbtack"></i>
             </InputGroupAddon>
-            <!-- <MultiSelect v-model="form.article" :options="cities" optionLabel="name" filter placeholder="Artigos"
-            :maxSelectedLabels="3" class="w-full md:w-80" /> -->
-            <InputText placeholder="Artigo" id="article" v-model="form.article" />
+            <MultiSelect v-model="form.article" :options="props.articles" optionLabel="name" filter placeholder="Artigos"
+            :maxSelectedLabels="3" class="w-full md:w-80" />
           </InputGroup>
         </div>
 
@@ -43,7 +42,7 @@ import customerService from '@/system/services/customerService';
 import type Form from '@/system/type/customerType'
 
 const visible = defineModel()
-const props = defineProps(['customer'])
+const props = defineProps(['customer', 'articles'])
 
 const form = ref<Form>(props.customer)
 

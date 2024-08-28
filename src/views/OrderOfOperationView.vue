@@ -63,12 +63,6 @@ const onDoneOp = () => {
   done_op.value = true
 }
 
-const refresh = ref(false)
-const refreshTable = () => {
-  refresh.value = true
-  setVisibleToolbar.value = []
-}
-
 const getOpById = debounce(async () => {
   await orderOfOperationService.get(op_selected.value.id).then(async (response) => {
     if (response.status == 200) {

@@ -15,7 +15,8 @@
             <InputGroupAddon>
                 <i class="pi pi-thumbtack"></i>
             </InputGroupAddon>
-            <InputText placeholder="Artigo" id="article" v-model="form.article" />
+            <MultiSelect v-model="form.article" :options="props.articles" optionLabel="name" filter placeholder="Artigos"
+            :maxSelectedLabels="3" class="w-full md:w-80" />
           </InputGroup>
         </div>
 
@@ -30,16 +31,18 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref } from 'vue'
+import { defineModel, ref, defineProps } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+import MultiSelect from 'primevue/multiselect';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import customerService from '@/system/services/customerService';
 import type Form from '@/system/type/customerType'
 
 const visible = defineModel()
+const props = defineProps(['articles'])
 
 const form = ref<Form>({})
 
