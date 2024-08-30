@@ -11,6 +11,12 @@
       @selected="rowSelected" 
       @unselected="rowUnSelected" />
   </div>
+
+  <SaveOrderOfOperation
+    v-model="new_op" 
+    :articles="articles" 
+    :wires="wires"/>
+  
 </template>
 
 <script lang="ts" setup>
@@ -19,6 +25,7 @@ import { debounce } from 'lodash'
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarOrderOfOperation from '@/system/pages/orderOfOperation/ToolbarOrderOfOperation.vue';
 import ListOrderOfOperation from '@/system/pages/orderOfOperation/ListOrderOfOperation.vue';
+import SaveOrderOfOperation from '@/system/pages/orderOfOperation/SaveOrderOfOperation.vue';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import articleService from '@/system/services/articleService';
 import wireService from '@/system/services/wireService';
