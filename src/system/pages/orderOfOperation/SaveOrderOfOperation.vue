@@ -24,15 +24,15 @@
             <InputGroupAddon>
                 <i class="pi pi-sliders-h"></i>
             </InputGroupAddon>
-            <MultiSelect v-model="form.wires" :options="props.wires" optionLabel="name" filter placeholder="Fios"
+            <MultiSelect v-model="form.wires" :options="props.wires" @change="calcPercentage" optionLabel="name" filter placeholder="Fios"
             :maxSelectedLabels="3" class="w-full md:w-80" />
           </InputGroup>
         </div>
 
         <div :class="$style.div_box_3" class="flex items-center">
-          <InputGroup :style="{ 'max-width': '230px'}">
+          <InputGroup :style="{ 'max-width': '190px'}">
             <InputNumber 
-              placeholder="Peso por peça" 
+              placeholder="0.00" 
               id="weightPerPiece" 
               v-model="form.weight_per_piece" 
               :minFractionDigits="2" :maxFractionDigits="5"
@@ -42,9 +42,9 @@
               </InputGroupAddon>
           </InputGroup>
 
-          <InputGroup :style="{ 'max-width': '230px'}">
+          <InputGroup :style="{ 'max-width': '190px'}">
             <InputNumber 
-              placeholder="Peso Total" 
+              placeholder="0.00" 
               id="weightTotal" 
               v-model="form.total_weight" 
               :minFractionDigits="2" :maxFractionDigits="5"
@@ -58,7 +58,7 @@
         <h3 :style="{ 'margin-top': '2rem'}">Porcetagem de cada Fio</h3>
         <Divider />
 
-        <div :class="$style.div_box_4" v-for="wire of form.wires" :key="wire.id" @input="teste">
+        <div :class="$style.div_box_4" v-for="wire of form.wires" :key="wire.id">
           <InputGroup>
             <span>{{ wire.name }}</span>
           </InputGroup>
@@ -102,19 +102,20 @@ const form = ref<Form>({})
 
 const onSaveOP = async () => {
 
-  console.log(form.value)
-  // await orderOfOperationService.save(form.value).then(async (response) => {
+  await orderOfOperationService.save(form.value).then(async (response) => {
 
-  //   if (response.status === 201) {
-  //     visible.value = false
-  //     location.reload()
-  //   }
-  // })
+    if (response.status === 201) {
+      visible.value = false
+      location.reload()
+    }
+  })
 
 }
 
-const teste = () => {
-  console.log('teste')
+const calcPercentage = (event) => {
+  event.value.forEach(element => {
+    element.percentage = 100 / event.value.length;
+  });
 }
 
 </script>
@@ -131,7 +132,7 @@ const teste = () => {
   display: flex;
   margin-top: 1rem;
 
-  max-width: 500px;
+  max-width: 450px;
   justify-content: space-between;
  }
 
@@ -147,7 +148,7 @@ const teste = () => {
   display: flex;
   margin-top: 1rem;
 
-  max-width: 500px;
+  max-width: 400px;
   justify-content: space-between;
  }
 
