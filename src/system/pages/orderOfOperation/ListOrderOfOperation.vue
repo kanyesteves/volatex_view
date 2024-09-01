@@ -43,7 +43,8 @@ const columns = [
   { field: 'weight_per_piece', header: 'Peso por peça' },
   { field: 'article', header: 'Artigo' },
   { field: 'wires', header: 'Fios' },
-  { field: 'total_weight', header: 'Peso total' }
+  { field: 'total_weight', header: 'Peso total' },
+  { field: 'total_pieces', header: 'Total de peças' }
 ];
 
 const onRowSelect = (event) => {

@@ -30,7 +30,18 @@
         </div>
 
         <div :class="$style.div_box_3" class="flex items-center">
-          <InputGroup :style="{ 'max-width': '190px'}">
+          <InputGroup :style="{ 'max-width': '150px'}">
+            <InputNumber 
+              placeholder="00" 
+              id="totalPieces" 
+              v-model="form.total_pieces"
+              class="flex-auto" autocomplete="off" />
+              <InputGroupAddon>
+                <i>Peças</i>
+              </InputGroupAddon>
+          </InputGroup>
+
+          <InputGroup :style="{ 'max-width': '150px'}">
             <InputNumber 
               placeholder="0.00" 
               id="weightPerPiece" 
@@ -132,7 +143,7 @@ const calcPercentage = (event) => {
   display: flex;
   margin-top: 1rem;
 
-  max-width: 450px;
+  max-width: 320px;
   justify-content: space-between;
  }
 
@@ -148,7 +159,7 @@ const calcPercentage = (event) => {
   display: flex;
   margin-top: 1rem;
 
-  max-width: 400px;
+  max-width: 520px;
   justify-content: space-between;
  }
 
