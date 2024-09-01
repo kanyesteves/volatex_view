@@ -58,6 +58,24 @@ const onLoadOps = debounce(async () => {
   await orderOfOperationService.getAll().then((response) => {
     if (response.status === 200) {
       ops.value = response.data
+      ops.value.forEach((ele) => {
+
+        if (ele.status == 'open') {
+          ele.status = 'Aberto';
+        } else if (ele.status == 'in_progress') {
+          ele.status = 'Em andamento';
+        } else if (ele.status == 'closed') {
+          ele.status = 'Fecahdo';
+        }
+
+        if (ele.article != null) {
+          ele.article = ele.article.map(item => item.name).join(', ');
+        }
+
+        if (ele.wires != null) {
+          ele.wires = ele.wires.map(item => item.name).join(', ');
+        }
+      })
     }
   })
 });
