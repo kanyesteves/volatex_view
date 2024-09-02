@@ -60,17 +60,20 @@ const onLoadOps = debounce(async () => {
     if (response.status === 200) {
       ops.value = response.data
       ops.value.forEach((ele) => {
+        ele.weight_per_piece = ele.weight_per_piece + ' kg'
+        ele.total_weight = ele.total_weight + ' kg'
 
         if (ele.status == 'open') {
           ele.status = 'Aberto';
         } else if (ele.status == 'in_progress') {
           ele.status = 'Em andamento';
         } else if (ele.status == 'closed') {
-          ele.status = 'Fecahdo';
+          ele.status = 'Fechado';
         }
 
+
         if (ele.article != null) {
-          ele.article = ele.article.map(item => item.name).join(', ');
+          ele.article = ele.article.name;
         }
 
         if (ele.wires != null) {
