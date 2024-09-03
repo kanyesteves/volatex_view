@@ -66,7 +66,7 @@
           </InputGroup>
         </div>
 
-        <h3 :style="{ 'margin-top': '2rem'}">Porcetagem de cada Fio</h3>
+        <h3 :style="{ 'margin-top': '2rem'}">Porcentagem por Fio</h3>
         <Divider />
 
         <div :class="$style.div_box_4" v-for="wire of form.wires" :key="wire.id">
@@ -159,7 +159,7 @@ const calcPercentage = (event) => {
   display: flex;
   margin-top: 1rem;
 
-  max-width: 520px;
+  max-width: 530px;
   justify-content: space-between;
  }
 

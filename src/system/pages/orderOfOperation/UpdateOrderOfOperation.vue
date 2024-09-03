@@ -72,7 +72,7 @@
           </InputGroup>
         </div>
 
-        <h3 :style="{ 'margin-top': '2rem'}">Porcetagem de cada Fio</h3>
+        <h3 :style="{ 'margin-top': '2rem'}">Porcentagem por Fio</h3>
         <Divider />
 
         <div :class="$style.div_box_4" v-for="wire of form.wires" :key="wire.id">
@@ -90,7 +90,7 @@
 
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Criar" @click="onSaveOP"></Button>
+          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" @click="onUpdateOP"></Button>
         </div>
 
       </Dialog>
@@ -118,11 +118,11 @@ const props = defineProps(['articles', 'wires', 'op'])
 
 const form = ref<Form>(props.op)
 
-const onSaveOP = async () => {
+const onUpdateOP = async () => {
 
   await orderOfOperationService.save(form.value).then(async (response) => {
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       visible.value = false
       location.reload()
     }
@@ -166,7 +166,7 @@ const calcPercentage = (event) => {
   display: flex;
   margin-top: 1rem;
 
-  max-width: 520px;
+  max-width: 530px;
   justify-content: space-between;
  }
 

@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { debounce } from 'lodash'
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarOrderOfOperation from '@/system/pages/orderOfOperation/ToolbarOrderOfOperation.vue';
@@ -38,6 +38,11 @@ import articleService from '@/system/services/articleService';
 import wireService from '@/system/services/wireService';
 
 const setVisibleToolbar = ref([])
+
+onMounted(() => {
+  getAllArticles()
+  getAllWires()
+})
 
 const op_selected = ref({
   id: 0,
@@ -63,17 +68,12 @@ const rowUnSelected = (event) => {
 
 const new_op = ref(false)
 const onNewOp = () => {
-  getAllArticles()
-  getAllWires()
   new_op.value = true
 }
 
 const edit_op = ref(false)
 const onEditOp = () => {
   getOpById()
-  getAllArticles()
-  getAllWires()
-  formatWires()
   edit_op.value = true
 }
 
@@ -93,17 +93,10 @@ const getOpById = debounce(async () => {
       op_selected.value.total_weight = response.data.total_weight
       op_selected.value.total_pieces = response.data.total_pieces
       op_selected.value.status = response.data.status
+      formatWires(op_selected.value)
     }
   });
 });
-
-const formatWires = () => {
-  wires.value.forEach((wire) => {
-    op_selected.value.wires.forEach((element) => {
-      wire.percentage = element.percentage
-    })
-  })
-}
 
 const articles = ref([])
 const getAllArticles = debounce(async () => {
@@ -122,5 +115,15 @@ const getAllWires = debounce(async () => {
     }
   })
 })
+
+const formatWires = (op) => {
+  op.wires.forEach((element) => {
+    wires.value.forEach((wire) => {
+      if (wire.id == element.id) {
+        wire.percentage = element.percentage
+      }
+    })
+  })
+}
 
 </script>
