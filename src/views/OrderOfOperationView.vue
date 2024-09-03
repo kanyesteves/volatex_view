@@ -57,7 +57,8 @@ const op_selected = ref({
   wires: [],
   total_weight: 0,
   total_pieces: 0,
-  status: ''
+  status: '',
+  date_closed: ''
 });
 
 const rowSelected = (event) => {
@@ -84,6 +85,7 @@ const onEditOp = () => {
 
 const done_op = ref(false)
 const onDoneOp = () => {
+  getOpById()
   done_op.value = true
 }
 
@@ -98,6 +100,7 @@ const getOpById = debounce(async () => {
       op_selected.value.total_weight = response.data.total_weight
       op_selected.value.total_pieces = response.data.total_pieces
       op_selected.value.status = response.data.status
+      op_selected.value.date_closed = formatDateClosed(response.data.date_closed)
       formatWires(op_selected.value)
     }
   });
@@ -129,6 +132,14 @@ const formatWires = (op) => {
       }
     })
   })
+}
+
+const formatDateClosed = (date_closed: any) => {
+  var date_ = new Date(date_closed)
+  var day = date_.getDay() + 1
+  var month = date_.getMonth() + 1
+
+  return op_selected.value.date_closed = day + '/' + month + '/' + date_.getFullYear()
 }
 
 </script>

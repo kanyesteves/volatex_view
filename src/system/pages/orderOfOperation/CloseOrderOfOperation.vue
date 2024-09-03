@@ -1,6 +1,7 @@
 <template>
   <Dialog v-model:visible="visible" modal header="Aviso de confirmação" :style="{ width: '30rem' }">
-    <span>Tem certeza que deseja fechar essa ordem de operação <b>{{ props.op.code }}</b>?</span>
+    <span v-if="props.op.status != 'closed'">Tem certeza que deseja fechar essa ordem de operação <b>{{ props.op.code }}</b>?</span>
+    <span v-else>A ordem de operação <b>{{ props.op.code }}</b> já foi fechada na data {{ props.op.date_closed }}</span>
 
     <div :class="$style.space_bottons">
       <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
