@@ -8,7 +8,7 @@
             <InputGroupAddon>
                 <i class="pi pi-key"></i>
             </InputGroupAddon>
-            <InputText placeholder="Código" id="code" v-model="form.code" class="flex-auto" autocomplete="off" />
+            <InputText placeholder="Código" id="code" :disabled="form.status == 'closed'" v-model="form.code" class="flex-auto" autocomplete="off" />
           </InputGroup>
 
           <InputGroup :style="{ 'max-width': '140px'  }">
@@ -23,14 +23,14 @@
             <InputGroupAddon>
                 <i class="pi pi-thumbtack"></i>
             </InputGroupAddon>
-            <Select v-model="form.article" :options="props.articles" optionLabel="name" filter placeholder="Artigo" class="w-full md:w-80" />
+            <Select v-model="form.article" :options="props.articles" :disabled="form.status == 'closed'" optionLabel="name" filter placeholder="Artigo" class="w-full md:w-80" />
           </InputGroup>
 
           <InputGroup :style="{ 'max-width': '310px' }">
             <InputGroupAddon>
                 <i class="pi pi-sliders-h"></i>
             </InputGroupAddon>
-            <MultiSelect v-model="form.wires" :options="props.wires" @change="calcPercentage" optionLabel="name" filter placeholder="Fios"
+            <MultiSelect v-model="form.wires" :options="props.wires" :disabled="form.status == 'closed'" @change="calcPercentage" optionLabel="name" filter placeholder="Fios"
             :maxSelectedLabels="3" class="w-full md:w-80" />
           </InputGroup>
         </div>
@@ -40,6 +40,7 @@
             <InputNumber 
               placeholder="00" 
               id="totalPieces" 
+              :disabled="form.status == 'closed'"
               v-model="form.total_pieces"
               class="flex-auto" autocomplete="off" />
               <InputGroupAddon>
@@ -51,6 +52,7 @@
             <InputNumber 
               placeholder="0.00" 
               id="weightPerPiece" 
+              :disabled="form.status == 'closed'"
               v-model="form.weight_per_piece" 
               :minFractionDigits="2" :maxFractionDigits="5"
               class="flex-auto" autocomplete="off" />
@@ -63,6 +65,7 @@
             <InputNumber 
               placeholder="0.00" 
               id="weightTotal" 
+              :disabled="form.status == 'closed'"
               v-model="form.total_weight" 
               :minFractionDigits="2" :maxFractionDigits="5"
               class="flex-auto" autocomplete="off" />
@@ -81,7 +84,11 @@
           </InputGroup>
 
           <InputGroup>
-            <InputNumber :style="{ 'max-width': '200px'}" v-model="wire.percentage" inputId="percent" fluid />
+            <InputNumber 
+              :style="{ 'max-width': '200px'}"
+              :disabled="form.status == 'closed'"
+              v-model="wire.percentage"
+              inputId="percent" fluid />
             <InputGroupAddon>
               <i class="pi pi-percentage"></i>
             </InputGroupAddon>

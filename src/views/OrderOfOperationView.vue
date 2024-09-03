@@ -22,6 +22,10 @@
     :articles="articles" 
     :wires="wires"
     :op="op_selected" />
+
+  <CloseOrderOfOperation
+    v-model="done_op" 
+    :op="op_selected"/>
   
 </template>
 
@@ -33,6 +37,7 @@ import ToolbarOrderOfOperation from '@/system/pages/orderOfOperation/ToolbarOrde
 import ListOrderOfOperation from '@/system/pages/orderOfOperation/ListOrderOfOperation.vue';
 import SaveOrderOfOperation from '@/system/pages/orderOfOperation/SaveOrderOfOperation.vue';
 import UpdateOrderOfOperation from '@/system/pages/orderOfOperation/UpdateOrderOfOperation.vue';
+import CloseOrderOfOperation from '@/system/pages/orderOfOperation/CloseOrderOfOperation.vue';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import articleService from '@/system/services/articleService';
 import wireService from '@/system/services/wireService';

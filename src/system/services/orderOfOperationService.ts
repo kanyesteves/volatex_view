@@ -35,12 +35,12 @@ class orderOfOperationService {
   }
 
   /**
-   * Remove uma ordem de produção em específico
-   * @param {number} id: campo com Id da ordem de produção para ser removido
+   * Fecha uma ordem de produção em específico
+   * @param {number} id: campo com Id da ordem de produção para ser fechado
    * @return {Array} Data: informações complementares e código de sucesso ou erro
    */
-  async remove(id: number): Promise<any>{
-    return await api.delete(`/orderOfOperatios/remove/${id}`)
+  async close(id: number): Promise<any>{
+    return await api.put(`/orderOfOperatios/close/${id}`)
   }
 
 }
