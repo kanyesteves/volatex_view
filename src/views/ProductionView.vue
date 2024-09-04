@@ -25,7 +25,7 @@
                   </div>
                 </div>
                 <div>
-                  <span><b>{{ form.tear?.name }}</b></span>
+                  <span><b>{{ date_format }}</b> - <b>{{ form.tear?.name }}</b></span>
                 </div>
                 <div :class="$style.buttonNext">
                   <Button label="Avançar" icon="pi pi-arrow-right" @click="activateCallback('2')" />
@@ -37,11 +37,11 @@
               <div :class="$style.step">
                 <div :class="$style.customborder">
                   <div v-for="op of ops" :key="op.id">
-                    <Button :class="$style.btn" :label="op.code" severity="info" size="large" @click="getOp(op)" />
+                    <Button :class="$style.btn" :label="'op-'+ op.code" severity="info" size="large" @click="getOp(op)" />
                   </div>
                 </div>
                 <div>
-                  <span><b>{{ form.tear?.name }}</b> - <b>{{ date_format }}</b> - <b>{{ form.op?.code }}</b></span>
+                  <span><b>{{ date_format }}</b> - <b>{{ form.tear?.name }}</b> - <b>{{ form.op?.code }}</b></span>
                 </div>
                 <div :class="$style.buttons">
                   <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('1')" />
@@ -66,7 +66,7 @@
                   </InputGroup>
                 </div>
                 <div>
-                  <span><b>{{ form.tear?.name }}</b> - <b>{{ date_format }}</b> - <b>{{ form.op?.code }}</b> - <b>{{ form.weight }}</b></span>
+                  <span><b>{{ date_format }}</b> - <b>{{ form.tear?.name }}</b> - <b>{{ form.op?.code }}</b> - <b>{{ form.weight }}</b></span>
                 </div>
                 <div :class="$style.buttons">
                   <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('2')" />
@@ -76,11 +76,28 @@
             </StepPanel>
             <StepPanel v-slot="{ activateCallback }" value="4">
               <div :class="$style.step">
-                <div :class="$style.customborder">
-                  REVISAO DA PEÇA E REGISTRAR A PEÇA NON BANCO
+                <div>
+                  <span :style="{'margin-right': '10px'}">Código</span>
+                  <span :style="{'font-size': '18px'}">2</span>
                 </div>
                 <div>
-                  <span><b>{{ form.tear?.name }}</b> - <b>{{ date_format }}</b> - <b>{{ form.op?.code }}</b> - <b>{{ form.weight }}</b></span>
+                  <span :style="{'margin-right': '10px'}">Peça está identificada?</span>
+                  <ToggleButton v-model="form.labeled_item" class="w-24" onLabel="Sim" offLabel="Não" />
+                </div>
+                <div :class="$style.customborderStep4">
+                  <InputGroup :style="{ 'max-width': '360px', 'margin-left': '10px'}">
+                    <InputText placeholder="Revisão" id="review" v-model="form.review" />
+                  </InputGroup>
+
+                  <InputGroup :style="{ 'max-width': '200px', 'margin-left': '10px'}">
+                    <InputGroupAddon>
+                      <i class="pi pi-user"></i>
+                    </InputGroupAddon>
+                    <Select v-model="form.operator" :options="operators" optionLabel="name" filter placeholder="Operador" />
+                  </InputGroup>
+                </div>
+                <div>
+                  <span><b>{{ date_format }}</b> - <b>{{ form.tear?.name }}</b> - <b>{{ form.op?.code }}</b> - <b>{{ form.weight }}</b></span>
                 </div>
                 <div :class="$style.buttons">
                   <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('3')" />
@@ -102,17 +119,21 @@ import { debounce } from 'lodash'
 import { ref, onMounted } from 'vue'
 import Step from 'primevue/step';
 import Card from 'primevue/card';
+import Select from 'primevue/select';
 import Button from 'primevue/button';
 import Stepper from 'primevue/stepper';
 import StepList from 'primevue/steplist';
+import InputText from 'primevue/inputtext';
 import StepPanel from 'primevue/steppanel';
 import StepPanels from 'primevue/steppanels';
 import InputGroup from 'primevue/inputgroup';
 import InputNumber from 'primevue/inputnumber';
+import ToggleButton from 'primevue/togglebutton';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import tearService from '@/system/services/tearService';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
+import operatorService from '@/system/services/operatorService';
 import type Form from '@/system/type/productionType'
 
 const form = ref<Form>({})
@@ -134,6 +155,7 @@ onMounted(() => {
 
   getAllTeares()
   getAllOpenAndInProgress()
+  getAllOperators()
 })
 
 const teares = ref([])
@@ -150,6 +172,15 @@ const getAllOpenAndInProgress = debounce(async () => {
   await orderOfOperationService.getAllOpenAndInProgress().then((response) => {
     if (response.status == 200) {
       ops.value = response.data
+    }
+  })
+})
+
+const operators = ref([])
+const getAllOperators = debounce(async () => {
+  await operatorService.getAll().then((response) => {
+    if (response.status == 200) {
+      operators.value = response.data
     }
   })
 })
@@ -186,6 +217,18 @@ const getWeight = (event) => {
     border-radius: 7px;
     justify-content: center;
     padding: 5%
+  }
+  .customborderStep4 {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    border-radius: 7px;
+    justify-content: center;
+    padding: 2%
+  }
+  .labeleditemclass {
+    display: flex;
+    align-items: center;
   }
   .step {
     display: flex;
