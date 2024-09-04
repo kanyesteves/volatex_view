@@ -8,7 +8,6 @@ import Tooltip from 'primevue/tooltip';
 import ConfirmationService from 'primevue/confirmationservice';
 import ToastService from 'primevue/toastservice';
 
-
 import 'primeicons/primeicons.css'
 
 const app = createApp(App)
@@ -19,7 +18,10 @@ app.use(PrimeVue, {
     options: {
       prefix: 'p',
       darkModeSelector: 'dark',
-      cssLayer: false
+      cssLayer: {
+        name: 'primevue',
+        order: 'tailwind-base, primevue, tailwind-utilities'
+      }
     }
   },
   ripple: true

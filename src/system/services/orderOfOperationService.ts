@@ -12,6 +12,14 @@ class orderOfOperationService {
   }
 
   /**
+   * Busca de todos as OPs
+   * @return {Array} Data: Lista com todos as OPs
+   */
+  getAllOpenAndInProgress(): Promise<any>{
+      return api.get('/orderOfOperatios/getAllOpenAndInProgress')
+    }
+
+  /**
    * Busca uma ordem de produção conforme o ID validando a permissão
    * @param {number} id: Id da ordem de produção para buscar as informações
    * @return {Array} Data: Informações da ordem de produção e código de sucesso ou erro
