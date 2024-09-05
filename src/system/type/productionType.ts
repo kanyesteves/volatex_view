@@ -8,5 +8,4 @@ export interface Form {
   operator: JSON | undefined
   total_weight: number | undefined
   review: string | undefined
-  labeled_item: boolean | undefined
 }

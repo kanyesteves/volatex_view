@@ -12,7 +12,7 @@
           <StepList>
             <Step value="1">Tear</Step>
             <Step value="2">Ordem de produção</Step>
-            <Step value="3">Código e Peso</Step>
+            <Step value="3">Peso</Step>
             <Step value="4">Revisão</Step>
           </StepList>
           <StepPanels>
@@ -45,7 +45,7 @@
                 </div>
                 <div :class="$style.buttons">
                   <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('1')" />
-                  <Button label="Avançar" icon="pi pi-arrow-right" iconPos="right" @click="activateCallback('3')" />
+                  <Button label="Avançar" icon="pi pi-arrow-right" iconPos="right" v-on:click="getCodePerPieceOfOp(op)" @click="activateCallback('3')" />
                 </div>
               </div>
             </StepPanel>
@@ -77,12 +77,8 @@
             <StepPanel v-slot="{ activateCallback }" value="4">
               <div :class="$style.step">
                 <div>
-                  <span :style="{'margin-right': '10px'}">Código</span>
+                  <span :style="{'margin-right': '10px'}"><b>Código:</b></span>
                   <span :style="{'font-size': '18px'}">2</span>
-                </div>
-                <div>
-                  <span :style="{'margin-right': '10px'}">Peça está identificada?</span>
-                  <ToggleButton v-model="form.labeled_item" class="w-24" onLabel="Sim" offLabel="Não" />
                 </div>
                 <div :class="$style.customborderStep4">
                   <InputGroup :style="{ 'max-width': '360px', 'margin-left': '10px'}">
@@ -128,18 +124,23 @@ import StepPanel from 'primevue/steppanel';
 import StepPanels from 'primevue/steppanels';
 import InputGroup from 'primevue/inputgroup';
 import InputNumber from 'primevue/inputnumber';
-import ToggleButton from 'primevue/togglebutton';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import tearService from '@/system/services/tearService';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import operatorService from '@/system/services/operatorService';
+import productionService from '@/system/services/productionService'
 import type Form from '@/system/type/productionType'
 
 const form = ref<Form>({})
 
 const onSaveRecord = () => {
+  clearForm()
   console.log('teste')
+}
+
+const clearForm = () => {
+  form.value = {}
 }
 
 const date_format = ref()
@@ -196,6 +197,13 @@ const getOp = (op) => {
 const getWeight = (event) => {
   form.value.weight = event.value
 }
+
+const getCodePerPieceOfOp = debounce(async () => {
+  await productionService.getAllRecordsByOp(form.value.op).then((response) => {
+    if (response.status == 200)
+      console.log(response.data)
+  })
+})
 
 </script>
 

@@ -4,12 +4,20 @@ import type { Form } from '../type/productionType'
 class productionService {
 
   /**
-   * Busca de todos as produtos
-   * @return {Array} Data: Lista com todos as produtos
+   * Busca de todos os registro
+   * @return {Array} Data: Lista com todos as registro
    */
   getAll(): Promise<any>{
     return api.get('/productions/getAll')
   }
+
+  /**
+   * Busca de todos os registros por ordem de operação
+   * @return {Array} Data: Lista com todos as registros por ordem de operação
+   */
+  async getAllRecordsByOp(data: Form): Promise<any>{
+      return api.post('/productions/getAllRecordsByOp', data)
+    }
 
   /**
    * Busca um registro conforme o ID validando a permissão
