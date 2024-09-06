@@ -78,7 +78,7 @@ const items_config = ref([
     label: 'Sistema',
     items: [
       {
-        label: 'Grupos',
+        label: 'Grupos de usuários',
         icon: 'pi pi-users',
         route: '/group'
       },
