@@ -43,11 +43,6 @@ const items_config = ref([
     label: 'Configurações',
     items: [
       {
-        label: 'Usuários',
-        icon: 'pi pi-user',
-        route: '/user'
-      },
-      {
         label: 'Clientes',
         icon: 'pi pi-address-book',
         route: '/customer'
@@ -77,6 +72,16 @@ const items_config = ref([
         icon: 'pi pi-stopwatch',
         route: '/orderOfOperation'
       }
+    ]
+  }, 
+  {
+    label: 'Sistema',
+    items: [
+      {
+        label: 'Usuários',
+        icon: 'pi pi-user',
+        route: '/user'
+      },
     ]
   }
 ]);
