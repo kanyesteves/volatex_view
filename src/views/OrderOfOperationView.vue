@@ -14,12 +14,13 @@
 
   <SaveOrderOfOperation
     v-model="new_op" 
-    :articles="articles" 
+    :customers="customers"
     :wires="wires" />
 
   <UpdateOrderOfOperation
-    v-model="edit_op" 
-    :articles="articles" 
+    v-model="edit_op"
+    :customers="customers"
+    :articles="articles"
     :wires="wires"
     :op="op_selected" />
 
@@ -39,13 +40,13 @@ import SaveOrderOfOperation from '@/system/pages/orderOfOperation/SaveOrderOfOpe
 import UpdateOrderOfOperation from '@/system/pages/orderOfOperation/UpdateOrderOfOperation.vue';
 import CloseOrderOfOperation from '@/system/pages/orderOfOperation/CloseOrderOfOperation.vue';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
-import articleService from '@/system/services/articleService';
+import customerService from '@/system/services/customerService';
 import wireService from '@/system/services/wireService';
 
 const setVisibleToolbar = ref([])
 
 onMounted(() => {
-  getAllArticles()
+  getAllCustomers()
   getAllWires()
 })
 
@@ -53,6 +54,7 @@ const op_selected = ref({
   id: 0,
   code: '',
   weight_per_piece: 0,
+  customer: {},
   article: {},
   wires: [],
   total_weight: 0,
@@ -89,12 +91,15 @@ const onDoneOp = () => {
   done_op.value = true
 }
 
+const articles = ref([])
 const getOpById = debounce(async () => {
   await orderOfOperationService.get(op_selected.value.id).then(async (response) => {
     if (response.status == 200) {
       op_selected.value.id = response.data.id
       op_selected.value.code = response.data.code
       op_selected.value.weight_per_piece = response.data.weight_per_piece
+      op_selected.value.customer = response.data.customer
+      articles.value = op_selected.value.customer.article
       op_selected.value.article = response.data.article
       op_selected.value.wires = response.data.wires
       op_selected.value.total_weight = response.data.total_weight
@@ -106,11 +111,11 @@ const getOpById = debounce(async () => {
   });
 });
 
-const articles = ref([])
-const getAllArticles = debounce(async () => {
-  await articleService.getAll().then((response) => {
+const customers = ref([])
+const getAllCustomers = debounce(async () => {
+  await customerService.getAll().then((response) => {
     if (response.status == 200) {
-      articles.value = response.data
+      customers.value = response.data
     }
   })
 })
@@ -137,7 +142,9 @@ const formatWires = (op) => {
 const formatDateClosed = (date_closed: any) => {
   var date_ = new Date(date_closed)
   var day = date_.getDay() + 1
+  day = (day < 10) ? '0'+ day : day
   var month = date_.getMonth() + 1
+  month = (month < 10) ? '0'+ month : month
 
   return op_selected.value.date_closed = day + '/' + month + '/' + date_.getFullYear()
 }

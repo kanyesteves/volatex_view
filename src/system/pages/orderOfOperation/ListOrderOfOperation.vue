@@ -41,6 +41,7 @@ const columns = [
   { field: 'status', header: 'Status' },
   { field: 'code', header: 'Código' },
   { field: 'weight_per_piece', header: 'Peso por peça' },
+  { field: 'customer', header: 'Cliente' },
   { field: 'article', header: 'Artigo' },
   { field: 'wires', header: 'Fios' },
   { field: 'total_weight', header: 'Peso total' },
@@ -71,6 +72,9 @@ const onLoadOps = debounce(async () => {
           ele.status = 'Fechado';
         }
 
+        if (ele.customer != null) {
+          ele.customer = ele.customer.name;
+        }
 
         if (ele.article != null) {
           ele.article = ele.article.name;

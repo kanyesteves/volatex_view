@@ -13,14 +13,21 @@
         </div>
 
         <div :class="$style.div_box_2" class="flex items-center">
-          <InputGroup :style="{ 'max-width': '320px'}">
+          <InputGroup :style="{ 'max-width': '210px'}">
+            <InputGroupAddon>
+                <i class="pi pi-address-book"></i>
+            </InputGroupAddon>
+            <Select v-model="form.customer" :options="props.customers" optionLabel="name" filter placeholder="Cliente" @change="setArticles" class="w-full md:w-80" />
+          </InputGroup>
+
+          <InputGroup :style="{ 'max-width': '210px'}">
             <InputGroupAddon>
                 <i class="pi pi-thumbtack"></i>
             </InputGroupAddon>
-            <Select v-model="form.article" :options="props.articles" optionLabel="name" filter placeholder="Artigo" class="w-full md:w-80" />
+            <Select v-model="form.article" :options="articles" optionLabel="name" filter placeholder="Artigo" class="w-full md:w-80" />
           </InputGroup>
 
-          <InputGroup :style="{ 'max-width': '310px' }">
+          <InputGroup :style="{ 'max-width': '210px' }">
             <InputGroupAddon>
                 <i class="pi pi-sliders-h"></i>
             </InputGroupAddon>
@@ -30,7 +37,11 @@
         </div>
 
         <div :class="$style.div_box_3" class="flex items-center">
-          <InputGroup :style="{ 'max-width': '150px'}">
+          <InputGroup :style="{ 'max-width': '120px'}">
+              <ToggleButton v-model="form.label_item" class="w-24" onLabel="Com etiqueta" offLabel="Sem etiqueta" />
+          </InputGroup>
+
+          <InputGroup :style="{ 'max-width': '145px'}">
             <InputNumber 
               placeholder="00" 
               id="totalPieces" 
@@ -41,7 +52,7 @@
               </InputGroupAddon>
           </InputGroup>
 
-          <InputGroup :style="{ 'max-width': '150px'}">
+          <InputGroup :style="{ 'max-width': '145px'}">
             <InputNumber 
               placeholder="0.00" 
               id="weightPerPiece" 
@@ -53,7 +64,7 @@
               </InputGroupAddon>
           </InputGroup>
 
-          <InputGroup :style="{ 'max-width': '190px'}">
+          <InputGroup :style="{ 'max-width': '160px'}">
             <InputNumber 
               placeholder="0.00" 
               id="weightTotal" 
@@ -101,13 +112,14 @@ import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import MultiSelect from 'primevue/multiselect';
 import Select from 'primevue/select';
+import ToggleButton from 'primevue/togglebutton';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import type Form from '@/system/type/orderOfOperationType'
 
 const visible = defineModel()
-const props = defineProps(['articles', 'wires'])
+const props = defineProps(['customers', 'wires'])
 
 const form = ref<Form>({})
 
@@ -121,6 +133,11 @@ const onSaveOP = async () => {
     }
   })
 
+}
+
+const articles = ref([])
+const setArticles = (event) => {
+  articles.value = event.value.article
 }
 
 const calcPercentage = (event) => {
@@ -159,7 +176,7 @@ const calcPercentage = (event) => {
   display: flex;
   margin-top: 1rem;
 
-  max-width: 530px;
+  max-width: 600px;
   justify-content: space-between;
  }
 
