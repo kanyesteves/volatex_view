@@ -2,9 +2,9 @@
   <div class=" card">
     <Toolbar :class="$style.tolbarbox">
       <template #start>
-        <Button size="small" label="Novo" raised @click="emit('onNewCustomer')" />
-        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Editar" severity="info" raised @click="emit('onEditCustomer')" />
-        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Remover" severity="danger" raised @click="emit('onRemoveCustomer')" />
+        <Button size="small" label="Novo" raised @click="emit('onNewGroup')" />
+        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Editar" severity="info" raised @click="emit('onEditGroup')" />
+        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Remover" severity="danger" raised @click="emit('onRemoveGroup')" />
       </template>
 
       <template #end>
@@ -20,7 +20,7 @@ import Button from 'primevue/button';
 import Toolbar from 'primevue/toolbar';
 
 const setVisibleToolbar = defineModel()
-const emit = defineEmits(['onNewCustomer', 'onEditCustomer', 'onRemoveCustomer'])
+const emit = defineEmits(['onNewGroup', 'onEditGroup', 'onRemoveGroup'])
 
 </script>
 

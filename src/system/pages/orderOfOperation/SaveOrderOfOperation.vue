@@ -64,7 +64,7 @@
               </InputGroupAddon>
           </InputGroup>
 
-          <InputGroup :style="{ 'max-width': '160px'}">
+          <InputGroup :style="{ 'max-width': '170px'}">
             <InputNumber 
               placeholder="0.00" 
               id="weightTotal" 

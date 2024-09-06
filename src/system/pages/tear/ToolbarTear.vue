@@ -8,7 +8,7 @@
       </template>
 
       <template #end>
-        <Button label="Exportar" icon="pi pi-download" size="small" />
+        <Button disabled label="Exportar" icon="pi pi-download" size="small" />
       </template>
     </Toolbar>
   </div>

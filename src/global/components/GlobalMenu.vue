@@ -78,10 +78,15 @@ const items_config = ref([
     label: 'Sistema',
     items: [
       {
+        label: 'Grupos',
+        icon: 'pi pi-users',
+        route: '/group'
+      },
+      {
         label: 'Usuários',
         icon: 'pi pi-user',
         route: '/user'
-      },
+      }
     ]
   }
 ]);
