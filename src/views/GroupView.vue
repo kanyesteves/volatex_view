@@ -16,12 +16,13 @@
 
     <SaveGroup
       v-model="new_group" 
-      :users="users" />
+      :users="all_users" />
 
     <UpdateGroup
       v-model="edit_group" 
-      :users="users" 
-      :group="group_selected"/>
+      :users="all_users" 
+      :users_selected="users_selected" 
+      :group="group_selected" />
 
     <DeleteGroup
       v-model="remove_group"
@@ -84,17 +85,26 @@ const getGroupById = debounce(async () => {
     if (response.status == 200) {
       group_selected.value.id = response.data.id
       group_selected.value.name = response.data.name
-      group_selected.value.users = response.data.users
       group_selected.value.permissions = response.data.permissions
+      getUsersHasGroup(group_selected.value.id)
     }
   });
 });
 
-const users = ref([])
+const users_selected = ref([])
+const getUsersHasGroup = debounce(async (group_id) => {
+  await groupService.getUsersHasGroup(group_id).then((response) => {
+    if (response.status == 200) {
+      users_selected.value = response.data
+    }
+  })
+})
+
+const all_users = ref([])
 const getAllUsers = debounce(async () => {
   await userService.getAll().then((response) => {
     if (response.status == 200) {
-      users.value = response.data
+      all_users.value = response.data
     }
   })
 })

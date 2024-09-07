@@ -1,6 +1,6 @@
 export interface Form {
   id: number | null
   name: string | undefined
-  users: JSON | undefined
+  users: number[] | undefined
   permissions: string | undefined
 }

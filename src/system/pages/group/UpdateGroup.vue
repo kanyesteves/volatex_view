@@ -15,7 +15,7 @@
             <InputGroupAddon>
                 <i class="pi pi-user"></i>
             </InputGroupAddon>
-            <MultiSelect v-model="form.users" :options="props.users" optionLabel="name" filter placeholder="Usuários"
+            <MultiSelect v-model="users_has_group" :options="props.users" optionLabel="name" filter placeholder="Usuários"
             :maxSelectedLabels="3" class="w-full md:w-80" />
           </InputGroup>
         </div>
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref, defineProps } from 'vue'
+import { defineModel, ref, defineProps, watch } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
@@ -52,7 +52,12 @@ import groupService from '@/system/services/groupService';
 import type Form from '@/system/type/groupType'
 
 const visible = defineModel()
-const props = defineProps(['group', 'users'])
+const props = defineProps(['group', 'users', 'users_selected'])
+
+const users_has_group = ref(props.users_selected)
+watch(() => props.users_selected, (newValue) => {
+  users_has_group.value = newValue
+})
 
 const form = ref<Form>(props.group)
 
@@ -70,7 +75,8 @@ const listPermissions = [
 ]
 
 const onSaveGroup = async () => {
-
+  form.value.users = users_has_group.value.map(item => item.id)
+  console.log(form.value.users)
   await groupService.save(form.value).then(async (response) => {
     if (response.status === 200) {
       visible.value = false

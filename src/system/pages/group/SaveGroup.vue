@@ -70,7 +70,7 @@ const listPermissions = [
 ]
 
 const onSaveGroup = async () => {
-
+  form.value.users = form.value.users.map(item => item.id)
   await groupService.save(form.value).then(async (response) => {
     if (response.status === 201) {
       visible.value = false
