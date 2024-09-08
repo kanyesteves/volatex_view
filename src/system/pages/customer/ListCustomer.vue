@@ -40,7 +40,7 @@ const customers = ref([]);
 
 const columns = [
   { field: 'name', header: 'Nome' },
-  { field: 'article', header: 'Artigo' }
+  { field: 'description', header: 'Descrição' }
 ];
 
 const onRowSelect = (event) => {
@@ -57,11 +57,6 @@ const onLoadCustomer = debounce(async () => {
     if (response.status === 200) {
       loadTable.value = false
       customers.value = response.data
-      customers.value.forEach((ele) => {
-        if (ele.article != null) {
-          ele.article = ele.article.map(item => item.name).join(', ')
-        }
-      })
     }
   })
 });

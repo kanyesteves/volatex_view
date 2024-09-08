@@ -15,12 +15,10 @@
     </div>
 
     <SaveCustomer
-      v-model="new_customer" 
-      :articles="articles" />
+      v-model="new_customer" />
 
     <UpdateCustomer 
       v-model="edit_customer"
-      :articles="articles"
       :customer="customer_selected" />
 
     <DeleteCustomer
@@ -40,12 +38,11 @@ import SaveCustomer from '@/system/pages/customer/SaveCustomer.vue';
 import UpdateCustomer from '@/system/pages/customer/UpdateCustomer.vue';
 import DeleteCustomer from '@/system/pages/customer/DeleteCustomer.vue';
 import customerService from '@/system/services/customerService';
-import articleService from '@/system/services/articleService';
 
 const customer_selected = ref({
   id: '',
   name: '',
-  article: {}
+  description: ''
 })
 const setVisibleToolbar = ref([])
 
@@ -62,14 +59,12 @@ const rowUnSelected = (event) => {
 
 const new_customer = ref(false)
 const onNewCustomer = () => {
-  getAllArticles()
   new_customer.value = true
 }
 
 const edit_customer = ref(false)
 const onEditCustomer = () => {
   getCustomerById()
-  getAllArticles()
   edit_customer.value = true
 }
 
@@ -83,18 +78,9 @@ const getCustomerById = debounce(async () => {
     if (response.status == 200) {
       customer_selected.value.id = response.data.id
       customer_selected.value.name = response.data.name
-      customer_selected.value.article = response.data.article
+      customer_selected.value.description = response.data.description
     }
   });
 });
-
-const articles = ref([])
-const getAllArticles = debounce(async () => {
-  await articleService.getAll().then((response) => {
-    if (response.status == 200) {
-      articles.value = response.data
-    }
-  })
-})
 
 </script>

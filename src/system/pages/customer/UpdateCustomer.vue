@@ -13,10 +13,9 @@
 
           <InputGroup :style="{ 'margin-left': '1rem' }">
             <InputGroupAddon>
-                <i class="pi pi-thumbtack"></i>
+                <i class="pi pi-shopping-bag"></i>
             </InputGroupAddon>
-            <MultiSelect v-model="form.article" :options="props.articles" optionLabel="name" filter placeholder="Artigos"
-            :maxSelectedLabels="3" class="w-full md:w-80" />
+            <InputText placeholder="Descrição" id="description" v-model="form.description" class="flex-auto" autocomplete="off"  />
           </InputGroup>
         </div>
 
@@ -35,14 +34,13 @@ import { defineModel, ref, defineProps } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
-import MultiSelect from 'primevue/multiselect';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import customerService from '@/system/services/customerService';
 import type Form from '@/system/type/customerType'
 
 const visible = defineModel()
-const props = defineProps(['customer', 'articles'])
+const props = defineProps(['customer'])
 
 const form = ref<Form>(props.customer)
 
