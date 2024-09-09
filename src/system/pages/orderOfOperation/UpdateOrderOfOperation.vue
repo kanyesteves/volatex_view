@@ -23,21 +23,21 @@
             <InputGroupAddon>
                 <i class="pi pi-address-book"></i>
             </InputGroupAddon>
-            <Select v-model="form.customer" :options="props.customers" optionLabel="name" filter placeholder="Cliente" @change="setArticles" class="w-full md:w-80" />
+            <Select v-model="customer_has_op" :options="props.customers" optionLabel="name" filter placeholder="Cliente" @change="setArticles" class="w-full md:w-80" />
           </InputGroup>
 
           <InputGroup :style="{ 'max-width': '210px'}">
             <InputGroupAddon>
                 <i class="pi pi-thumbtack"></i>
             </InputGroupAddon>
-            <Select v-model="form.article" :options="articles" optionLabel="name" filter placeholder="Artigo" class="w-full md:w-80" />
+            <Select v-model="article_has_op" :options="props.articles" optionLabel="name" filter placeholder="Artigo" class="w-full md:w-80" />
           </InputGroup>
 
           <InputGroup :style="{ 'max-width': '210px' }">
             <InputGroupAddon>
                 <i class="pi pi-sliders-h"></i>
             </InputGroupAddon>
-            <MultiSelect v-model="form.wires" :options="props.wires" :disabled="form.status == 'closed'" @change="calcPercentage" optionLabel="name" filter placeholder="Fios"
+            <MultiSelect v-model="wires_has_op" :options="props.wires" :disabled="form.status == 'closed'" @change="calcPercentage" optionLabel="name" filter placeholder="Fios"
             :maxSelectedLabels="3" class="w-full md:w-80" />
           </InputGroup>
         </div>
@@ -133,12 +133,37 @@ import orderOfOperationService from '@/system/services/orderOfOperationService';
 import type Form from '@/system/type/orderOfOperationType'
 
 const visible = defineModel()
-const props = defineProps(['customers', 'articles', 'wires', 'op'])
+const props = defineProps([
+  'customers', 
+  'articles', 
+  'wires', 
+  'op', 
+  'customer_selected', 
+  'article_selected', 
+  'wires_selected'
+])
 
-const articles = ref(props.articles)
+const customer_has_op = ref(props.customer_selected)
+watch(() => props.customer_selected, (newValue) => {
+  customer_has_op.value = newValue
+})
+
+const article_has_op = ref(props.article_selected)
+watch(() => props.article_selected, (newValue) => {
+  article_has_op.value = newValue
+})
+
+const wires_has_op = ref(props.wires_selected)
+watch(() => props.wires_selected, (newValue) => {
+  wires_has_op.value = newValue
+})
+
 const form = ref<Form>(props.op)
 
 const onUpdateOP = async () => {
+  form.value.customer = customer_has_op.value.id
+  form.value.article = article_has_op.value.id
+  form.value.wires = wires_has_op.value.map(item => item.id)
 
   await orderOfOperationService.save(form.value).then(async (response) => {
 
@@ -148,14 +173,6 @@ const onUpdateOP = async () => {
     }
   })
 
-}
-
-watch(() => props.articles, (newValue) => {
-  articles.value = newValue
-})
-
-const setArticles = (event) => {
-  articles.value = event.value.article
 }
 
 const calcPercentage = (event) => {

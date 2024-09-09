@@ -29,6 +29,33 @@ class orderOfOperationService {
   }
 
   /**
+   * Busca uma relação entre ordem de produção e cliente conforme o ID validando a permissão
+   * @param {number} id: Id da ordem de produção para buscar as informações
+   * @return {Array} Data: Informações da ordem de produção e código de sucesso ou erro
+   */
+    async getCustomerHasOp(id: number): Promise<any>{
+      return await api.get(`/orderOfOperatios/getCustomerHasOp/${id}`)
+    }
+
+  /**
+   * Busca uma relação entre ordem de produção e artigo conforme o ID validando a permissão
+   * @param {number} id: Id da ordem de produção para buscar as informações
+   * @return {Array} Data: Informações da ordem de produção e código de sucesso ou erro
+   */
+  async getArticleHasOp(id: number): Promise<any>{
+    return await api.get(`/orderOfOperatios/getArticleHasOp/${id}`)
+  }
+
+  /**
+   * Busca uma relação entre ordem de produção e fios conforme o ID validando a permissão
+   * @param {number} id: Id da ordem de produção para buscar as informações
+   * @return {Array} Data: Informações da ordem de produção e código de sucesso ou erro
+   */
+  async getWiresHasOp(id: number): Promise<any>{
+    return await api.get(`/orderOfOperatios/getWiresHasOp/${id}`)
+  }
+
+  /**
    * Envia os campos para salvar no banco de dados
    * Utilizado na Edição e também no cadastro de nova ordem de produção
    * @param {Object} form: campos com os dados para serem salvo no banco de dados

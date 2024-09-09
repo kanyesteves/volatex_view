@@ -73,11 +73,11 @@ const onLoadOps = debounce(async () => {
         }
 
         if (ele.customer != null) {
-          ele.customer = ele.customer.name;
+          ele.customer = ele.customer.map(item => item.name).join(', ');
         }
 
         if (ele.article != null) {
-          ele.article = ele.article.name;
+          ele.article = ele.article.map(item => item.name).join(', ');
         }
 
         if (ele.wires != null) {

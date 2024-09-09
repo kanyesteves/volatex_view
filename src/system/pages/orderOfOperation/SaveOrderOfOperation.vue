@@ -17,14 +17,14 @@
             <InputGroupAddon>
                 <i class="pi pi-address-book"></i>
             </InputGroupAddon>
-            <Select v-model="form.customer" :options="props.customers" optionLabel="name" filter placeholder="Cliente" @change="setArticles" class="w-full md:w-80" />
+            <Select v-model="form.customer" :options="props.customers" optionLabel="name" filter placeholder="Cliente" class="w-full md:w-80" />
           </InputGroup>
 
           <InputGroup :style="{ 'max-width': '210px'}">
             <InputGroupAddon>
                 <i class="pi pi-thumbtack"></i>
             </InputGroupAddon>
-            <Select v-model="form.article" :options="articles" optionLabel="name" filter placeholder="Artigo" class="w-full md:w-80" />
+            <Select v-model="form.article" :options="props.articles" optionLabel="name" filter placeholder="Artigo" class="w-full md:w-80" />
           </InputGroup>
 
           <InputGroup :style="{ 'max-width': '210px' }">
@@ -119,11 +119,14 @@ import orderOfOperationService from '@/system/services/orderOfOperationService';
 import type Form from '@/system/type/orderOfOperationType'
 
 const visible = defineModel()
-const props = defineProps(['customers', 'wires'])
+const props = defineProps(['customers', 'articles', 'wires'])
 
 const form = ref<Form>({})
 
 const onSaveOP = async () => {
+  form.value.customer = form.value.customer.id
+  form.value.article = form.value.article.id
+  form.value.wires = form.value.wires.map(item => item.id)
 
   await orderOfOperationService.save(form.value).then(async (response) => {
 
@@ -133,11 +136,6 @@ const onSaveOP = async () => {
     }
   })
 
-}
-
-const articles = ref([])
-const setArticles = (event) => {
-  articles.value = event.value.article
 }
 
 const calcPercentage = (event) => {

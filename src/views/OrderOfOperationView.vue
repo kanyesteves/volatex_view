@@ -15,10 +15,14 @@
   <SaveOrderOfOperation
     v-model="new_op" 
     :customers="customers"
+    :articles="articles"
     :wires="wires" />
 
   <UpdateOrderOfOperation
     v-model="edit_op"
+    :customer_selected="customer_selected"
+    :article_selected="article_selected"
+    :wires_selected="wires_selected"
     :customers="customers"
     :articles="articles"
     :wires="wires"
@@ -41,12 +45,14 @@ import UpdateOrderOfOperation from '@/system/pages/orderOfOperation/UpdateOrderO
 import CloseOrderOfOperation from '@/system/pages/orderOfOperation/CloseOrderOfOperation.vue';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import customerService from '@/system/services/customerService';
+import articleService from '@/system/services/articleService';
 import wireService from '@/system/services/wireService';
 
 const setVisibleToolbar = ref([])
 
 onMounted(() => {
   getAllCustomers()
+  getAllArticles()
   getAllWires()
 })
 
@@ -91,31 +97,62 @@ const onDoneOp = () => {
   done_op.value = true
 }
 
-const articles = ref([])
 const getOpById = debounce(async () => {
   await orderOfOperationService.get(op_selected.value.id).then(async (response) => {
     if (response.status == 200) {
       op_selected.value.id = response.data.id
       op_selected.value.code = response.data.code
       op_selected.value.weight_per_piece = response.data.weight_per_piece
-      op_selected.value.customer = response.data.customer
-      articles.value = op_selected.value.customer.article
-      op_selected.value.article = response.data.article
-      op_selected.value.wires = response.data.wires
       op_selected.value.total_weight = response.data.total_weight
       op_selected.value.total_pieces = response.data.total_pieces
       op_selected.value.status = response.data.status
       op_selected.value.date_closed = formatDateClosed(response.data.date_closed)
+      getCustomerHasOp(op_selected.value.id)
+      getArticleHasOp(op_selected.value.id)
+      getWiresHasOp(op_selected.value.id)
       formatWires(op_selected.value)
     }
   });
 });
+
+const customer_selected = ref()
+const getCustomerHasOp = debounce(async (op_id) => {
+  await orderOfOperationService.getCustomerHasOp(op_id).then((response) => {
+    if (response.status == 200)
+      customer_selected.value = response.data
+  })
+})
+
+const article_selected = ref()
+const getArticleHasOp = debounce(async (op_id) => {
+  await orderOfOperationService.getArticleHasOp(op_id).then((response) => {
+    if (response.status == 200)
+      article_selected.value = response.data
+  })
+})
+
+const wires_selected = ref()
+const getWiresHasOp = debounce(async (op_id) => {
+  await orderOfOperationService.getWiresHasOp(op_id).then((response) => {
+    if (response.status == 200)
+      wires_selected.value = response.data
+  })
+})
 
 const customers = ref([])
 const getAllCustomers = debounce(async () => {
   await customerService.getAll().then((response) => {
     if (response.status == 200) {
       customers.value = response.data
+    }
+  })
+})
+
+const articles = ref([])
+const getAllArticles = debounce(async () => {
+  await articleService.getAll().then((response) => {
+    if (response.status == 200) {
+      articles.value = response.data
     }
   })
 })
