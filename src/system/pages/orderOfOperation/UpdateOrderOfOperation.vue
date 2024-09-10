@@ -134,12 +134,12 @@ import type Form from '@/system/type/orderOfOperationType'
 
 const visible = defineModel()
 const props = defineProps([
-  'customers', 
-  'articles', 
-  'wires', 
-  'op', 
-  'customer_selected', 
-  'article_selected', 
+  'customers',
+  'articles',
+  'wires',
+  'op',
+  'customer_selected',
+  'article_selected',
   'wires_selected'
 ])
 

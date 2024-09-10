@@ -60,9 +60,6 @@ const op_selected = ref({
   id: 0,
   code: '',
   weight_per_piece: 0,
-  customer: {},
-  article: {},
-  wires: [],
   total_weight: 0,
   total_pieces: 0,
   status: '',
@@ -97,6 +94,10 @@ const onDoneOp = () => {
   done_op.value = true
 }
 
+const customer_selected = ref()
+const article_selected = ref()
+const wires_selected = ref()
+
 const getOpById = debounce(async () => {
   await orderOfOperationService.get(op_selected.value.id).then(async (response) => {
     if (response.status == 200) {
@@ -110,34 +111,31 @@ const getOpById = debounce(async () => {
       getCustomerHasOp(op_selected.value.id)
       getArticleHasOp(op_selected.value.id)
       getWiresHasOp(op_selected.value.id)
-      formatWires(op_selected.value)
+      // formatWires()
     }
   });
 });
 
-const customer_selected = ref()
-const getCustomerHasOp = debounce(async (op_id) => {
+const getCustomerHasOp = async (op_id) => {
   await orderOfOperationService.getCustomerHasOp(op_id).then((response) => {
     if (response.status == 200)
       customer_selected.value = response.data
   })
-})
+}
 
-const article_selected = ref()
-const getArticleHasOp = debounce(async (op_id) => {
+const getArticleHasOp = async (op_id) => {
   await orderOfOperationService.getArticleHasOp(op_id).then((response) => {
     if (response.status == 200)
       article_selected.value = response.data
   })
-})
+}
 
-const wires_selected = ref()
-const getWiresHasOp = debounce(async (op_id) => {
+const getWiresHasOp = async (op_id) => {
   await orderOfOperationService.getWiresHasOp(op_id).then((response) => {
     if (response.status == 200)
       wires_selected.value = response.data
   })
-})
+}
 
 const customers = ref([])
 const getAllCustomers = debounce(async () => {
@@ -166,15 +164,15 @@ const getAllWires = debounce(async () => {
   })
 })
 
-const formatWires = (op) => {
-  op.wires.forEach((element) => {
+const formatWires = debounce(() => {
+  wires_selected.value.forEach((element) => {
     wires.value.forEach((wire) => {
       if (wire.id == element.id) {
         wire.percentage = element.percentage
       }
     })
   })
-}
+})
 
 const formatDateClosed = (date_closed: any) => {
   var date_ = new Date(date_closed)
