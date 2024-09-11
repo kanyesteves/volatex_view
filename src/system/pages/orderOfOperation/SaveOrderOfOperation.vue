@@ -31,7 +31,7 @@
             <InputGroupAddon>
                 <i class="pi pi-sliders-h"></i>
             </InputGroupAddon>
-            <MultiSelect v-model="form.wires" :options="props.wires" @change="calcPercentage" optionLabel="name" filter placeholder="Fios"
+            <MultiSelect v-model="form.wires" :options="props.wires" optionLabel="name" filter placeholder="Fios"
             :maxSelectedLabels="3" class="w-full md:w-80" />
           </InputGroup>
         </div>
@@ -74,22 +74,6 @@
               <InputGroupAddon>
                 <i>Kg/Total</i>
               </InputGroupAddon>
-          </InputGroup>
-        </div>
-
-        <h3 :style="{ 'margin-top': '2rem'}">Porcentagem por Fio</h3>
-        <Divider />
-
-        <div :class="$style.div_box_4" v-for="wire of form.wires" :key="wire.id">
-          <InputGroup>
-            <span>{{ wire.name }}</span>
-          </InputGroup>
-
-          <InputGroup>
-            <InputNumber :style="{ 'max-width': '200px'}" v-model="wire.percentage" inputId="percent" fluid />
-            <InputGroupAddon>
-              <i class="pi pi-percentage"></i>
-            </InputGroupAddon>
           </InputGroup>
         </div>
 

@@ -37,7 +37,7 @@
             <InputGroupAddon>
                 <i class="pi pi-sliders-h"></i>
             </InputGroupAddon>
-            <MultiSelect v-model="wires_has_op" :options="props.wires" :disabled="form.status == 'closed'" @change="calcPercentage" optionLabel="name" filter placeholder="Fios"
+            <MultiSelect v-model="wires_has_op" :options="props.wires" :disabled="form.status == 'closed'" optionLabel="name" filter placeholder="Fios"
             :maxSelectedLabels="3" class="w-full md:w-80" />
           </InputGroup>
         </div>
@@ -83,26 +83,6 @@
               <InputGroupAddon>
                 <i>Kg/Total</i>
               </InputGroupAddon>
-          </InputGroup>
-        </div>
-
-        <h3 :style="{ 'margin-top': '2rem'}">Porcentagem por Fio</h3>
-        <Divider />
-
-        <div :class="$style.div_box_4" v-for="wire of form.wires" :key="wire.id">
-          <InputGroup>
-            <span>{{ wire.name }}</span>
-          </InputGroup>
-
-          <InputGroup>
-            <InputNumber 
-              :style="{ 'max-width': '200px'}"
-              :disabled="form.status == 'closed'"
-              v-model="wire.percentage"
-              inputId="percent" fluid />
-            <InputGroupAddon>
-              <i class="pi pi-percentage"></i>
-            </InputGroupAddon>
           </InputGroup>
         </div>
 
@@ -177,12 +157,6 @@ const formatValuesForSaveRelations = () => {
   form.value.customer = customer_has_op.value.id
   form.value.article = article_has_op.value.id
   form.value.wires = wires_has_op.value.map(item => item.id)
-}
-
-const calcPercentage = (event) => {
-  event.value.forEach(element => {
-    element.percentage = 100 / event.value.length;
-  });
 }
 
 </script>

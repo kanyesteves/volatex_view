@@ -92,3 +92,12 @@ const items_config = ref([
 ]);
 
 </script>
+
+<style module>
+
+ .p-menu-submenu-label {
+  color: black !important;
+ }
+
+
+</style>
