@@ -63,6 +63,7 @@ const op_selected = ref({
   total_weight: 0,
   total_pieces: 0,
   status: '',
+  label_item: false,
   date_closed: ''
 });
 
@@ -107,8 +108,11 @@ const getOpById = debounce(async () => {
       op_selected.value.total_weight = response.data.total_weight
       op_selected.value.total_pieces = response.data.total_pieces
       op_selected.value.status = response.data.status
+      op_selected.value.label_item = response.data.label_item
       op_selected.value.date_closed = formatDateClosed(response.data.date_closed)
-      // formatWires()
+      customer_selected.value = response.data.customer[0]
+      article_selected.value = response.data.article[0]
+      wires_selected.value = response.data.wires
     }
   });
 });
@@ -137,16 +141,6 @@ const getAllWires = debounce(async () => {
     if (response.status == 200) {
       wires.value = response.data
     }
-  })
-})
-
-const formatWires = debounce(() => {
-  wires_selected.value.forEach((element) => {
-    wires.value.forEach((wire) => {
-      if (wire.id == element.id) {
-        wire.percentage = element.percentage
-      }
-    })
   })
 })
 

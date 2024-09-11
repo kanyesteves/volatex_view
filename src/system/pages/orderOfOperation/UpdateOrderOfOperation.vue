@@ -161,9 +161,7 @@ watch(() => props.wires_selected, (newValue) => {
 const form = ref<Form>(props.op)
 
 const onUpdateOP = async () => {
-  form.value.customer = customer_has_op.value.id
-  form.value.article = article_has_op.value.id
-  form.value.wires = wires_has_op.value.map(item => item.id)
+  formatValuesForSaveRelations()
 
   await orderOfOperationService.save(form.value).then(async (response) => {
 
@@ -173,6 +171,12 @@ const onUpdateOP = async () => {
     }
   })
 
+}
+
+const formatValuesForSaveRelations = () => {
+  form.value.customer = customer_has_op.value.id
+  form.value.article = article_has_op.value.id
+  form.value.wires = wires_has_op.value.map(item => item.id)
 }
 
 const calcPercentage = (event) => {
