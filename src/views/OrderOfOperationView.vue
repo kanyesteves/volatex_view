@@ -108,34 +108,10 @@ const getOpById = debounce(async () => {
       op_selected.value.total_pieces = response.data.total_pieces
       op_selected.value.status = response.data.status
       op_selected.value.date_closed = formatDateClosed(response.data.date_closed)
-      getCustomerHasOp(op_selected.value.id)
-      getArticleHasOp(op_selected.value.id)
-      getWiresHasOp(op_selected.value.id)
       // formatWires()
     }
   });
 });
-
-const getCustomerHasOp = async (op_id) => {
-  await orderOfOperationService.getCustomerHasOp(op_id).then((response) => {
-    if (response.status == 200)
-      customer_selected.value = response.data
-  })
-}
-
-const getArticleHasOp = async (op_id) => {
-  await orderOfOperationService.getArticleHasOp(op_id).then((response) => {
-    if (response.status == 200)
-      article_selected.value = response.data
-  })
-}
-
-const getWiresHasOp = async (op_id) => {
-  await orderOfOperationService.getWiresHasOp(op_id).then((response) => {
-    if (response.status == 200)
-      wires_selected.value = response.data
-  })
-}
 
 const customers = ref([])
 const getAllCustomers = debounce(async () => {
