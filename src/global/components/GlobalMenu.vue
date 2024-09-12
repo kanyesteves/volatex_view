@@ -96,7 +96,7 @@ const items_config = ref([
 <style module>
 
  .p-menu-submenu-label {
-  color: black !important;
+  color: black;
  }
 
 

@@ -149,6 +149,9 @@ const onUpdateOP = async () => {
       visible.value = false
       location.reload()
     }
+
+  }).catch(async (response) => {
+    console.log(response.data)
   })
 
 }
@@ -157,6 +160,7 @@ const formatValuesForSaveRelations = () => {
   form.value.customer = customer_has_op.value.id
   form.value.article = article_has_op.value.id
   form.value.wires = wires_has_op.value.map(item => item.id)
+  form.value.label_item = (!form.value.label_item) ? false : form.value.label_item
 }
 
 </script>

@@ -108,9 +108,7 @@ const props = defineProps(['customers', 'articles', 'wires'])
 const form = ref<Form>({})
 
 const onSaveOP = async () => {
-  form.value.customer = form.value.customer.id
-  form.value.article = form.value.article.id
-  form.value.wires = form.value.wires.map(item => item.id)
+  formatValuesForSaveRelations()
 
   await orderOfOperationService.save(form.value).then(async (response) => {
 
@@ -122,10 +120,10 @@ const onSaveOP = async () => {
 
 }
 
-const calcPercentage = (event) => {
-  event.value.forEach(element => {
-    element.percentage = 100 / event.value.length;
-  });
+const formatValuesForSaveRelations = () => {
+  form.value.customer = form.value.customer.id
+  form.value.article = form.value.article.id
+  form.value.wires = form.value.wires.map(item => item.id)
 }
 
 </script>

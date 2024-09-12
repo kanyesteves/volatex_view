@@ -8,7 +8,7 @@
       </template>
 
       <template #end>
-        <Button disabled label="Exportar" icon="pi pi-download" size="small" />
+        <Button disabled v-tooltip.bottom="'Disponivel na próxima versão'" label="Exportar" icon="pi pi-download" size="small" />
       </template>
     </Toolbar>
   </div>
