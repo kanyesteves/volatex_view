@@ -59,7 +59,7 @@ const form = ref<Form>(props.operator)
 
 const onSaveOperator = async () => {
   form.value.turn = form.value.turn.value
-  await operatorService.save(form.value).then(async (response) => {
+  await operatorService.save(form.value).then(async () => {
     visible.value = false
     location.reload()
   })

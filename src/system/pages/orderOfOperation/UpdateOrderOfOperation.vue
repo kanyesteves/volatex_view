@@ -100,7 +100,6 @@
 import { defineModel, defineProps, watch, ref } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
-import Divider from 'primevue/divider';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import MultiSelect from 'primevue/multiselect';

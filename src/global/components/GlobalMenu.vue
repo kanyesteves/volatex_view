@@ -71,6 +71,11 @@ const items_config = ref([
         label: 'Orderns de Operação',
         icon: 'pi pi-stopwatch',
         route: '/orderOfOperation'
+      },
+      {
+        label: 'Programação dos Teares',
+        icon: 'pi pi-gauge',
+        route: '/programing'
       }
     ]
   }, 

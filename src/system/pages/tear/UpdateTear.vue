@@ -52,7 +52,7 @@ const props = defineProps(['tear'])
 const form = ref<Form>(props.tear)
 
 const onSaveTear = async () => {
-  await tearService.save(form.value).then(async (response) => {
+  await tearService.save(form.value).then(async () => {
     visible.value = false
     location.reload()
   })

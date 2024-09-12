@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref, defineProps } from 'vue'
+import { defineModel, ref } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
