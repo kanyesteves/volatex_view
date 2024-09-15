@@ -8,10 +8,10 @@
             <InputGroupAddon>
                 <i class="pi pi-key"></i>
             </InputGroupAddon>
-            <InputText placeholder="Código" id="code" :disabled="form.status == 'closed'" v-model="form.code" class="flex-auto" autocomplete="off" />
+            <InputText placeholder="Código" id="code" :disabled="checkStatus()" v-model="form.code" class="flex-auto" autocomplete="off" />
           </InputGroup>
 
-          <InputGroup :style="{ 'max-width': '140px'  }">
+          <InputGroup :style="{ 'max-width': '130px'  }">
             <Message v-if="form.status == 'open'" severity="success">Aberto</Message>
             <Message v-if="form.status == 'in_progress'" severity="warn">Em Andamento</Message>
             <Message v-if="form.status == 'closed'" severity="error">Fechado</Message>
@@ -23,35 +23,35 @@
             <InputGroupAddon>
                 <i class="pi pi-address-book"></i>
             </InputGroupAddon>
-            <Select v-model="customer_has_op" :options="props.customers" optionLabel="name" filter placeholder="Cliente" @change="setArticles" class="w-full md:w-80" />
+            <Select v-model="customer_has_op" :options="props.customers" :disabled="checkStatus()" optionLabel="name" filter placeholder="Cliente" class="w-full md:w-80" />
           </InputGroup>
 
           <InputGroup :style="{ 'max-width': '210px'}">
             <InputGroupAddon>
                 <i class="pi pi-thumbtack"></i>
             </InputGroupAddon>
-            <Select v-model="article_has_op" :options="props.articles" optionLabel="name" filter placeholder="Artigo" class="w-full md:w-80" />
+            <Select v-model="article_has_op" :options="props.articles" :disabled="checkStatus()" optionLabel="name" filter placeholder="Artigo" class="w-full md:w-80" />
           </InputGroup>
 
           <InputGroup :style="{ 'max-width': '210px' }">
             <InputGroupAddon>
                 <i class="pi pi-sliders-h"></i>
             </InputGroupAddon>
-            <MultiSelect v-model="wires_has_op" :options="props.wires" :disabled="form.status == 'closed'" optionLabel="name" filter placeholder="Fios"
+            <MultiSelect v-model="wires_has_op" :options="props.wires" :disabled="checkStatus()" optionLabel="name" filter placeholder="Fios"
             :maxSelectedLabels="3" class="w-full md:w-80" />
           </InputGroup>
         </div>
 
         <div :class="$style.div_box_3" class="flex items-center">
           <InputGroup :style="{ 'max-width': '120px'}">
-              <ToggleButton v-model="form.label_item" class="w-24" onLabel="Com etiqueta" offLabel="Sem etiqueta" />
+              <ToggleButton v-model="form.label_item" class="w-24" :disabled="checkStatus()" onLabel="Com etiqueta" offLabel="Sem etiqueta" />
           </InputGroup>
 
           <InputGroup :style="{ 'max-width': '145px'}">
             <InputNumber 
               placeholder="00" 
               id="totalPieces" 
-              :disabled="form.status == 'closed'"
+              :disabled="checkStatus()"
               v-model="form.total_pieces"
               class="flex-auto" autocomplete="off" />
               <InputGroupAddon>
@@ -63,7 +63,7 @@
             <InputNumber 
               placeholder="0.00" 
               id="weightPerPiece" 
-              :disabled="form.status == 'closed'"
+              :disabled="checkStatus()"
               v-model="form.weight_per_piece" 
               :minFractionDigits="2" :maxFractionDigits="5"
               class="flex-auto" autocomplete="off" />
@@ -76,7 +76,7 @@
             <InputNumber 
               placeholder="0.00" 
               id="weightTotal" 
-              :disabled="form.status == 'closed'"
+              :disabled="checkStatus()"
               v-model="form.total_weight" 
               :minFractionDigits="2" :maxFractionDigits="5"
               class="flex-auto" autocomplete="off" />
@@ -88,7 +88,7 @@
 
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" @click="onUpdateOP"></Button>
+          <Button v-if="!checkStatus()" :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" @click="onUpdateOP"></Button>
         </div>
 
       </Dialog>
@@ -153,6 +153,11 @@ const onUpdateOP = async () => {
     console.log(response.data)
   })
 
+}
+
+const checkStatus = () => {
+  if (form.value.status == 'closed' || form.value.status == 'in_progress')
+    return true
 }
 
 const formatValuesForSaveRelations = () => {

@@ -73,8 +73,8 @@ const items_config = ref([
         route: '/orderOfOperation'
       },
       {
-        label: 'Programação dos Teares',
-        icon: 'pi pi-gauge',
+        label: 'Programações',
+        icon: 'pi pi-tags',
         route: '/programing'
       }
     ]

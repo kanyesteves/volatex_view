@@ -70,6 +70,7 @@ const listPermissions = [
   {name: 'Fios',               component: 'WireView'},
   {name: 'Artigos',            component: 'ArticleView'},
   {name: 'Ordens de Operação', component: 'OrderOfOperationView'},
+  {name: 'Programações',       component: 'ProgramingView'},
   {name: 'Grupos',             component: 'GroupView'},
   {name: 'Usuários',           component: 'UserView'}
 ]
