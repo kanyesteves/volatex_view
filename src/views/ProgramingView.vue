@@ -4,7 +4,6 @@
     <ToolbarPrograming
       v-model="setVisibleToolbar"
       @onNewPrograming="onNewPrograming" 
-      @onEditPrograming="onEditPrograming" 
       @onRemovePrograming="onRemovePrograming" />
 
     <ListPrograming
@@ -12,7 +11,14 @@
       @unselected="rowUnSelected" />
   </div>
 
+  <SavePrograming
+    v-model="new_programing"
+    :teares="teares"
+    :ops="ops" />
 
+  <DeletePrograming
+    v-model="remove_programing" 
+    :programing="programing_selected" />
 
 </template>
 
@@ -22,8 +28,17 @@ import { debounce } from 'lodash'
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarPrograming from '@/system/pages/programing/ToolbarPrograming.vue'
 import ListPrograming from '@/system/pages/programing/ListPrograming.vue'
+import SavePrograming from '@/system/pages/programing/SavePrograming.vue'
+import orderOfOperationService from '@/system/services/orderOfOperationService';
+import DeletePrograming from '@/system/pages/programing/DeletePrograming.vue'
+import tearService from '@/system/services/tearService';
 
 const setVisibleToolbar = ref([])
+
+onMounted(() => {
+  getAllTeares()
+  getAllOps()
+})
 
 const programing_selected = ref({
   id: 0,
@@ -41,21 +56,32 @@ const rowUnSelected = (event) => {
   setVisibleToolbar.value.splice(index, 1)
 }
 
-const new_op = ref(false)
+const new_programing = ref(false)
 const onNewPrograming = () => {
-  new_op.value = true
+  new_programing.value = true
 }
 
-const edit_op = ref(false)
-const onEditPrograming = () => {
-  // getOpById()
-  edit_op.value = true
-}
-
-const done_op = ref(false)
+const remove_programing = ref(false)
 const onRemovePrograming = () => {
-  // getOpById()
-  done_op.value = true
+  remove_programing.value = true
 }
+
+const teares = ref([])
+const getAllTeares = debounce(async () => {
+  await tearService.getAllTearesActiveAndNotUse().then((response) => {
+    if (response.status == 200) {
+      teares.value = response.data
+    }
+  })
+})
+
+const ops = ref([])
+const getAllOps = debounce(async () => {
+  await orderOfOperationService.getAllOpenAndInProgress().then((response) => {
+    if (response.status == 200) {
+      ops.value = response.data
+    }
+  })
+})
 
 </script>

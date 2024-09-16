@@ -12,7 +12,7 @@ class orderOfOperationService {
   }
 
   /**
-   * Busca de todos as OPs
+   * Busca de todos as OPs com status 'Aberto' e 'Em Andamento'
    * @return {Array} Data: Lista com todos as OPs
    */
   getAllOpenAndInProgress(): Promise<any>{

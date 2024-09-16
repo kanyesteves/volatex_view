@@ -12,6 +12,14 @@ class tearService {
   }
 
   /**
+   * Busca de todos os teares
+   * @return {Array} Data: Lista com todos os teares
+   */
+    getAllTearesActiveAndNotUse(): Promise<any>{
+      return api.get('/teares/getAllTearesActiveAndNotUse')
+    }
+
+  /**
    * Busca um tear conforme o ID validando a permissão
    * @param {number} id: Id do tear para buscar as informações
    * @return {Array} Data: Informações do teaer e código de sucesso ou erro
