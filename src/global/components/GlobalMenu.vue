@@ -36,6 +36,16 @@ const items_config = ref([
         label: 'Produção',
         icon: 'pi pi-clipboard',
         route: '/production'
+      },
+      {
+        label: 'Programações do Tear',
+        icon: 'pi pi-tags',
+        route: '/programing'
+      },
+      {
+        label: 'Orderns de Operação',
+        icon: 'pi pi-stopwatch',
+        route: '/orderOfOperation'
       }
     ]
   },
@@ -66,16 +76,6 @@ const items_config = ref([
         label: 'Artigos',
         icon: 'pi pi-thumbtack',
         route: '/article'
-      },
-      {
-        label: 'Orderns de Operação',
-        icon: 'pi pi-stopwatch',
-        route: '/orderOfOperation'
-      },
-      {
-        label: 'Programações',
-        icon: 'pi pi-tags',
-        route: '/programing'
       }
     ]
   }, 
