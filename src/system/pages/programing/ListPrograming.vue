@@ -23,7 +23,7 @@ import { ref, onMounted, defineEmits } from 'vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { debounce } from 'lodash';
-import programingService from '@/system/service/programingService';
+import programingService from '@/system/services/programingService';
 
 const emit = defineEmits(['selected', 'unselected'])
 
@@ -38,8 +38,8 @@ const programingSelected = ref();
 const programings = ref([]);
 
 const columns = [
-  { field: 'name', header: 'Nome' },
   { field: 'tear', header: 'Tear' },
+  { field: 'name', header: 'Nome' },
   { field: 'op',   header: 'Ordem de Operação' },
 ];
 
