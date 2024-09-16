@@ -45,7 +45,8 @@ const columns = [
   { field: 'article', header: 'Artigo' },
   { field: 'wires', header: 'Fios' },
   { field: 'total_weight', header: 'Peso total' },
-  { field: 'total_pieces', header: 'Total de peças' }
+  { field: 'total_pieces', header: 'Total de peças' },
+  { field: 'date_open', header: 'Data de abertura' }
 ];
 
 const onRowSelect = (event) => {
