@@ -10,22 +10,23 @@
       <div class="card flex justify-center">
         <Stepper value="1" linear class="basis-[50rem]">
           <StepList>
-            <Step value="1">Tear</Step>
-            <Step value="2">Ordem de produção</Step>
-            <Step value="3">Peso</Step>
-            <Step value="4">Revisão</Step>
+            <Step value="1">Programação do Tear</Step>
+            <Step value="2">Peso</Step>
+            <Step value="3">Revisão</Step>
           </StepList>
           <StepPanels>
             <StepPanel v-slot="{ activateCallback }" value="1">
 
               <div :class="$style.step">
                 <div :class="$style.customborder">
-                  <div v-for="tear of teares" :key="tear.id">
-                    <Button :class="$style.btn" :label="tear.name" severity="info" size="large" @click="getTear(tear)" />
+                  <div v-for="programing of programings" :key="programing.id">
+                    <Button
+                      :class="$style.btn"
+                      :label="programing.tear.map(ele => ele.name).join(', ')"
+                      severity="info" size="large"
+                      @click="getTearAndOp(programing)"
+                      v-on:click="activateCallback('2')" />
                   </div>
-                </div>
-                <div>
-                  <span><b>{{ date_format }}</b> - <b>{{ form.tear?.name }}</b></span>
                 </div>
                 <div :class="$style.buttonNext">
                   <Button label="Avançar" icon="pi pi-arrow-right" @click="activateCallback('2')" />
@@ -33,23 +34,8 @@
               </div>
 
             </StepPanel>
+
             <StepPanel v-slot="{ activateCallback }" value="2">
-              <div :class="$style.step">
-                <div :class="$style.customborder">
-                  <div v-for="op of ops" :key="op.id">
-                    <Button :class="$style.btn" :label="'op-'+ op.code" severity="info" size="large" @click="getOp(op)" />
-                  </div>
-                </div>
-                <div>
-                  <span><b>{{ date_format }}</b> - <b>{{ form.tear?.name }}</b> - <b>{{ form.op?.code }}</b></span>
-                </div>
-                <div :class="$style.buttons">
-                  <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('1')" />
-                  <Button label="Avançar" icon="pi pi-arrow-right" iconPos="right" v-on:click="getCodePerPieceOfOp(op)" @click="activateCallback('3')" />
-                </div>
-              </div>
-            </StepPanel>
-            <StepPanel v-slot="{ activateCallback }" value="3">
               <div :class="$style.step">
                 <div :class="$style.customborder">
                   <InputGroup :style="{ 'max-width': '170px'}">
@@ -65,20 +51,18 @@
                       </InputGroupAddon>
                   </InputGroup>
                 </div>
-                <div>
-                  <span><b>{{ date_format }}</b> - <b>{{ form.tear?.name }}</b> - <b>{{ form.op?.code }}</b> - <b>{{ form.weight }}</b></span>
-                </div>
                 <div :class="$style.buttons">
-                  <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('2')" />
-                  <Button label="Avançar" icon="pi pi-arrow-right" @click="activateCallback('4')" />
+                  <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('1')" />
+                  <Button label="Avançar" icon="pi pi-arrow-right" @click="activateCallback('3')" />
                 </div>
               </div>
             </StepPanel>
-            <StepPanel v-slot="{ activateCallback }" value="4">
+
+            <StepPanel v-slot="{ activateCallback }" value="3">
               <div :class="$style.step">
                 <div>
                   <span :style="{'margin-right': '10px'}"><b>Código:</b></span>
-                  <span :style="{'font-size': '18px'}">2</span>
+                  <span :style="{'font-size': '18px'}">{{ form.code_per_piece }}</span>
                 </div>
                 <div :class="$style.customborderStep4">
                   <InputGroup :style="{ 'max-width': '360px', 'margin-left': '10px'}">
@@ -93,10 +77,10 @@
                   </InputGroup>
                 </div>
                 <div>
-                  <span><b>{{ date_format }}</b> - <b>{{ form.tear?.name }}</b> - <b>{{ form.op?.code }}</b> - <b>{{ form.weight }}</b></span>
+                  <span><b>{{ programing_name }}</b> - <b>{{ date_format }}</b></span>
                 </div>
                 <div :class="$style.buttons">
-                  <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('3')" />
+                  <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('2')" />
                   <Button label="Registrar" v-on:click="onSaveRecord" @click="activateCallback('1')" />
                 </div>
               </div>
@@ -126,18 +110,27 @@ import InputGroup from 'primevue/inputgroup';
 import InputNumber from 'primevue/inputnumber';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
-import tearService from '@/system/services/tearService';
-import orderOfOperationService from '@/system/services/orderOfOperationService';
+import programingService from '@/system/services/programingService';
 import operatorService from '@/system/services/operatorService';
 import productionService from '@/system/services/productionService'
+import orderOfOperationService from '@/system/services/orderOfOperationService';
 import type Form from '@/system/type/productionType'
 
 const form = ref<Form>({})
 
-const onSaveRecord = () => {
+const onSaveRecord = debounce(async () => {
+  form.value.operator = form.value.operator.name
+  
+  await productionService.save(form.value).then((response) => {
+    if (response.status == 201) {
+      if (form.value.code_per_piece == 1) {
+        updateStatusForInProgress(form.value.op)
+      }
+    }
+  })
+
   clearForm()
-  console.log('teste')
-}
+})
 
 const clearForm = () => {
   form.value = {}
@@ -152,27 +145,22 @@ onMounted(() => {
   var year = date_.getFullYear()
 
   date_format.value = day + '/' + month + '/' + year
-  form.value.date = date_
 
-  getAllTeares()
-  getAllOpenAndInProgress()
+  getAllProgramings()
   getAllOperators()
 })
 
-const teares = ref([])
-const getAllTeares = debounce(async () => {
-  await tearService.getAll().then((response) => {
-    if (response.status == 200) {
-      teares.value = response.data
-    }
+const updateStatusForInProgress = debounce(async (op) => {
+  await orderOfOperationService.updateStatusForInProgress(op).then((response) => {
+    console.log(response)
   })
 })
 
-const ops = ref([])
-const getAllOpenAndInProgress = debounce(async () => {
-  await orderOfOperationService.getAllOpenAndInProgress().then((response) => {
+const programings = ref([])
+const getAllProgramings = debounce(async () => {
+  await programingService.getAll().then((response) => {
     if (response.status == 200) {
-      ops.value = response.data
+      programings.value = response.data
     }
   })
 })
@@ -186,22 +174,33 @@ const getAllOperators = debounce(async () => {
   })
 })
 
-const getTear = (tear) => {
-  form.value.tear = tear
-}
+const programing_name = ref()
+const getTearAndOp = (programing) => {
+  programing_name.value = programing.name
+  form.value.tear = programing.tear.map(ele => ele.name).join(', ')
+  form.value.op = programing.op.map(ele => ele.code).join(', ')
+  form.value.code_per_piece = 1
 
-const getOp = (op) => {
-  form.value.op = op
+  getCodePerPieceOfOp(programing.op.map(ele => ele.code).join(', '))
 }
 
 const getWeight = (event) => {
   form.value.weight = event.value
 }
 
-const getCodePerPieceOfOp = debounce(async () => {
-  await productionService.getAllRecordsByOp(form.value.op).then((response) => {
-    if (response.status == 200)
-      console.log(response.data)
+const getCodePerPieceOfOp = debounce(async (op_name) => {
+  await productionService.getAllRecordsByOp(op_name).then((response) => {
+    if (response.status == 200) {
+      let data = response.data.code_per_piece 
+
+      if (data) {
+        form.value.code_per_piece = data
+        form.value.code_per_piece++
+      } else {
+        form.value.code_per_piece = 1
+      }
+
+    }
   })
 })
 

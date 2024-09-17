@@ -15,8 +15,8 @@ class productionService {
    * Busca de todos os registros por ordem de operação
    * @return {Array} Data: Lista com todos as registros por ordem de operação
    */
-  async getAllRecordsByOp(data: Form): Promise<any>{
-      return api.post('/productions/getAllRecordsByOp', data)
+  async getAllRecordsByOp(op: string): Promise<any>{
+      return api.get(`/productions/getAllRecordsByOp/${op}`)
     }
 
   /**

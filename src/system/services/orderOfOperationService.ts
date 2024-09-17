@@ -70,6 +70,13 @@ class orderOfOperationService {
   }
 
   /**
+   * Atualiza o status da op quando é iniciada
+   */
+    async updateStatusForInProgress(op: string): Promise<any>{
+      return await api.put(`/productions/updateStatusForInProgress/${op}`)
+    }
+
+  /**
    * Fecha uma ordem de produção em específico
    * @param {number} id: campo com Id da ordem de produção para ser fechado
    * @return {Array} Data: informações complementares e código de sucesso ou erro
