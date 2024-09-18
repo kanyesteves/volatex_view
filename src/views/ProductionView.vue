@@ -61,7 +61,7 @@
             <StepPanel v-slot="{ activateCallback }" value="3">
               <div :class="$style.step">
                 <div>
-                  <span :style="{'margin-right': '10px'}"><b>Código:</b></span>
+                  <span :style="{'margin-right': '10px'}"><b>Código do rolo:</b></span>
                   <span :style="{'font-size': '18px'}">{{ form.code_per_piece }}</span>
                 </div>
                 <div :class="$style.customborderStep4">
@@ -123,9 +123,7 @@ const onSaveRecord = debounce(async () => {
   
   await productionService.save(form.value).then((response) => {
     if (response.status == 201) {
-      if (form.value.code_per_piece == 1) {
-        updateStatusForInProgress(form.value.op)
-      }
+      console.log(response.data)
     }
   })
 
@@ -148,12 +146,6 @@ onMounted(() => {
 
   getAllProgramings()
   getAllOperators()
-})
-
-const updateStatusForInProgress = debounce(async (op) => {
-  await orderOfOperationService.updateStatusForInProgress(op).then((response) => {
-    console.log(response)
-  })
 })
 
 const programings = ref([])
@@ -188,7 +180,7 @@ const getWeight = (event) => {
   form.value.weight = event.value
 }
 
-const getCodePerPieceOfOp = debounce(async (op_name) => {
+const getCodePerPieceOfOp = async (op_name) => {
   await productionService.getAllRecordsByOp(op_name).then((response) => {
     if (response.status == 200) {
       let data = response.data.code_per_piece 
@@ -202,7 +194,7 @@ const getCodePerPieceOfOp = debounce(async (op_name) => {
 
     }
   })
-})
+}
 
 </script>
 

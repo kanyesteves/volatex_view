@@ -4,7 +4,7 @@
       <Dialog v-model:visible="visible" modal header="Nova Ordem de Operação" :style="{ width: '45rem' }">
 
         <div :class="$style.div_box" class="flex items-center">
-          <InputGroup :style="{ 'max-width': '550px'  }">
+          <InputGroup :style="{ 'max-width': '430px'  }">
             <InputGroupAddon>
                 <i class="pi pi-key"></i>
             </InputGroupAddon>
@@ -91,12 +91,12 @@
 import { defineModel, defineProps, ref } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
+import Select from 'primevue/select';
 import InputText from 'primevue/inputtext';
+import InputGroup from 'primevue/inputgroup';
 import InputNumber from 'primevue/inputnumber';
 import MultiSelect from 'primevue/multiselect';
-import Select from 'primevue/select';
 import ToggleButton from 'primevue/togglebutton';
-import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import type Form from '@/system/type/orderOfOperationType'
@@ -139,7 +139,6 @@ const formatValuesForSaveRelations = () => {
   display: flex;
   margin-top: 1rem;
 
-  max-width: 320px;
   justify-content: space-between;
  }
 
@@ -159,13 +158,5 @@ const formatValuesForSaveRelations = () => {
   justify-content: space-between;
  }
 
- .div_box_4 {
-  display: flex;
-  margin-top: 1rem;
-
-  max-width: 300px;
-  align-items: center;
-  justify-content: space-between;
- }
 
 </style>

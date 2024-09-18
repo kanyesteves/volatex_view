@@ -4,17 +4,11 @@
       <Dialog v-model:visible="visible" modal header="Editar Ordem de Operação" :style="{ width: '45rem' }">
 
         <div :class="$style.div_box" class="flex items-center">
-          <InputGroup :style="{ 'max-width': '320px'  }">
+          <InputGroup :style="{ 'max-width': '430px'  }">
             <InputGroupAddon>
                 <i class="pi pi-key"></i>
             </InputGroupAddon>
             <InputText placeholder="Código" id="code" :disabled="checkStatus()" v-model="form.code" class="flex-auto" autocomplete="off" />
-          </InputGroup>
-
-          <InputGroup :style="{ 'max-width': '130px'  }">
-            <Message v-if="form.status == 'open'" severity="success">Aberto</Message>
-            <Message v-if="form.status == 'in_progress'" severity="warn">Em Andamento</Message>
-            <Message v-if="form.status == 'closed'" severity="error">Fechado</Message>
           </InputGroup>
         </div>
 
@@ -98,19 +92,21 @@
 
 <script lang="ts" setup>
 import { defineModel, defineProps, watch, ref } from 'vue'
+import Knob from 'primevue/knob';
+import Divider from 'primevue/divider';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
+import Select from 'primevue/select';
 import InputText from 'primevue/inputtext';
+import InputGroup from 'primevue/inputgroup';
 import InputNumber from 'primevue/inputnumber';
 import MultiSelect from 'primevue/multiselect';
-import Select from 'primevue/select';
 import ToggleButton from 'primevue/togglebutton';
-import Message from 'primevue/message';
-import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import type Form from '@/system/type/orderOfOperationType'
 
+const value = ref(1822)
 const visible = defineModel()
 const props = defineProps([
   'customers',
@@ -181,7 +177,6 @@ const formatValuesForSaveRelations = () => {
   display: flex;
   margin-top: 1rem;
 
-  /* max-width: 470px; */
   justify-content: space-between;
  }
 
@@ -201,13 +196,5 @@ const formatValuesForSaveRelations = () => {
   justify-content: space-between;
  }
 
- .div_box_4 {
-  display: flex;
-  margin-top: 1rem;
-
-  max-width: 300px;
-  align-items: center;
-  justify-content: space-between;
- }
 
 </style>
