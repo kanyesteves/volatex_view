@@ -80,6 +80,25 @@
           </InputGroup>
         </div>
 
+        <Fieldset :legend="statusFormat(form.status)">
+          <div :class="$style.div_box_4">
+            <div :class="$style.div_box_graphs">
+              <Knob v-model="graphs.total_pieces" :max="form.total_pieces" :size="120" readonly />
+              <label for="total_pieces">Total de rolos</label>
+            </div>
+  
+            <div :class="$style.div_box_graphs">
+              <Knob v-model="graphs.total_weight" :max="form.total_weight" :size="120" readonly />
+              <label for="total_weight">Peso total</label>
+            </div>
+  
+            <div :class="$style.div_box_graphs">
+              <Knob v-model="value3" valueTemplate="{value}%" :size="120" :max="100" readonly />
+              <label for="invoicing">Faturamento</label>
+            </div>
+          </div>
+        </Fieldset>
+
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
           <Button v-if="!checkStatus()" :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" @click="onUpdateOP"></Button>
@@ -93,10 +112,10 @@
 <script lang="ts" setup>
 import { defineModel, defineProps, watch, ref } from 'vue'
 import Knob from 'primevue/knob';
-import Divider from 'primevue/divider';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import Select from 'primevue/select';
+import Fieldset from 'primevue/fieldset';
 import InputText from 'primevue/inputtext';
 import InputGroup from 'primevue/inputgroup';
 import InputNumber from 'primevue/inputnumber';
@@ -106,13 +125,14 @@ import InputGroupAddon from 'primevue/inputgroupaddon';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import type Form from '@/system/type/orderOfOperationType'
 
-const value = ref(1822)
+const value3 = ref(0)
 const visible = defineModel()
 const props = defineProps([
   'customers',
   'articles',
   'wires',
   'op',
+  'graphs',
   'customer_selected',
   'article_selected',
   'wires_selected'
@@ -131,6 +151,12 @@ watch(() => props.article_selected, (newValue) => {
 const wires_has_op = ref(props.wires_selected)
 watch(() => props.wires_selected, (newValue) => {
   wires_has_op.value = newValue
+})
+
+const graphs = ref({})
+watch(() => props.graphs, (newValue) => {
+  graphs.value = newValue
+  graphs.value.total_weight = graphs.value.total_weight.toFixed(1)
 })
 
 const form = ref<Form>(props.op)
@@ -163,6 +189,19 @@ const formatValuesForSaveRelations = () => {
   form.value.label_item = (!form.value.label_item) ? false : form.value.label_item
 }
 
+const statusFormat = (status) => {
+  let status_aux = status
+
+  if (status_aux == "open")
+    status = "Aberto"
+  else if (status_aux == "in_progress")
+    status = "Em andamento"
+  else
+    status = "Fechado"
+
+  return status
+}
+
 </script>
 
 <style module>
@@ -177,6 +216,7 @@ const formatValuesForSaveRelations = () => {
   display: flex;
   margin-top: 1rem;
 
+  max-width: 640px;
   justify-content: space-between;
  }
 
@@ -194,6 +234,20 @@ const formatValuesForSaveRelations = () => {
 
   max-width: 600px;
   justify-content: space-between;
+ }
+
+ .div_box_4 {
+  display: flex;
+  margin-top: 1rem;
+
+  max-width: 640px;
+  justify-content: space-around;
+ }
+
+ .div_box_graphs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
  }
 
 

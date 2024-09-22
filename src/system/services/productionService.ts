@@ -20,6 +20,14 @@ class productionService {
     }
 
   /**
+   * Busca de todas as informações para OP
+   * @return {Array} Data: Lista com todos as registros por ordem de operação
+   */
+  async getOpOptions(op: string): Promise<any>{
+    return api.get(`/productions/getOpOptions/${op}`)
+  }
+
+  /**
    * Busca um registro conforme o ID validando a permissão
    * @param {number} id: Id do registro para buscar as informações
    * @return {Array} Data: Informações do registro e código de sucesso ou erro

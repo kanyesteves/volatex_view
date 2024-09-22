@@ -26,7 +26,8 @@
     :customers="customers"
     :articles="articles"
     :wires="wires"
-    :op="op_selected" />
+    :op="op_selected"
+    :graphs="graphs" />
 
   <CloseOrderOfOperation
     v-model="done_op" 
@@ -44,6 +45,7 @@ import SaveOrderOfOperation from '@/system/pages/orderOfOperation/SaveOrderOfOpe
 import UpdateOrderOfOperation from '@/system/pages/orderOfOperation/UpdateOrderOfOperation.vue';
 import CloseOrderOfOperation from '@/system/pages/orderOfOperation/CloseOrderOfOperation.vue';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
+import productionService from '@/system/services/productionService';
 import customerService from '@/system/services/customerService';
 import articleService from '@/system/services/articleService';
 import wireService from '@/system/services/wireService';
@@ -86,6 +88,7 @@ const onNewOp = () => {
 const edit_op = ref(false)
 const onEditOp = () => {
   getOpById()
+  getOpGraphs()
   edit_op.value = true
 }
 
@@ -98,6 +101,15 @@ const onDoneOp = () => {
 const customer_selected = ref()
 const article_selected = ref()
 const wires_selected = ref()
+
+const graphs = ref({})
+const getOpGraphs = async () => {
+  await productionService.getOpOptions(op_selected.value.code).then(async (response) => {
+    if (response.status == 200) {
+      graphs.value = response.data
+    }
+  })
+}
 
 const getOpById = debounce(async () => {
   await orderOfOperationService.get(op_selected.value.id).then(async (response) => {
