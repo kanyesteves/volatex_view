@@ -8,4 +8,5 @@ export interface Form {
   total_weight: number | undefined
   status: string | undefined
   label_item: boolean | undefined
+  wire_porcentage: JSON | undefined
 }

@@ -66,7 +66,8 @@ const op_selected = ref({
   total_pieces: 0,
   status: '',
   label_item: false,
-  date_closed: ''
+  date_closed: '',
+  wire_porcentage: []
 });
 
 const rowSelected = (event) => {
@@ -122,6 +123,7 @@ const getOpById = debounce(async () => {
       op_selected.value.status = response.data.status
       op_selected.value.label_item = response.data.label_item
       op_selected.value.date_closed = formatDateClosed(response.data.date_closed)
+      op_selected.value.wire_porcentage = response.data.wire_porcentage
       customer_selected.value = response.data.customer[0]
       article_selected.value = response.data.article[0]
       wires_selected.value = response.data.wires

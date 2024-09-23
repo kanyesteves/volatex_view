@@ -4,7 +4,7 @@
   </div>
 
   <Card :class="$style.cardbox">
-    <template #title>Registro de peças</template>
+    <template #title>Registro de rolos</template>
     <template #content>
 
       <div class="card flex justify-center">

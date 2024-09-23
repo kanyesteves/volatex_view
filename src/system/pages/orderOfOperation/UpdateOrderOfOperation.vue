@@ -32,7 +32,7 @@
                 <i class="pi pi-sliders-h"></i>
             </InputGroupAddon>
             <MultiSelect v-model="wires_has_op" :options="props.wires" :disabled="checkStatus()" optionLabel="name" filter placeholder="Fios"
-            :maxSelectedLabels="3" class="w-full md:w-80" />
+            :maxSelectedLabels="3" @change="updatePorcentage(wires_has_op)" class="w-full md:w-80" />
           </InputGroup>
         </div>
 
@@ -79,6 +79,20 @@
               </InputGroupAddon>
           </InputGroup>
         </div>
+
+        <Fieldset legend="Porcentagem de cada fio">
+          <div :class="$style.div_box_porcentages">
+            <InputGroup :style="{ 'max-width': '200px' }" v-for="porcentage of porcentages" :key="porcentage.name">
+              <InputGroupAddon>{{ porcentage.name }}</InputGroupAddon>
+              <InputNumber 
+                id="porcentage" 
+                :disabled="checkStatus()"
+                v-model="porcentage.value"
+                :minFractionDigits="2" :maxFractionDigits="5"
+                class="flex-auto" autocomplete="off" />
+            </InputGroup>
+          </div>
+        </Fieldset>
 
         <Fieldset :legend="statusFormat(form.status)">
           <div :class="$style.div_box_4">
@@ -161,6 +175,11 @@ watch(() => props.graphs, (newValue) => {
 
 const form = ref<Form>(props.op)
 
+const porcentages = ref([])
+watch(() => form.value.wire_porcentage, (newValue) => {
+  porcentages.value = newValue
+})
+
 const onUpdateOP = async () => {
   formatValuesForSaveRelations()
 
@@ -187,6 +206,7 @@ const formatValuesForSaveRelations = () => {
   form.value.article = article_has_op.value.id
   form.value.wires = wires_has_op.value.map(item => item.id)
   form.value.label_item = (!form.value.label_item) ? false : form.value.label_item
+  form.value.wire_porcentage = porcentages.value
 }
 
 const statusFormat = (status) => {
@@ -202,16 +222,38 @@ const statusFormat = (status) => {
   return status
 }
 
+const updatePorcentage = (event) => {
+
+if (porcentages.value == 0) {
+
+  event.forEach(element => {
+    porcentages.value.push({
+      "name": element.name,
+      "value": (100 / event.length).toFixed(2)
+    })
+  });
+
+} else {
+
+  porcentages.value = []
+  event.forEach(element => {
+    porcentages.value.push({
+      "name": element.name,
+      "value": (100 / event.length).toFixed(2)
+    })
+  });
+
+}
+}
+
 </script>
 
 <style module>
-
  .space_bottons {
   display: flex;
   justify-content: end;
   margin-top: 1.5rem;
  }
-
  .div_box {
   display: flex;
   margin-top: 1rem;
@@ -219,7 +261,6 @@ const statusFormat = (status) => {
   max-width: 640px;
   justify-content: space-between;
  }
-
  .div_box_2 {
   display: flex;
   margin-top: 1rem;
@@ -227,7 +268,6 @@ const statusFormat = (status) => {
   max-width: 650px;
   justify-content: space-between;
  }
-
  .div_box_3 {
   display: flex;
   margin-top: 1rem;
@@ -235,7 +275,6 @@ const statusFormat = (status) => {
   max-width: 600px;
   justify-content: space-between;
  }
-
  .div_box_4 {
   display: flex;
   margin-top: 1rem;
@@ -249,6 +288,9 @@ const statusFormat = (status) => {
   flex-direction: column;
   align-items: center;
  }
-
-
+ .div_box_porcentages {
+  display: flex !important;
+  justify-content: space-around;
+  align-items: center !important;
+ }
 </style>
