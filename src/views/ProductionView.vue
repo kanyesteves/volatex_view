@@ -113,7 +113,6 @@ import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import programingService from '@/system/services/programingService';
 import operatorService from '@/system/services/operatorService';
 import productionService from '@/system/services/productionService'
-import orderOfOperationService from '@/system/services/orderOfOperationService';
 import type Form from '@/system/type/productionType'
 
 const form = ref<Form>({})
