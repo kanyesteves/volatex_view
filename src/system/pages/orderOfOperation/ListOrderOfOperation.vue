@@ -2,6 +2,7 @@
   <div class="card">
     <DataTable
       stripedRows scrollable
+      paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
       v-model:selection="opSelected"
       :scroll-height="screenHeight"
       :value="ops"

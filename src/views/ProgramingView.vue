@@ -1,27 +1,29 @@
 <template>
-  <GlobalToolbar />
-  <Card :class="$style.tolbarbox" class="programing">
-    <template #content>
-      <ToolbarPrograming
-        v-model="setVisibleToolbar"
-        @onNewPrograming="onNewPrograming" 
-        @onRemovePrograming="onRemovePrograming" />
+  <div class="programing">
+    <GlobalToolbar />
+
+    <Card :class="$style.tolbarbox" class="programing">
+      <template #content>
+        <ToolbarPrograming
+          v-model="setVisibleToolbar"
+          @onNewPrograming="onNewPrograming" 
+          @onRemovePrograming="onRemovePrograming" />
+    
+        <ListPrograming
+          @selected="rowSelected" 
+          @unselected="rowUnSelected" />
+      </template>
+    </Card>
   
-      <ListPrograming
-        @selected="rowSelected" 
-        @unselected="rowUnSelected" />
-    </template>
-  </Card>
-
-  <SavePrograming
-    v-model="new_programing"
-    :teares="teares"
-    :ops="ops" />
-
-  <DeletePrograming
-    v-model="remove_programing" 
-    :programing="programing_selected" />
-
+    <SavePrograming
+      v-model="new_programing"
+      :teares="teares"
+      :ops="ops" />
+  
+    <DeletePrograming
+      v-model="remove_programing" 
+      :programing="programing_selected" />
+  </div>
 </template>
 
 <script lang="ts" setup>
