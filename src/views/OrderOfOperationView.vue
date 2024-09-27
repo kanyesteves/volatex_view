@@ -1,42 +1,48 @@
 <template>
-  <GlobalToolbar />
   <div class="orderOfOperatios">
-    <ToolbarOrderOfOperation
-      v-model="setVisibleToolbar"
-      @onNewOp="onNewOp" 
-      @onEditOp="onEditOp" 
-      @onDoneOp="onDoneOp" />
+    <GlobalToolbar />
 
-    <ListOrderOfOperation
-      @selected="rowSelected" 
-      @unselected="rowUnSelected" />
-  </div>
+    <Card :class="$style.tolbarbox" class="card">
+      <template #content>
+        <ToolbarOrderOfOperation
+          v-model="setVisibleToolbar"
+          @onNewOp="onNewOp" 
+          @onEditOp="onEditOp" 
+          @onDoneOp="onDoneOp" />
+    
+        <ListOrderOfOperation
+          @selected="rowSelected" 
+          @unselected="rowUnSelected" />
+      </template>
+    </Card>
 
-  <SaveOrderOfOperation
-    v-model="new_op" 
-    :customers="customers"
-    :articles="articles"
-    :wires="wires" />
-
-  <UpdateOrderOfOperation
-    v-model="edit_op"
-    :customer_selected="customer_selected"
-    :article_selected="article_selected"
-    :wires_selected="wires_selected"
-    :customers="customers"
-    :articles="articles"
-    :wires="wires"
-    :op="op_selected"
-    :graphs="graphs" />
-
-  <CloseOrderOfOperation
-    v-model="done_op" 
-    :op="op_selected"/>
+    <SaveOrderOfOperation
+      v-model="new_op" 
+      :customers="customers"
+      :articles="articles"
+      :wires="wires" />
   
+    <UpdateOrderOfOperation
+      v-model="edit_op"
+      :customer_selected="customer_selected"
+      :article_selected="article_selected"
+      :wires_selected="wires_selected"
+      :customers="customers"
+      :articles="articles"
+      :wires="wires"
+      :op="op_selected"
+      :graphs="graphs" />
+  
+    <CloseOrderOfOperation
+      v-model="done_op" 
+      :op="op_selected"/>
+
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
+import Card from 'primevue/card';
 import { debounce } from 'lodash'
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarOrderOfOperation from '@/system/pages/orderOfOperation/ToolbarOrderOfOperation.vue';
@@ -169,3 +175,9 @@ const formatDateClosed = (date_closed: any) => {
 }
 
 </script>
+
+<style module>
+.tolbarbox {
+  margin-top: 1rem;
+}
+</style>

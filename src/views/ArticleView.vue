@@ -1,31 +1,37 @@
 <template>
-  <GlobalToolbar />
   <div class="article">
-    <ToolbarArticle
-      v-model="setVisibleToolbar"
-      @onNewArticle="onNewArticle" 
-      @onEditArticle="onEditArticle" 
-      @onRemoveArticle="onRemoveArticle" />
+    <GlobalToolbar />
+    <Card :class="$style.tolbarbox" class="article">
+      <template #content>
+        <ToolbarArticle
+          v-model="setVisibleToolbar"
+          @onNewArticle="onNewArticle" 
+          @onEditArticle="onEditArticle" 
+          @onRemoveArticle="onRemoveArticle" />
+    
+        <ListArticle
+          @selected="rowSelected" 
+          @unselected="rowUnSelected" />
+      </template>
+    </Card>
+  
+    <SaveArticle
+      v-model="new_article" />
+  
+    <UpdateArticle 
+      v-model="edit_article" 
+      :article="article_selected" />
+  
+    <DeleteArticle
+      v-model="remove_article"
+      :article="article_selected" />
 
-    <ListArticle
-      @selected="rowSelected" 
-      @unselected="rowUnSelected" />
   </div>
-
-  <SaveArticle
-    v-model="new_article" />
-
-  <UpdateArticle 
-    v-model="edit_article" 
-    :article="article_selected" />
-
-  <DeleteArticle
-    v-model="remove_article"
-    :article="article_selected" />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import Card from 'primevue/card';
 import { debounce } from 'lodash'
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarArticle from '@/system/pages/article/ToolbarArticle.vue';
@@ -82,3 +88,9 @@ const getArticleById = debounce(async () => {
 
 
 </script>
+
+<style module>
+.tolbarbox {
+  margin-top: 1rem;
+}
+</style>

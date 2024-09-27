@@ -1,15 +1,17 @@
 <template>
   <GlobalToolbar />
-  <div class="programing">
-    <ToolbarPrograming
-      v-model="setVisibleToolbar"
-      @onNewPrograming="onNewPrograming" 
-      @onRemovePrograming="onRemovePrograming" />
-
-    <ListPrograming
-      @selected="rowSelected" 
-      @unselected="rowUnSelected" />
-  </div>
+  <Card :class="$style.tolbarbox" class="programing">
+    <template #content>
+      <ToolbarPrograming
+        v-model="setVisibleToolbar"
+        @onNewPrograming="onNewPrograming" 
+        @onRemovePrograming="onRemovePrograming" />
+  
+      <ListPrograming
+        @selected="rowSelected" 
+        @unselected="rowUnSelected" />
+    </template>
+  </Card>
 
   <SavePrograming
     v-model="new_programing"
@@ -25,6 +27,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { debounce } from 'lodash'
+import Card from 'primevue/card';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarPrograming from '@/system/pages/programing/ToolbarPrograming.vue'
 import ListPrograming from '@/system/pages/programing/ListPrograming.vue'
@@ -85,3 +88,9 @@ const getAllOps = debounce(async () => {
 })
 
 </script>
+
+<style module>
+.tolbarbox {
+  margin-top: 1rem;
+}
+</style>

@@ -2,17 +2,19 @@
   <div class="group">
     <GlobalToolbar />
 
-    <div class="card">
-      <ToolbarGroup
-        v-model="setVisibleToolbar"
-        @onNewGroup="onNewGroup" 
-        @onEditGroup="onEditGroup" 
-        @onRemoveGroup="onRemoveGroup" />
-
-      <ListGroup
-        @selected="rowSelected" 
-        @unselected="rowUnSelected" />
-    </div>
+    <Card :class="$style.tolbarbox" class="card">
+      <template #content>
+        <ToolbarGroup
+          v-model="setVisibleToolbar"
+          @onNewGroup="onNewGroup" 
+          @onEditGroup="onEditGroup" 
+          @onRemoveGroup="onRemoveGroup" />
+  
+        <ListGroup
+          @selected="rowSelected" 
+          @unselected="rowUnSelected" />
+      </template>
+      </Card>
 
     <SaveGroup
       v-model="new_group" 
@@ -33,6 +35,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import Card from 'primevue/card';
 import { debounce } from 'lodash'
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ListGroup from '@/system/pages/group/ListGroup.vue';
@@ -110,3 +113,9 @@ const getAllUsers = debounce(async () => {
 })
 
 </script>
+
+<style module>
+.tolbarbox {
+  margin-top: 1rem;
+}
+</style>

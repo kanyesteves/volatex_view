@@ -1,15 +1,20 @@
 <template>
   <div class="operator">
     <GlobalToolbar />
-    <ToolbarOperator
-      v-model="setVisibleToolbar"
-      @onNewOperator="onNewOperator" 
-      @onEditOperator="onEditOperator" 
-      @onRemoveOperator="onRemoveOperator" />
 
-    <ListOperator
-      @selected="rowSelected" 
-      @unselected="rowUnSelected" />
+    <Card :class="$style.tolbarbox" class="card">
+      <template #content>
+        <ToolbarOperator
+          v-model="setVisibleToolbar"
+          @onNewOperator="onNewOperator" 
+          @onEditOperator="onEditOperator" 
+          @onRemoveOperator="onRemoveOperator" />
+    
+        <ListOperator
+          @selected="rowSelected" 
+          @unselected="rowUnSelected" />
+      </template>
+    </Card>
 
     </div>
 
@@ -28,6 +33,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import Card from 'primevue/card';
 import { debounce } from 'lodash';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarOperator from '@/system/pages/operator/ToolbarOperator.vue';
@@ -100,3 +106,9 @@ const formatDataTurn = (turn) => {
 }
 
 </script>
+
+<style module>
+.tolbarbox {
+  margin-top: 1rem;
+}
+</style>

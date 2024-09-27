@@ -2,17 +2,19 @@
   <div class="user">
     <GlobalToolbar />
 
-    <div class="card">
-      <ToolbarUser
-        v-model="setVisibleToolbar"
-        @onNewUser="onNewUser" 
-        @onEditUser="onEditUser" 
-        @onRemoveUser="onRemoveUser" />
-
-      <ListUser 
-        @selected="rowSelected" 
-        @unselected="rowUnSelected" />
-    </div>
+    <Card :class="$style.tolbarbox" class="card">
+      <template #content>
+        <ToolbarUser
+          v-model="setVisibleToolbar"
+          @onNewUser="onNewUser" 
+          @onEditUser="onEditUser" 
+          @onRemoveUser="onRemoveUser" />
+  
+        <ListUser 
+          @selected="rowSelected" 
+          @unselected="rowUnSelected" />
+      </template>
+      </Card>
 
     <SaveUser 
       v-model="new_user" />
@@ -30,6 +32,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import Card from 'primevue/card';
 import { debounce } from 'lodash';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarUser from '../system/pages/user/ToolbarUser.vue';
@@ -86,3 +89,9 @@ const getUserById = debounce(async () => {
 });
 
 </script>
+
+<style module>
+.tolbarbox {
+  margin-top: 1rem;
+}
+</style>

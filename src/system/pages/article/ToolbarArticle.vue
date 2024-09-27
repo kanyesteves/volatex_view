@@ -1,6 +1,6 @@
 <template>
   <div class=" card">
-    <Toolbar :class="$style.tolbarbox">
+    <Toolbar>
       <template #start>
         <Button size="small" label="Novo" raised @click="emit('onNewArticle')" />
         <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Editar" severity="info" raised @click="emit('onEditArticle')" />
@@ -25,10 +25,6 @@ const emit = defineEmits(['onNewArticle', 'onEditArticle', 'onRemoveArticle'])
 </script>
 
 <style module>
-  .tolbarbox {
-    margin-top: 1rem;
-  }
-
   .buttons {
     margin-left: 1rem;
   }
