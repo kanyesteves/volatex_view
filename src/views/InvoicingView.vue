@@ -6,17 +6,21 @@
       <template #content>
         <Tabs value="0">
           <TabList>
-              <Tab value="0">Faturar OP</Tab>
+              <Tab value="0">Faturar Ordem de Operação</Tab>
               <Tab value="1">Ralatório de faturamentos</Tab>
           </TabList>
           <TabPanels>
+
             <TabPanel value="0">
-              <InputGroup :style="{ 'max-width': '350px' }">
-                <InputGroupAddon>
-                  <i class="pi pi-stopwatch"></i>
-                </InputGroupAddon>
-                <Select v-model="op" :options="ops" optionLabel="code" v-on:change="getProductionByOp(op)" filter placeholder="Ordens de Operação" class="w-full md:w-80" />
-              </InputGroup>
+              <div :class="$style.box_invoiced">
+                <InputGroup :style="{ 'max-width': '350px' }">
+                  <InputGroupAddon>
+                    <i class="pi pi-stopwatch"></i>
+                  </InputGroupAddon>
+                  <Select v-model="op" :options="ops" optionLabel="code" v-on:change="getProductionByOp(op)" filter placeholder="Ordens de Operação" class="w-full md:w-80" />
+                </InputGroup>
+                <Button :disabled="records_for_invoice.length < 1" :style="{ 'margin-left': '2rem' }" type="button" @click="visible = true" label="Faturar peças"></Button>
+              </div>
               <Divider />
 
               <Message v-if="!productions">Selecione uma <b>Orderm de Operação</b></Message>
@@ -48,15 +52,22 @@
 
               </DataTable>
             </TabPanel>
+
+
             <TabPanel value="1">
-              <p class="m-0">
-                Tabela para salvar todos os faturamentos registrados
-              </p>
+              <Message severity="warn">Nenhum faturamento foi registrado.</Message>
             </TabPanel>
+
           </TabPanels>
         </Tabs>
       </template>
     </Card>
+
+    <SaveInvoicing 
+      v-model="visible"
+      :op="op"
+      :records_for_invoice="records_for_invoice" />
+
   </div>
 
 </template>
@@ -68,6 +79,7 @@ import Tab from 'primevue/tab';
 import Tag from 'primevue/tag';
 import Tabs from 'primevue/tabs';
 import Card from 'primevue/card';
+import Button from 'primevue/button';
 import Column from 'primevue/column';
 import Select from 'primevue/select';
 import TabList from 'primevue/tablist';
@@ -81,18 +93,19 @@ import InputGroupAddon from 'primevue/inputgroupaddon';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import productionService from '@/system/services/productionService';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
+import SaveInvoicing from '@/system/pages/invoicing/SaveInvoicing.vue'
 
 onMounted(() => {
   getAllOps()
   responsiveScreen();
 })
 
+const visible = ref(false)
 const op = ref()
 const ops = ref([])
 const productions = ref()
 const recordSelected = ref()
 const records_for_invoice = ref([])
-
 
 const getAllOps = debounce(async () => {
   await orderOfOperationService.getAllOpenAndInProgress().then((response) => {
@@ -119,11 +132,15 @@ const getProductionByOp = debounce(async (op) => {
 })
 
 const onRowSelect = (event) => {
-  console.log(event)
+  records_for_invoice.value.push(event.data)
 };
 
 const onRowUnSelect = (event) => {
-  console.log(event)
+  const index = records_for_invoice.value.findIndex(item => item === event.data);
+
+  if (index !== -1) {
+    records_for_invoice.value.splice(index, 1);
+  }
 };
 
 const getSeverity = (status) => {
@@ -139,13 +156,11 @@ const getSeverity = (status) => {
   }
 };
 
-
 // ------------------------------------------
 
 const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()
 const responsiveScreen = () => {
-  console.log(windowHeight.value)
   if (windowHeight.value <= 820) {
     screenHeight.value = "425px"
   }
@@ -156,5 +171,8 @@ const responsiveScreen = () => {
 <style module>
 .cardbox {
   margin-top: 1rem;
+}
+.box_invoiced {
+  display: flex;
 }
 </style>
