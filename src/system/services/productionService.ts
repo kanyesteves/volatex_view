@@ -12,12 +12,20 @@ class productionService {
   }
 
   /**
+   * Busca o ultimo o registro da ordem de operação
+   * @return {Array} Data: Lista com todos as registros por ordem de operação
+   */
+  async getLastRecordByOp(op: string): Promise<any>{
+      return api.get(`/productions/getLastRecordByOp/${op}`)
+  }
+
+  /**
    * Busca de todos os registros por ordem de operação
    * @return {Array} Data: Lista com todos as registros por ordem de operação
    */
-  async getAllRecordsByOp(op: string): Promise<any>{
+    async getAllRecordsByOp(op: string): Promise<any>{
       return api.get(`/productions/getAllRecordsByOp/${op}`)
-    }
+  }
 
   /**
    * Busca de todas as informações para OP

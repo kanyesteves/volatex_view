@@ -7,7 +7,7 @@
       </template>
 
       <template #center>
-        <h1>CONTROLE DE PRODUÇÃO - VOLATEX MALHAS</h1>
+        <h1>AuraTêxtil</h1>
       </template>
 
       <template #end>

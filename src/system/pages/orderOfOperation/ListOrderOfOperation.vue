@@ -13,7 +13,19 @@
       tableStyle="min-width: 50rem">
 
       <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-      <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
+      <Column field="status" header="Status">
+        <template #body="slotProps">
+          <Tag :value="slotProps.data.status" :severity="getSeverity(slotProps.data)" />
+        </template>
+      </Column>
+      <Column field="code" header="Código"></Column>
+      <Column field="weight_per_piece" header="Peso por peça"></Column>
+      <Column field="customer" header="Cliente"></Column>
+      <Column field="article" header="Artigo"></Column>
+      <Column field="wires" header="Fios"></Column>
+      <Column field="total_weight" header="Peso total"></Column>
+      <Column field="total_pieces" header="Total de peças"></Column>
+      <Column field="date_open" header="Data de abertura"></Column>
 
     </DataTable>
   </div>
@@ -22,6 +34,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, defineEmits } from 'vue'
 import DataTable from 'primevue/datatable';
+import Tag from 'primevue/tag';
 import Column from 'primevue/column';
 import { debounce } from 'lodash';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
@@ -37,18 +50,6 @@ const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()
 const opSelected = ref();
 const ops = ref([]);
-
-const columns = [
-  { field: 'status', header: 'Status' },
-  { field: 'code', header: 'Código' },
-  { field: 'weight_per_piece', header: 'Peso por peça' },
-  { field: 'customer', header: 'Cliente' },
-  { field: 'article', header: 'Artigo' },
-  { field: 'wires', header: 'Fios' },
-  { field: 'total_weight', header: 'Peso total' },
-  { field: 'total_pieces', header: 'Total de peças' },
-  { field: 'date_open', header: 'Data de abertura' }
-];
 
 const onRowSelect = (event) => {
   emit('selected', event)
@@ -89,6 +90,22 @@ const onLoadOps = debounce(async () => {
     }
   })
 });
+
+const getSeverity = (element) => {
+  switch (element.status) {
+    case 'Aberto':
+      return 'success';
+
+    case 'Em andamento':
+      return 'warn';
+
+    case 'Fechado':
+      return 'danger';
+
+    default:
+      return null;
+  }
+};
 
 const responsiveScreen = () => {
   if (windowHeight.value === 993)

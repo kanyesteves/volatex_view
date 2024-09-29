@@ -180,7 +180,7 @@ const getWeight = (event) => {
 }
 
 const getCodePerPieceOfOp = async (op_name) => {
-  await productionService.getAllRecordsByOp(op_name).then((response) => {
+  await productionService.getLastRecordByOp(op_name).then((response) => {
     if (response.status == 200) {
       let data = response.data.code_per_piece 
 
