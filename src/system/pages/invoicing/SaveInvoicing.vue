@@ -15,32 +15,34 @@
 
     <div :class="$style.infos_of_op">
       <div>
-        <InputGroup :style="{ 'max-width': '180px' }">
+        <InputGroup :class="$style.div_info" :style="{ 'max-width': '180px' }">
           <InputGroupAddon>Cliente</InputGroupAddon>
           <InputText v-model="customer" disabled />
         </InputGroup>
 
-        <InputGroup :style="{ 'max-width': '230px' }">
+        <InputGroup :class="$style.div_info" :style="{ 'max-width': '230px' }">
           <InputGroupAddon>Ordem de Operação</InputGroupAddon>
           <InputText v-model="op.code" disabled />
         </InputGroup>
     
-        <InputGroup :style="{ 'max-width': '180px' }">
+        <InputGroup :class="$style.div_info" :style="{ 'max-width': '180px' }">
           <InputGroupAddon>Artigo</InputGroupAddon>
           <InputText v-model="article" disabled />
         </InputGroup>
-
-        <InputGroup :style="{ 'max-width': '180px' }">
-          <InputGroupAddon>Peso total</InputGroupAddon>
-          <InputText v-model="total_weight" disabled />
-        </InputGroup>
       </div>
   
-      <div v-for="porcentage of porcentage_wire" :key="porcentage.name">
-        <InputGroup :style="{ 'max-width': '230px' }">
+      <div :class="$style.div_porcentage">
+        <InputGroup :class="$style.div_info" :style="{ 'max-width': '200px' }">
+          <InputGroupAddon>Peso total</InputGroupAddon>
+          <InputText v-model="total_weight" disabled />
+          <InputGroupAddon>Kg</InputGroupAddon>
+        </InputGroup>
+
+        <InputGroup v-for="porcentage of weight_per_porcentage" :key="porcentage.name" :style="{ 'margin-top': '1rem', 'max-width': '250px' }">
           <InputGroupAddon>{{ porcentage.name }}</InputGroupAddon>
-          <InputText v-model="customer" disabled />
           <InputGroupAddon>{{ porcentage.value + '%' }}</InputGroupAddon>
+          <InputText v-model="porcentage.weight" disabled />
+          <InputGroupAddon>Kg</InputGroupAddon>
         </InputGroup>
       </div>
     </div>
@@ -66,22 +68,20 @@ import InputGroupAddon from 'primevue/inputgroupaddon';
 
 const visible = defineModel()
 const props = defineProps([
-  'op', 
-  'records_for_invoice'
+  'op',
+  'records_for_invoice',
+  'total_weight',
+  'weight_per_porcentage'
 ])
 const op = ref(props.op)
 const customer = ref('')
 const article = ref('')
-const porcentage_wire = ref([])
-const total_weight = ref(0.0)
-
 
 watch(() => props.op, (newValue) => {
   op.value = newValue
 
   customer.value = op.value.customer.map(item => item.name).join(', ')
   article.value = op.value.article.map(item => item.name).join(', ')
-  porcentage_wire.value = op.value.wire_porcentage
 })
 
 const records_for_invoice = ref(props.records_for_invoice)
@@ -89,9 +89,15 @@ watch(() => props.records_for_invoice, (newValue) => {
   records_for_invoice.value = newValue
 })
 
-const getValuesOfProduction = (records) => {
-  console.log(records)
-}
+const total_weight = ref(props.total_weight)
+watch(() => props.total_weight, (newValue) => {
+  total_weight.value = newValue
+})
+
+const weight_per_porcentage = ref(props.weight_per_porcentage)
+watch(() => props.weight_per_porcentage, (newValue) => {
+  weight_per_porcentage.value = newValue
+})
 
 const onSaveInvoincing = () => {
   console.log('Exportando...')
@@ -100,6 +106,14 @@ const onSaveInvoincing = () => {
 </script>
 
 <style module>
+  .div_porcentage {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2rem;
+  }
+  .div_info {
+    margin-top: 1rem;
+  }
   .infos_of_op {
     display: flex;
   }

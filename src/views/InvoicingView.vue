@@ -19,7 +19,7 @@
                   </InputGroupAddon>
                   <Select v-model="op" :options="ops" optionLabel="code" v-on:change="getProductionByOp(op)" filter placeholder="Ordens de Operação" class="w-full md:w-80" />
                 </InputGroup>
-                <Button :disabled="records_for_invoice.length < 1" :style="{ 'margin-left': '2rem' }" type="button" @click="visible = true" label="Faturar peças"></Button>
+                <Button :disabled="records_for_invoice.length < 1" :style="{ 'margin-left': '2rem' }" type="button" @click="calcRecords()" label="Faturar peças"></Button>
               </div>
               <Divider />
 
@@ -66,6 +66,8 @@
     <SaveInvoicing 
       v-model="visible"
       :op="op"
+      :total_weight="total_weight"
+      :weight_per_porcentage="weight_per_porcentage"
       :records_for_invoice="records_for_invoice" />
 
   </div>
@@ -131,7 +133,23 @@ const getProductionByOp = debounce(async (op) => {
   })
 })
 
+const total_weight = ref(0)
+const weight_per_porcentage = ref([])
+
+const calcRecords = () => {
+  visible.value = true
+  const totalWeight = total_weight.value;
+
+  weight_per_porcentage.value = op.value.wire_porcentage.map(({ name, value }) => ({
+    name,
+    value,
+    weight: ((value / 100) * totalWeight).toFixed(2)
+  }));
+
+}
+
 const onRowSelect = (event) => {
+  total_weight.value += event.data.weight
   records_for_invoice.value.push(event.data)
 };
 
@@ -140,6 +158,7 @@ const onRowUnSelect = (event) => {
 
   if (index !== -1) {
     records_for_invoice.value.splice(index, 1);
+    total_weight.value -= event.data.weight
   }
 };
 
