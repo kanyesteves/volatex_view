@@ -55,7 +55,33 @@
 
 
             <TabPanel value="1">
-              <Message severity="warn">Nenhum faturamento foi registrado.</Message>
+              <div :class="$style.box_invoiced">
+                <Button :disabled="invoicingSelected == undefined" type="button" @click="calcRecords()" label="Visualizar faturamento"></Button>
+              </div>
+              <Divider />
+
+              <Message v-if="all_invoicings.length == 0" severity="warn">Nenhum faturamento foi registrado.</Message>
+
+              <DataTable v-else
+                stripedRows scrollable
+                paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
+                v-model:selection="invoicingSelected"
+                :scroll-height="screenHeight"
+                :value="all_invoicings"
+                :metaKeySelection="false"
+                @rowSelect="onRowInvoicingSelect"
+                @rowUnselect="onRowInvoicingUnSelect"
+                dataKey="id"
+                tableStyle="min-width: 50rem">
+
+                <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
+                <Column field="customer" header="Cliente"></Column>
+                <Column field="article" header="Artigo"></Column>
+                <Column field="op" header="Ordem de Operação"></Column>
+                <Column field="total_weight" header="Peso total"></Column>
+                <Column field="date" header="Data"></Column>
+
+              </DataTable>
             </TabPanel>
 
           </TabPanels>
@@ -95,18 +121,24 @@ import InputGroupAddon from 'primevue/inputgroupaddon';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import productionService from '@/system/services/productionService';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
+import invoicingService from '@/system/services/invoicingService';
 import SaveInvoicing from '@/system/pages/invoicing/SaveInvoicing.vue'
 
 onMounted(() => {
   getAllOps()
+  loadAllInvoicings();
   responsiveScreen();
+  console.log(invoicingSelected.value)
+
 })
 
 const visible = ref(false)
 const op = ref()
 const ops = ref([])
+const all_invoicings = ref([])
 const productions = ref()
 const recordSelected = ref()
+const invoicingSelected = ref()
 const records_for_invoice = ref([])
 
 const getAllOps = debounce(async () => {
@@ -177,6 +209,22 @@ const getSeverity = (status) => {
       return null;
   }
 };
+
+const onRowInvoicingSelect = (event) => {
+  invoicingSelected.value = event.data
+}
+
+const onRowInvoicingUnSelect = (event) => {
+  // invoicingSelected.value = event.data
+}
+
+const loadAllInvoicings = async () => {
+  await invoicingService.getAll().then((response) => {
+    if (response.status == 200) {
+      all_invoicings.value = response.data
+    }
+  })
+}
 
 // ------------------------------------------
 
