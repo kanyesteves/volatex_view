@@ -65,7 +65,10 @@ import DataTable from 'primevue/datatable';
 import InputText from 'primevue/inputtext';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
+import invoicingService from '@/system/services/invoicingService';
+import type Form from '@/system/type/invoicingType'
 
+const form = ref<Form>({})
 const visible = defineModel()
 const props = defineProps([
   'op',
@@ -99,8 +102,27 @@ watch(() => props.weight_per_porcentage, (newValue) => {
   weight_per_porcentage.value = newValue
 })
 
-const onSaveInvoincing = () => {
+
+const onSaveInvoincing = async () => {
   console.log('Exportando...')
+  formatValues()
+
+  await invoicingService.save(form.value).then(async (response) => {
+
+    if (response.status === 201) {
+      visible.value = false
+      location.reload()
+    }
+  })
+}
+
+const formatValues = () => {
+  form.value.records = records_for_invoice.value
+  form.value.weight_per_wire = weight_per_porcentage.value
+  form.value.total_weight = total_weight.value
+  form.value.customer = customer.value
+  form.value.article = article.value
+  form.value.op = op.value.code
 }
 
 </script>

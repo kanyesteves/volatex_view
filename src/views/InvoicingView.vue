@@ -150,7 +150,10 @@ const calcRecords = () => {
 
 const onRowSelect = (event) => {
   total_weight.value += event.data.weight
-  records_for_invoice.value.push(event.data)
+
+  if (event.data.invoiced == 'Não')
+    records_for_invoice.value.push(event.data)
+
 };
 
 const onRowUnSelect = (event) => {
