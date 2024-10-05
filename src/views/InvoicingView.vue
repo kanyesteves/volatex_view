@@ -128,8 +128,6 @@ onMounted(() => {
   getAllOps()
   loadAllInvoicings();
   responsiveScreen();
-  console.log(invoicingSelected.value)
-
 })
 
 const visible = ref(false)

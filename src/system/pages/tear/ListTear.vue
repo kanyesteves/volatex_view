@@ -13,7 +13,13 @@
       tableStyle="min-width: 50rem">
 
       <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-      <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
+      <Column field="status" header="Status">
+        <template #body="slotProps">
+          <Tag :value="slotProps.data.status" :severity="getSeverity(slotProps.data)" />
+        </template>
+      </Column>
+      <Column field="name" header="Nome"></Column>
+      <Column field="model" header="Modelo"></Column>
 
     </DataTable>
   </div>
@@ -21,9 +27,10 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, defineEmits } from 'vue'
+import Tag from 'primevue/tag';
+import { debounce } from 'lodash';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import { debounce } from 'lodash';
 import tearService from '@/system/services/tearService';
 
 const emit = defineEmits(['selected', 'unselected'])
@@ -37,12 +44,6 @@ const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()
 const tearSelected = ref();
 const teares = ref([]);
-
-const columns = [
-  { field: 'status', header: 'Status' },
-  { field: 'name', header: 'Nome' },
-  { field: 'model', header: 'Modelo' },
-];
 
 const onRowSelect = (event) => {
   emit('selected', event)
@@ -60,6 +61,19 @@ const onLoadTeares = debounce(async () => {
     }
   })
 });
+
+const getSeverity = (status) => {
+  switch (status.status) {
+    case 'Ativo':
+      return 'success';
+
+    case 'Inativo':
+      return 'danger';
+
+    default:
+      return null;
+  }
+};
 
 const responsiveScreen = () => {
   if (windowHeight.value === 993)
