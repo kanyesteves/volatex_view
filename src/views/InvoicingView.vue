@@ -148,6 +148,9 @@ const getAllOps = debounce(async () => {
 })
 
 const getProductionByOp = debounce(async (op) => {
+  records_for_invoice.value = []
+  recordSelected.value = []
+
   await productionService.getAllRecordsByOp(op.code).then((response) => {
     if (response.status == 200) {
       productions.value = response.data
