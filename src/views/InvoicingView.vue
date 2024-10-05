@@ -19,7 +19,7 @@
                   </InputGroupAddon>
                   <Select v-model="op" :options="ops" optionLabel="code" v-on:change="getProductionByOp(op)" filter placeholder="Ordens de Operação" class="w-full md:w-80" />
                 </InputGroup>
-                <Button :disabled="records_for_invoice.length < 1" :style="{ 'margin-left': '2rem' }" type="button" @click="calcRecords()" label="Faturar peças"></Button>
+                <Button :disabled="records_for_invoice.length < 1" :style="{ 'margin-left': '2rem' }" type="button" @click="calcRecords()" label="Faturar peças" severity="success"></Button>
               </div>
               <Divider />
 
@@ -56,7 +56,7 @@
 
             <TabPanel value="1">
               <div :class="$style.box_invoiced">
-                <Button :disabled="invoicingSelected == undefined" type="button" @click="calcRecords()" label="Visualizar faturamento"></Button>
+                <Button :disabled="invoicingSelected == undefined" type="button" @click="calcRecords()" label="Visualizar faturamento" severity="success"></Button>
               </div>
               <Divider />
 

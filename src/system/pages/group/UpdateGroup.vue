@@ -32,7 +32,7 @@
 
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" @click="onSaveGroup"></Button>
+          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" severity="success" @click="onSaveGroup"></Button>
         </div>
 
       </Dialog>

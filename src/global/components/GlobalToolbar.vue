@@ -3,7 +3,7 @@
     <GlobalMenu v-model="visible" />
     <Toolbar>
       <template #start>
-        <Button icon="pi pi-bars" @click="onMenuClick" />
+        <Button icon="pi pi-bars" severity="success" @click="onMenuClick" />
       </template>
 
       <template #center>

@@ -21,7 +21,7 @@
 
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Criar" @click="onSaveWire"></Button>
+          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Criar" severity="success" @click="onSaveWire"></Button>
         </div>
 
       </Dialog>

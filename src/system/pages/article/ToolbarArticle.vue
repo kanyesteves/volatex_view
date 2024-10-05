@@ -2,13 +2,13 @@
   <div class=" card">
     <Toolbar>
       <template #start>
-        <Button size="small" label="Novo" raised @click="emit('onNewArticle')" />
-        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Editar" severity="info" raised @click="emit('onEditArticle')" />
-        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Remover" severity="danger" raised @click="emit('onRemoveArticle')" />
+        <Button size="small" label="Novo" severity="success" raised @click="emit('onNewArticle')" />
+        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Editar" severity="success" raised @click="emit('onEditArticle')" />
+        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Remover" severity="success" raised @click="emit('onRemoveArticle')" />
       </template>
 
       <template #end>
-        <Button disabled v-tooltip.bottom="'Disponivel na próxima versão'" label="Exportar" icon="pi pi-download" size="small" />
+        <Button disabled v-tooltip.bottom="'Disponivel na próxima versão'" label="Exportar" severity="success" icon="pi pi-download" size="small" />
       </template>
     </Toolbar>
   </div>

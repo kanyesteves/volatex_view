@@ -29,7 +29,7 @@
                   </div>
                 </div>
                 <div :class="$style.buttonNext">
-                  <Button label="Avançar" icon="pi pi-arrow-right" @click="activateCallback('2')" />
+                  <Button label="Avançar" severity="success" icon="pi pi-arrow-right" @click="activateCallback('2')" />
                 </div>
               </div>
 
@@ -53,7 +53,7 @@
                 </div>
                 <div :class="$style.buttons">
                   <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('1')" />
-                  <Button label="Avançar" icon="pi pi-arrow-right" @click="activateCallback('3')" />
+                  <Button label="Avançar" severity="success" icon="pi pi-arrow-right" @click="activateCallback('3')" />
                 </div>
               </div>
             </StepPanel>
@@ -81,7 +81,7 @@
                 </div>
                 <div :class="$style.buttons">
                   <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('2')" />
-                  <Button label="Registrar" v-on:click="onSaveRecord" @click="activateCallback('1')" />
+                  <Button label="Registrar" severity="success" v-on:click="onSaveRecord" @click="activateCallback('1')" />
                 </div>
               </div>
             </StepPanel>

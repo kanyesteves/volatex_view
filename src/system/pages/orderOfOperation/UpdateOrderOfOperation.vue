@@ -115,7 +115,7 @@
 
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button v-if="!checkStatus()" :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" @click="onUpdateOP"></Button>
+          <Button v-if="!checkStatus()" :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" severity="success" @click="onUpdateOP"></Button>
         </div>
 
       </Dialog>
@@ -224,26 +224,26 @@ const statusFormat = (status) => {
 
 const updatePorcentage = (event) => {
 
-if (porcentages.value == 0) {
+  if (porcentages.value == 0) {
 
-  event.forEach(element => {
-    porcentages.value.push({
-      "name": element.name,
-      "value": (100 / event.length).toFixed(2)
-    })
-  });
+    event.forEach(element => {
+      porcentages.value.push({
+        "name": element.name,
+        "value": (100 / event.length).toFixed(2)
+      })
+    });
 
-} else {
+  } else {
 
-  porcentages.value = []
-  event.forEach(element => {
-    porcentages.value.push({
-      "name": element.name,
-      "value": (100 / event.length).toFixed(2)
-    })
-  });
+    porcentages.value = []
+    event.forEach(element => {
+      porcentages.value.push({
+        "name": element.name,
+        "value": (100 / event.length).toFixed(2)
+      })
+    });
 
-}
+  }
 }
 
 </script>
