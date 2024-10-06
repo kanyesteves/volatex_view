@@ -2,19 +2,24 @@
   <div class="user">
     <GlobalToolbar />
 
-    <Card :class="$style.tolbarbox" class="card">
-      <template #content>
-        <ToolbarUser
-          v-model="setVisibleToolbar"
-          @onNewUser="onNewUser" 
-          @onEditUser="onEditUser" 
-          @onRemoveUser="onRemoveUser" />
-  
-        <ListUser 
-          @selected="rowSelected" 
-          @unselected="rowUnSelected" />
-      </template>
+    <div :class="$style.container">
+      <GlobalStaticMenu
+        :class="$style.sidebar" />
+
+      <Card :class="$style.mainContent" class="card">
+        <template #content>
+          <ToolbarUser
+            v-model="setVisibleToolbar"
+            @onNewUser="onNewUser" 
+            @onEditUser="onEditUser" 
+            @onRemoveUser="onRemoveUser" />
+    
+          <ListUser 
+            @selected="rowSelected" 
+            @unselected="rowUnSelected" />
+        </template>
       </Card>
+    </div>
 
     <SaveUser 
       v-model="new_user" />
@@ -36,6 +41,7 @@ import Card from 'primevue/card';
 import { debounce } from 'lodash';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarUser from '../system/pages/user/ToolbarUser.vue';
+import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import SaveUser from '@/system/pages/user/SaveUser.vue';
 import DeleteUser from '@/system/pages/user/DeleteUser.vue';
 import ListUser from '@/system/pages/user/ListUser.vue';
@@ -91,7 +97,21 @@ const getUserById = debounce(async () => {
 </script>
 
 <style module>
-.tolbarbox {
-  margin-top: 1rem;
+.container {
+  display: flex;
+  /* height: 100vh; */
 }
+
+.sidebar {
+  margin-top: 1rem;
+  width: 260px;
+  background-color: #f5f5f5;
+}
+
+.mainContent {
+  margin-top: 1rem;
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
 </style>

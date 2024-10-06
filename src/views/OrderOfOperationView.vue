@@ -2,19 +2,24 @@
   <div class="orderOfOperatios">
     <GlobalToolbar />
 
-    <Card :class="$style.tolbarbox" class="card">
-      <template #content>
-        <ToolbarOrderOfOperation
-          v-model="setVisibleToolbar"
-          @onNewOp="onNewOp" 
-          @onEditOp="onEditOp" 
-          @onDoneOp="onDoneOp" />
-    
-        <ListOrderOfOperation
-          @selected="rowSelected" 
-          @unselected="rowUnSelected" />
-      </template>
-    </Card>
+    <div :class="$style.container">
+      <GlobalStaticMenu
+        :class="$style.sidebar" />
+
+      <Card :class="$style.mainContent" class="card">
+        <template #content>
+          <ToolbarOrderOfOperation
+            v-model="setVisibleToolbar"
+            @onNewOp="onNewOp" 
+            @onEditOp="onEditOp" 
+            @onDoneOp="onDoneOp" />
+      
+          <ListOrderOfOperation
+            @selected="rowSelected" 
+            @unselected="rowUnSelected" />
+        </template>
+      </Card>
+    </div>
 
     <SaveOrderOfOperation
       v-model="new_op" 
@@ -45,6 +50,7 @@ import { ref, onMounted } from 'vue'
 import Card from 'primevue/card';
 import { debounce } from 'lodash'
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
+import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import ToolbarOrderOfOperation from '@/system/pages/orderOfOperation/ToolbarOrderOfOperation.vue';
 import ListOrderOfOperation from '@/system/pages/orderOfOperation/ListOrderOfOperation.vue';
 import SaveOrderOfOperation from '@/system/pages/orderOfOperation/SaveOrderOfOperation.vue';
@@ -177,7 +183,21 @@ const formatDateClosed = (date_closed: any) => {
 </script>
 
 <style module>
-.tolbarbox {
-  margin-top: 1rem;
+.container {
+  display: flex;
+  /* height: 100vh; */
 }
+
+.sidebar {
+  margin-top: 1rem;
+  width: 308px;
+  background-color: #f5f5f5;
+}
+
+.mainContent {
+  margin-top: 1rem;
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
 </style>

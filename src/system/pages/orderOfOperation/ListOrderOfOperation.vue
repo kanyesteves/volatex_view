@@ -13,7 +13,7 @@
       tableStyle="min-width: 50rem">
 
       <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-      <Column field="status" header="Status">
+      <Column field="status" header="Status" style="width: 14%">
         <template #body="slotProps">
           <Tag :value="slotProps.data.status" :severity="getSeverity(slotProps.data)" />
         </template>

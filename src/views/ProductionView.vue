@@ -1,97 +1,101 @@
 <template>
   <div class="production">
     <GlobalToolbar />
-  </div>
 
-  <Card :class="$style.cardbox">
-    <template #title>Registro de rolos</template>
-    <template #content>
+    <div :class="$style.container">
+      <GlobalStaticMenu
+        :class="$style.sidebar" />
 
-      <div class="card flex justify-center">
-        <Stepper value="1" linear class="basis-[50rem]">
-          <StepList>
-            <Step value="1">Programação do Tear</Step>
-            <Step value="2">Peso</Step>
-            <Step value="3">Revisão</Step>
-          </StepList>
-          <StepPanels>
-            <StepPanel v-slot="{ activateCallback }" value="1">
+      <Card :class="$style.mainContent" class="card">
+        <template #title>Registro de rolos</template>
+        <template #content>
 
-              <div :class="$style.step">
-                <div :class="$style.customborder">
-                  <div v-for="programing of programings" :key="programing.id">
-                    <Button
-                      :class="$style.btn"
-                      :label="programing.tear.map(ele => ele.name).join(', ')"
-                      severity="info" size="large"
-                      @click="getTearAndOp(programing)"
-                      v-on:click="activateCallback('2')" />
+          <div class="card flex justify-center">
+            <Stepper value="1" linear class="basis-[50rem]">
+              <StepList>
+                <Step value="1">Programação do Tear</Step>
+                <Step value="2">Peso</Step>
+                <Step value="3">Revisão</Step>
+              </StepList>
+              <StepPanels>
+                <StepPanel v-slot="{ activateCallback }" value="1">
+
+                  <div :class="$style.step">
+                    <div :class="$style.customborder">
+                      <div v-for="programing of programings" :key="programing.id">
+                        <Button
+                          :class="$style.btn"
+                          :label="programing.tear.map(ele => ele.name).join(', ')"
+                          severity="info" size="large"
+                          @click="getTearAndOp(programing)"
+                          v-on:click="activateCallback('2')" />
+                      </div>
+                    </div>
+                    <div :class="$style.buttonNext">
+                      <Button label="Avançar" severity="success" icon="pi pi-arrow-right" @click="activateCallback('2')" />
+                    </div>
                   </div>
-                </div>
-                <div :class="$style.buttonNext">
-                  <Button label="Avançar" severity="success" icon="pi pi-arrow-right" @click="activateCallback('2')" />
-                </div>
-              </div>
 
-            </StepPanel>
+                </StepPanel>
 
-            <StepPanel v-slot="{ activateCallback }" value="2">
-              <div :class="$style.step">
-                <div :class="$style.customborder">
-                  <InputGroup :style="{ 'max-width': '170px'}">
-                    <InputNumber
-                      placeholder="0.00"
-                      id="weight"
-                      v-model="form.weight"
-                      @input="getWeight"
-                      :minFractionDigits="2" :maxFractionDigits="5"
-                      class="flex-auto" autocomplete="off" />
-                      <InputGroupAddon>
-                        <i>Kg/peça</i>
-                      </InputGroupAddon>
-                  </InputGroup>
-                </div>
-                <div :class="$style.buttons">
-                  <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('1')" />
-                  <Button label="Avançar" severity="success" icon="pi pi-arrow-right" @click="activateCallback('3')" />
-                </div>
-              </div>
-            </StepPanel>
+                <StepPanel v-slot="{ activateCallback }" value="2">
+                  <div :class="$style.step">
+                    <div :class="$style.customborder">
+                      <InputGroup :style="{ 'max-width': '170px'}">
+                        <InputNumber
+                          placeholder="0.00"
+                          id="weight"
+                          v-model="form.weight"
+                          @input="getWeight"
+                          :minFractionDigits="2" :maxFractionDigits="5"
+                          class="flex-auto" autocomplete="off" />
+                          <InputGroupAddon>
+                            <i>Kg/peça</i>
+                          </InputGroupAddon>
+                      </InputGroup>
+                    </div>
+                    <div :class="$style.buttons">
+                      <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('1')" />
+                      <Button label="Avançar" severity="success" icon="pi pi-arrow-right" @click="activateCallback('3')" />
+                    </div>
+                  </div>
+                </StepPanel>
 
-            <StepPanel v-slot="{ activateCallback }" value="3">
-              <div :class="$style.step">
-                <div>
-                  <span :style="{'margin-right': '10px'}"><b>Código do rolo:</b></span>
-                  <span :style="{'font-size': '18px'}">{{ form.code_per_piece }}</span>
-                </div>
-                <div :class="$style.customborderStep4">
-                  <InputGroup :style="{ 'max-width': '360px', 'margin-left': '10px'}">
-                    <InputText placeholder="Revisão" id="review" v-model="form.review" />
-                  </InputGroup>
+                <StepPanel v-slot="{ activateCallback }" value="3">
+                  <div :class="$style.step">
+                    <div>
+                      <span :style="{'margin-right': '10px'}"><b>Código do rolo:</b></span>
+                      <span :style="{'font-size': '18px'}">{{ form.code_per_piece }}</span>
+                    </div>
+                    <div :class="$style.customborderStep4">
+                      <InputGroup :style="{ 'max-width': '360px', 'margin-left': '10px'}">
+                        <InputText placeholder="Revisão" id="review" v-model="form.review" />
+                      </InputGroup>
 
-                  <InputGroup :style="{ 'max-width': '200px', 'margin-left': '10px'}">
-                    <InputGroupAddon>
-                      <i class="pi pi-user"></i>
-                    </InputGroupAddon>
-                    <Select v-model="form.operator" :options="operators" optionLabel="name" filter placeholder="Operador" />
-                  </InputGroup>
-                </div>
-                <div>
-                  <span><b>{{ programing_name }}</b> - <b>{{ date_format }}</b></span>
-                </div>
-                <div :class="$style.buttons">
-                  <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('2')" />
-                  <Button label="Registrar" severity="success" v-on:click="onSaveRecord" @click="activateCallback('1')" />
-                </div>
-              </div>
-            </StepPanel>
-          </StepPanels>
-        </Stepper>
-      </div>
+                      <InputGroup :style="{ 'max-width': '200px', 'margin-left': '10px'}">
+                        <InputGroupAddon>
+                          <i class="pi pi-user"></i>
+                        </InputGroupAddon>
+                        <Select v-model="form.operator" :options="operators" optionLabel="name" filter placeholder="Operador" />
+                      </InputGroup>
+                    </div>
+                    <div>
+                      <span><b>{{ programing_name }}</b> - <b>{{ date_format }}</b></span>
+                    </div>
+                    <div :class="$style.buttons">
+                      <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('2')" />
+                      <Button label="Registrar" severity="success" v-on:click="onSaveRecord" @click="activateCallback('1')" />
+                    </div>
+                  </div>
+                </StepPanel>
+              </StepPanels>
+            </Stepper>
+          </div>
 
-    </template>
-  </Card>
-
+        </template>
+      </Card>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -111,6 +115,7 @@ import InputNumber from 'primevue/inputnumber';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import programingService from '@/system/services/programingService';
+import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import operatorService from '@/system/services/operatorService';
 import productionService from '@/system/services/productionService'
 import type Form from '@/system/type/productionType'
@@ -205,8 +210,21 @@ const getCodePerPieceOfOp = async (op_name) => {
     flex-direction: row;
     margin: 10px;
   }
-  .cardbox {
+  .container {
+    display: flex;
+    /* height: 100vh; */
+  }
+
+  .sidebar {
     margin-top: 1rem;
+    width: 260px;
+    background-color: #f5f5f5;
+  }
+
+  .mainContent {
+    margin-top: 1rem;
+    flex-grow: 1;
+    margin-left: 10px;
   }
   .customborder {
     display: flex;

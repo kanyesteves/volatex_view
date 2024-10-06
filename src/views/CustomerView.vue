@@ -1,20 +1,25 @@
 <template>
   <div class="customer">
     <GlobalToolbar />
-    <Card :class="$style.tolbarbox" class="card">
-      <template #content>
-        <ToolbarCustomer
-          v-model="setVisibleToolbar"
-          @onNewCustomer="onNewCustomer" 
-          @onEditCustomer="onEditCustomer" 
-          @onRemoveCustomer="onRemoveCustomer" />
-  
-        <ListCustomer
-          @selected="rowSelected" 
-          @unselected="rowUnSelected" />
-      </template>
 
-    </Card>
+    <div :class="$style.container">
+      <GlobalStaticMenu
+        :class="$style.sidebar" />
+
+      <Card :class="$style.mainContent" class="card">
+        <template #content>
+          <ToolbarCustomer
+            v-model="setVisibleToolbar"
+            @onNewCustomer="onNewCustomer" 
+            @onEditCustomer="onEditCustomer" 
+            @onRemoveCustomer="onRemoveCustomer" />
+    
+          <ListCustomer
+            @selected="rowSelected" 
+            @unselected="rowUnSelected" />
+        </template>
+      </Card>
+    </div>
 
     <SaveCustomer
       v-model="new_customer" />
@@ -35,6 +40,7 @@ import { ref } from 'vue'
 import Card from 'primevue/card';
 import { debounce } from 'lodash';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
+import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import ToolbarCustomer from '@/system/pages/customer/ToolbarCustomer.vue';
 import ListCustomer from '@/system/pages/customer/ListCustomer.vue';
 import SaveCustomer from '@/system/pages/customer/SaveCustomer.vue';
@@ -89,7 +95,21 @@ const getCustomerById = debounce(async () => {
 </script>
 
 <style module>
-.tolbarbox {
-  margin-top: 1rem;
+.container {
+  display: flex;
+  /* height: 100vh; */
 }
+
+.sidebar {
+  margin-top: 1rem;
+  width: 260px;
+  background-color: #f5f5f5;
+}
+
+.mainContent {
+  margin-top: 1rem;
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
 </style>

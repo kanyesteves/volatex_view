@@ -2,92 +2,97 @@
   <div class="invoicing">
     <GlobalToolbar />
 
-    <Card :class="$style.cardbox">
-      <template #content>
-        <Tabs value="0">
-          <TabList>
-              <Tab value="0">Faturar Ordem de Operação</Tab>
-              <Tab value="1">Ralatório de faturamentos</Tab>
-          </TabList>
-          <TabPanels>
+    <div :class="$style.container">
+      <GlobalStaticMenu
+        :class="$style.sidebar" />
 
-            <TabPanel value="0">
-              <div :class="$style.box_invoiced">
-                <InputGroup :style="{ 'max-width': '350px' }">
-                  <InputGroupAddon>
-                    <i class="pi pi-stopwatch"></i>
-                  </InputGroupAddon>
-                  <Select v-model="op" :options="ops" optionLabel="code" v-on:change="getProductionByOp(op)" filter placeholder="Ordens de Operação" class="w-full md:w-80" />
-                </InputGroup>
-                <Button :disabled="records_for_invoice.length < 1" :style="{ 'margin-left': '2rem' }" type="button" @click="calcRecords()" label="Faturar peças" severity="success"></Button>
-              </div>
-              <Divider />
+      <Card :class="$style.mainContent" class="card">
+        <template #content>
+          <Tabs value="0">
+            <TabList>
+                <Tab value="0">Faturar Ordem de Operação</Tab>
+                <Tab value="1">Ralatório de faturamentos</Tab>
+            </TabList>
+            <TabPanels>
 
-              <Message v-if="!productions">Selecione uma <b>Orderm de Operação</b></Message>
+              <TabPanel value="0">
+                <div :class="$style.box_invoiced">
+                  <InputGroup :style="{ 'max-width': '350px' }">
+                    <InputGroupAddon>
+                      <i class="pi pi-stopwatch"></i>
+                    </InputGroupAddon>
+                    <Select v-model="op" :options="ops" optionLabel="code" v-on:change="getProductionByOp(op)" filter placeholder="Ordens de Operação" class="w-full md:w-80" />
+                  </InputGroup>
+                  <Button :disabled="records_for_invoice.length < 1" :style="{ 'margin-left': '2rem' }" type="button" @click="calcRecords()" label="Faturar peças" severity="success"></Button>
+                </div>
+                <Divider />
 
-              <DataTable v-else
-                stripedRows scrollable
-                paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
-                v-model:selection="recordSelected"
-                :scroll-height="screenHeight"
-                :value="productions"
-                :metaKeySelection="false"
-                @rowSelect="onRowSelect"
-                @rowUnselect="onRowUnSelect"
-                dataKey="id"
-                tableStyle="min-width: 50rem">
+                <Message v-if="!productions">Selecione uma <b>Orderm de Operação</b></Message>
 
-                <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-                <Column field="code_per_piece" header="Código"></Column>
-                <Column field="invoiced" header="Faturado">
-                  <template #body="slotProps">
-                    <Tag :value="slotProps.data.invoiced" :severity="getSeverity(slotProps.data)" />
-                  </template>
-                </Column>
-                <Column field="date" header="Data"></Column>
-                <Column field="weight" header="Peso"></Column>
-                <Column field="op" header="Ordem de Operação"></Column>
-                <Column field="tear" header="Tear"></Column>
-                <Column field="operator" header="Operador"></Column>
+                <DataTable v-else
+                  stripedRows scrollable
+                  paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
+                  v-model:selection="recordSelected"
+                  :scroll-height="screenHeight"
+                  :value="productions"
+                  :metaKeySelection="false"
+                  @rowSelect="onRowSelect"
+                  @rowUnselect="onRowUnSelect"
+                  dataKey="id"
+                  tableStyle="min-width: 50rem">
 
-              </DataTable>
-            </TabPanel>
+                  <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
+                  <Column field="code_per_piece" header="Código"></Column>
+                  <Column field="invoiced" header="Faturado">
+                    <template #body="slotProps">
+                      <Tag :value="slotProps.data.invoiced" :severity="getSeverity(slotProps.data)" />
+                    </template>
+                  </Column>
+                  <Column field="date" header="Data"></Column>
+                  <Column field="weight" header="Peso"></Column>
+                  <Column field="op" header="Ordem de Operação"></Column>
+                  <Column field="tear" header="Tear"></Column>
+                  <Column field="operator" header="Operador"></Column>
+
+                </DataTable>
+              </TabPanel>
 
 
-            <TabPanel value="1">
-              <div :class="$style.box_invoiced">
-                <Button :disabled="invoicingSelected == undefined" type="button" @click="calcRecords()" label="Visualizar faturamento" severity="success"></Button>
-              </div>
-              <Divider />
+              <TabPanel value="1">
+                <div :class="$style.box_invoiced">
+                  <Button :disabled="invoicingSelected == undefined" type="button" @click="calcRecords()" label="Visualizar faturamento" severity="success"></Button>
+                </div>
+                <Divider />
 
-              <Message v-if="all_invoicings.length == 0" severity="warn">Nenhum faturamento foi registrado.</Message>
+                <Message v-if="all_invoicings.length == 0" severity="warn">Nenhum faturamento foi registrado.</Message>
 
-              <DataTable v-else
-                stripedRows scrollable
-                paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
-                v-model:selection="invoicingSelected"
-                :scroll-height="screenHeight"
-                :value="all_invoicings"
-                :metaKeySelection="false"
-                @rowSelect="onRowInvoicingSelect"
-                @rowUnselect="onRowInvoicingUnSelect"
-                dataKey="id"
-                tableStyle="min-width: 50rem">
+                <DataTable v-else
+                  stripedRows scrollable
+                  paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
+                  v-model:selection="invoicingSelected"
+                  :scroll-height="screenHeight"
+                  :value="all_invoicings"
+                  :metaKeySelection="false"
+                  @rowSelect="onRowInvoicingSelect"
+                  @rowUnselect="onRowInvoicingUnSelect"
+                  dataKey="id"
+                  tableStyle="min-width: 50rem">
 
-                <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-                <Column field="customer" header="Cliente"></Column>
-                <Column field="article" header="Artigo"></Column>
-                <Column field="op" header="Ordem de Operação"></Column>
-                <Column field="total_weight" header="Peso total"></Column>
-                <Column field="date" header="Data"></Column>
+                  <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
+                  <Column field="customer" header="Cliente"></Column>
+                  <Column field="article" header="Artigo"></Column>
+                  <Column field="op" header="Ordem de Operação"></Column>
+                  <Column field="total_weight" header="Peso total"></Column>
+                  <Column field="date" header="Data"></Column>
 
-              </DataTable>
-            </TabPanel>
+                </DataTable>
+              </TabPanel>
 
-          </TabPanels>
-        </Tabs>
-      </template>
-    </Card>
+            </TabPanels>
+          </Tabs>
+        </template>
+      </Card>
+    </div>
 
     <SaveInvoicing 
       v-model="visible"
@@ -120,6 +125,7 @@ import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import productionService from '@/system/services/productionService';
+import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import invoicingService from '@/system/services/invoicingService';
 import SaveInvoicing from '@/system/pages/invoicing/SaveInvoicing.vue'
@@ -240,9 +246,23 @@ const responsiveScreen = () => {
 </script>
 
 <style module>
-.cardbox {
-  margin-top: 1rem;
+.container {
+  display: flex;
+  /* height: 100vh; */
 }
+
+.sidebar {
+  margin-top: 1rem;
+  width: 260px;
+  background-color: #f5f5f5;
+}
+
+.mainContent {
+  margin-top: 1rem;
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
 .box_invoiced {
   display: flex;
 }

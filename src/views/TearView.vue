@@ -2,19 +2,24 @@
   <div class="tear">
     <GlobalToolbar />
 
-    <Card :class="$style.tolbarbox" class="card">
-      <template #content>
-        <ToolbarTear
-          v-model="setVisibleToolbar"
-          @onNewTear="onNewTear" 
-          @onEditTear="onEditTear" 
-          @onRemoveTear="onRemoveTear" />
-    
-        <ListTear 
-          @selected="rowSelected" 
-          @unselected="rowUnSelected" />
-      </template>
-    </Card>
+    <div :class="$style.container">
+      <GlobalStaticMenu
+        :class="$style.sidebar" />
+
+      <Card :class="$style.mainContent" class="card">
+        <template #content>
+          <ToolbarTear
+            v-model="setVisibleToolbar"
+            @onNewTear="onNewTear" 
+            @onEditTear="onEditTear" 
+            @onRemoveTear="onRemoveTear" />
+      
+          <ListTear 
+            @selected="rowSelected" 
+            @unselected="rowUnSelected" />
+        </template>
+      </Card>
+    </div>
 
     <SaveTear
       v-model="new_tear" />
@@ -34,6 +39,7 @@ import { ref } from 'vue'
 import Card from 'primevue/card';
 import { debounce } from 'lodash';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
+import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import ToolbarTear from '@/system/pages/tear/ToolbarTear.vue';
 import ListTear from '@/system/pages/tear/ListTear.vue';
 import SaveTear from '@/system/pages/tear/SaveTear.vue';
@@ -92,7 +98,21 @@ const getTearById = debounce(async () => {
 </script>
 
 <style module>
-.tolbarbox {
-  margin-top: 1rem;
+.container {
+  display: flex;
+  /* height: 100vh; */
 }
+
+.sidebar {
+  margin-top: 1rem;
+  width: 260px;
+  background-color: #f5f5f5;
+}
+
+.mainContent {
+  margin-top: 1rem;
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
 </style>

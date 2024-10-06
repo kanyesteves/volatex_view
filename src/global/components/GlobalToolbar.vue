@@ -3,11 +3,14 @@
     <GlobalMenu v-model="visible" />
     <Toolbar>
       <template #start>
-        <Button icon="pi pi-bars" severity="success" @click="onMenuClick" />
+        <!-- <Button icon="pi pi-bars" severity="success" @click="onMenuClick" /> -->
+        <div :class="$style.logo">
+          <img src="../../assets/auratextil.png" width="30px" height="43px" alt="AuraTêxtil">
+        </div>
       </template>
 
       <template #center>
-        <h1>AuraTêxtil</h1>
+        <h2><span>AuraTêxtil</span></h2>
       </template>
 
       <template #end>
@@ -34,8 +37,9 @@ const onMenuClick = () => {
 
 <style module>
 
-  h1 {
-    font-size: 1.2rem;
-  }
+.logo {
+  padding: 5px;
+  margin-left: 0.1rem;
+}
 
 </style>

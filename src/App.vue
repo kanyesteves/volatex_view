@@ -6,8 +6,8 @@
 #app {
   padding: 0.8rem;
   height: 100vh;
-  background-color: #ceb8fb5a;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  background-color: #a4a4a41f;
+  font-family: Avenir, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

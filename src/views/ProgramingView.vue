@@ -2,18 +2,23 @@
   <div class="programing">
     <GlobalToolbar />
 
-    <Card :class="$style.tolbarbox" class="programing">
-      <template #content>
-        <ToolbarPrograming
-          v-model="setVisibleToolbar"
-          @onNewPrograming="onNewPrograming" 
-          @onRemovePrograming="onRemovePrograming" />
-    
-        <ListPrograming
-          @selected="rowSelected" 
-          @unselected="rowUnSelected" />
-      </template>
-    </Card>
+    <div :class="$style.container">
+      <GlobalStaticMenu
+        :class="$style.sidebar" />
+
+      <Card :class="$style.mainContent" class="card">
+        <template #content>
+          <ToolbarPrograming
+            v-model="setVisibleToolbar"
+            @onNewPrograming="onNewPrograming" 
+            @onRemovePrograming="onRemovePrograming" />
+      
+          <ListPrograming
+            @selected="rowSelected" 
+            @unselected="rowUnSelected" />
+        </template>
+      </Card>
+    </div>
   
     <SavePrograming
       v-model="new_programing"
@@ -35,6 +40,7 @@ import ToolbarPrograming from '@/system/pages/programing/ToolbarPrograming.vue'
 import ListPrograming from '@/system/pages/programing/ListPrograming.vue'
 import SavePrograming from '@/system/pages/programing/SavePrograming.vue'
 import orderOfOperationService from '@/system/services/orderOfOperationService';
+import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import DeletePrograming from '@/system/pages/programing/DeletePrograming.vue'
 import tearService from '@/system/services/tearService';
 
@@ -92,7 +98,21 @@ const getAllOps = debounce(async () => {
 </script>
 
 <style module>
-.tolbarbox {
-  margin-top: 1rem;
+.container {
+  display: flex;
+  /* height: 100vh; */
 }
+
+.sidebar {
+  margin-top: 1rem;
+  width: 260px;
+  background-color: #f5f5f5;
+}
+
+.mainContent {
+  margin-top: 1rem;
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
 </style>

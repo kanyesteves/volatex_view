@@ -2,19 +2,24 @@
   <div class="operator">
     <GlobalToolbar />
 
-    <Card :class="$style.tolbarbox" class="card">
-      <template #content>
-        <ToolbarOperator
-          v-model="setVisibleToolbar"
-          @onNewOperator="onNewOperator" 
-          @onEditOperator="onEditOperator" 
-          @onRemoveOperator="onRemoveOperator" />
-    
-        <ListOperator
-          @selected="rowSelected" 
-          @unselected="rowUnSelected" />
-      </template>
-    </Card>
+    <div :class="$style.container">
+      <GlobalStaticMenu
+        :class="$style.sidebar" />
+
+      <Card :class="$style.mainContent" class="card">
+        <template #content>
+          <ToolbarOperator
+            v-model="setVisibleToolbar"
+            @onNewOperator="onNewOperator" 
+            @onEditOperator="onEditOperator" 
+            @onRemoveOperator="onRemoveOperator" />
+      
+          <ListOperator
+            @selected="rowSelected" 
+            @unselected="rowUnSelected" />
+        </template>
+      </Card>
+    </div>
 
     </div>
 
@@ -37,6 +42,7 @@ import Card from 'primevue/card';
 import { debounce } from 'lodash';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import ToolbarOperator from '@/system/pages/operator/ToolbarOperator.vue';
+import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import ListOperator from '@/system/pages/operator/ListOperator.vue';
 import SaveOperator from '@/system/pages/operator/SaveOperator.vue';
 import UpdateOperator from '@/system/pages/operator/UpdateOperator.vue';
@@ -108,7 +114,21 @@ const formatDataTurn = (turn) => {
 </script>
 
 <style module>
-.tolbarbox {
-  margin-top: 1rem;
+.container {
+  display: flex;
+  /* height: 100vh; */
 }
+
+.sidebar {
+  margin-top: 1rem;
+  width: 260px;
+  background-color: #f5f5f5;
+}
+
+.mainContent {
+  margin-top: 1rem;
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
 </style>

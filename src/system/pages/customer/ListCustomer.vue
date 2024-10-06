@@ -13,7 +13,8 @@
       tableStyle="min-width: 50rem">
 
       <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-      <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
+      <Column field="name" header="Nome" style="width: 35%"></Column>
+      <Column field="description" header="Descrição"></Column>
 
     </DataTable>
   </div>
@@ -38,11 +39,6 @@ const screenHeight = ref()
 const loadTable = ref(false)
 const customerSelected = ref();
 const customers = ref([]);
-
-const columns = [
-  { field: 'name', header: 'Nome' },
-  { field: 'description', header: 'Descrição' }
-];
 
 const onRowSelect = (event) => {
   emit('selected', event)

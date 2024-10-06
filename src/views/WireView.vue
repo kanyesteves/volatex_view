@@ -2,19 +2,24 @@
   <div class="wire">
     <GlobalToolbar />
 
-    <Card :class="$style.tolbarbox" class="card">
-      <template #content>
-        <ToolbarWire
-          v-model="setVisibleToolbar"
-          @onNewWire="onNewWire" 
-          @onEditWire="onEditWire" 
-          @onRemoveWire="onRemoveWire" />
-    
-        <ListWire
-          @selected="rowSelected" 
-          @unselected="rowUnSelected" />
-      </template>
-    </Card>
+    <div :class="$style.container">
+      <GlobalStaticMenu
+        :class="$style.sidebar" />
+
+      <Card :class="$style.mainContent" class="card">
+        <template #content>
+          <ToolbarWire
+            v-model="setVisibleToolbar"
+            @onNewWire="onNewWire" 
+            @onEditWire="onEditWire" 
+            @onRemoveWire="onRemoveWire" />
+      
+          <ListWire
+            @selected="rowSelected" 
+            @unselected="rowUnSelected" />
+        </template>
+      </Card>
+    </div>
 
     <SaveWire
       v-model="new_wire" />
@@ -34,6 +39,7 @@ import { ref } from 'vue'
 import Card from 'primevue/card';
 import { debounce } from 'lodash'
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
+import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import ToolbarWire from '@/system/pages/wire/ToolbarWire.vue';
 import ListWire from '@/system/pages/wire/ListWire.vue';
 import SaveWire from '@/system/pages/wire/SaveWire.vue';
@@ -90,7 +96,21 @@ const getWireById = debounce(async () => {
 </script>
 
 <style module>
-.tolbarbox {
-  margin-top: 1rem;
+.container {
+  display: flex;
+  /* height: 100vh; */
 }
+
+.sidebar {
+  margin-top: 1rem;
+  width: 260px;
+  background-color: #f5f5f5;
+}
+
+.mainContent {
+  margin-top: 1rem;
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
 </style>

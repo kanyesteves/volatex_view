@@ -2,19 +2,24 @@
   <div class="group">
     <GlobalToolbar />
 
-    <Card :class="$style.tolbarbox" class="card">
-      <template #content>
-        <ToolbarGroup
-          v-model="setVisibleToolbar"
-          @onNewGroup="onNewGroup" 
-          @onEditGroup="onEditGroup" 
-          @onRemoveGroup="onRemoveGroup" />
-  
-        <ListGroup
-          @selected="rowSelected" 
-          @unselected="rowUnSelected" />
-      </template>
+    <div :class="$style.container">
+      <GlobalStaticMenu
+        :class="$style.sidebar" />
+
+      <Card :class="$style.mainContent" class="card">
+        <template #content>
+          <ToolbarGroup
+            v-model="setVisibleToolbar"
+            @onNewGroup="onNewGroup" 
+            @onEditGroup="onEditGroup" 
+            @onRemoveGroup="onRemoveGroup" />
+    
+          <ListGroup
+            @selected="rowSelected" 
+            @unselected="rowUnSelected" />
+        </template>
       </Card>
+    </div>
 
     <SaveGroup
       v-model="new_group" 
@@ -38,6 +43,7 @@ import { ref } from 'vue'
 import Card from 'primevue/card';
 import { debounce } from 'lodash'
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
+import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import ListGroup from '@/system/pages/group/ListGroup.vue';
 import ToolbarGroup from '@/system/pages/group/ToolbarGroup.vue';
 import SaveGroup from '@/system/pages/group/SaveGroup.vue';
@@ -115,7 +121,21 @@ const getAllUsers = debounce(async () => {
 </script>
 
 <style module>
-.tolbarbox {
-  margin-top: 1rem;
+.container {
+  display: flex;
+  /* height: 100vh; */
 }
+
+.sidebar {
+  margin-top: 1rem;
+  width: 300px;
+  background-color: #f5f5f5;
+}
+
+.mainContent {
+  margin-top: 1rem;
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
 </style>
