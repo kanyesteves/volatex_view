@@ -84,12 +84,12 @@ const items_config = ref([
     items: [
       {
         label: 'Grupos de usuários',
-        icon: 'pi pi-users',
+        icon: 'pi pi-id-card',
         route: '/group'
       },
       {
         label: 'Usuários',
-        icon: 'pi pi-user',
+        icon: 'pi pi-users',
         route: '/user'
       }
     ]

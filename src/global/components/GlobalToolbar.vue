@@ -14,6 +14,7 @@
       </template>
 
       <template #end>
+        <Button v-tooltip.bottom="'Perfil do usuário'" icon="pi pi-user" class="flex-auto ml-2" text></Button>
         <Button v-tooltip.bottom="'Logout'" icon="pi pi-sign-out" class="flex-auto ml-2" severity="danger" text></Button>
       </template>
     </Toolbar>
