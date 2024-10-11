@@ -60,7 +60,7 @@
 
               <TabPanel value="1">
                 <div :class="$style.box_invoiced">
-                  <Button :disabled="invoicingSelected == undefined" type="button" @click="calcRecords()" label="Visualizar faturamento" severity="success"></Button>
+                  <Button :disabled="invoicing_view.length != 1" type="button" @click="getInvoicing()" label="Visualizar faturamento" severity="success"></Button>
                 </div>
                 <Divider />
 
@@ -101,6 +101,16 @@
       :weight_per_porcentage="weight_per_porcentage"
       :records_for_invoice="records_for_invoice" />
 
+    <LookInvoicing
+      v-model="visible_record"
+      :date="invoicing_view.date"
+      :op="invoicing_view.op"
+      :customer="invoicing_view.customer"
+      :article="invoicing_view.article"
+      :total_weight="invoicing_view.total_weight"
+      :weight_per_wire="invoicing_view.weight_per_wire"
+      :records="invoicing_view.records" />
+
   </div>
 
 </template>
@@ -129,6 +139,7 @@ import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import invoicingService from '@/system/services/invoicingService';
 import SaveInvoicing from '@/system/pages/invoicing/SaveInvoicing.vue'
+import LookInvoicing from '@/system/pages/invoicing/LookInvoicing.vue'
 
 onMounted(() => {
   getAllOps()
@@ -137,6 +148,7 @@ onMounted(() => {
 })
 
 const visible = ref(false)
+const visible_record = ref(false)
 const op = ref()
 const ops = ref([])
 const all_invoicings = ref([])
@@ -144,6 +156,7 @@ const productions = ref()
 const recordSelected = ref()
 const invoicingSelected = ref()
 const records_for_invoice = ref([])
+const invoicing_view = ref([])
 
 const getAllOps = debounce(async () => {
   await orderOfOperationService.getAllOpenAndInProgress().then((response) => {
@@ -217,12 +230,21 @@ const getSeverity = (status) => {
   }
 };
 
+// ------------------------------------------
+
 const onRowInvoicingSelect = (event) => {
-  invoicingSelected.value = event.data
+  if (!Array.isArray(invoicing_view.value)) {
+    invoicing_view.value = [];
+  }
+
+  invoicing_view.value.push(event.data)
 }
 
 const onRowInvoicingUnSelect = (event) => {
-  // invoicingSelected.value = event.data
+  if (Array.isArray(invoicing_view.value)) {
+    let index = invoicing_view.value.findIndex(item => item === event.data);
+    invoicing_view.value.splice(index, 1)
+  }
 }
 
 const loadAllInvoicings = async () => {
@@ -231,6 +253,17 @@ const loadAllInvoicings = async () => {
       all_invoicings.value = response.data
     }
   })
+}
+
+const getInvoicing = async () => {
+  visible_record.value = true
+  if (Array.isArray(invoicing_view.value) && invoicing_view.value.length > 0) {
+    await invoicingService.get(invoicing_view.value[0].id).then((response) => {
+      if (response.status === 200) {
+        invoicing_view.value = response.data;
+      }
+    });
+  }
 }
 
 // ------------------------------------------
