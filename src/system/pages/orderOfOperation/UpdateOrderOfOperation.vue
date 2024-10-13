@@ -107,7 +107,7 @@
             </div>
   
             <div :class="$style.div_box_graphs">
-              <Knob v-model="value3" valueTemplate="{value}%" :size="120" :max="100" readonly />
+              <Knob v-model="graphs.total_invoiced" valueTemplate="{value}%" :size="120" :max="100" readonly />
               <label for="invoicing">Faturamento</label>
             </div>
           </div>
@@ -139,7 +139,6 @@ import InputGroupAddon from 'primevue/inputgroupaddon';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import type Form from '@/system/type/orderOfOperationType'
 
-const value3 = ref(0)
 const visible = defineModel()
 const props = defineProps([
   'customers',
@@ -171,6 +170,7 @@ const graphs = ref({})
 watch(() => props.graphs, (newValue) => {
   graphs.value = newValue
   graphs.value.total_weight = graphs.value.total_weight.toFixed(1)
+  graphs.value.total_invoiced = ((graphs.value.total_invoiced / graphs.value.total_pieces) * 100).toFixed(0)
 })
 
 const form = ref<Form>(props.op)
