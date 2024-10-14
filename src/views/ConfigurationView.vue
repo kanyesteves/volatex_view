@@ -9,7 +9,7 @@
       <Card :class="$style.mainContent" class="card">
         <template #content>
           <h2>Configurações do Sistema</h2>
-          <Accordion value="0">
+          <Accordion >
             <AccordionPanel value="0">
                 <AccordionHeader><i v-tooltip.bottom="'Essa sessão é para adicionar a logotipo que será inserida quando for exportar o faturamento dos rolos'" class="pi pi-info-circle"></i> Logotipo da empresa</AccordionHeader>
                 <AccordionContent>
