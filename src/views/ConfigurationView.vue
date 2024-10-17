@@ -13,8 +13,7 @@
             <AccordionPanel value="0">
                 <AccordionHeader><i v-tooltip.bottom="'Essa sessão é para adicionar a logotipo que será inserida quando for exportar o faturamento dos rolos'" class="pi pi-info-circle"></i> Logotipo da empresa</AccordionHeader>
                 <AccordionContent>
-                  
-                  <FileUpload name="demo[]" url="/configurations/upload" :multiple="true" accept="image/*" :maxFileSize="1000000">
+                  <FileUpload name="file" url="/configurations/upload" :multiple="true" accept="image/*" :maxFileSize="1000000">
                     <template #empty>
                         <span>Arraste e solte a logo aqui.</span>
                     </template>
