@@ -10,11 +10,11 @@
       </template>
 
       <template #center>
-        <h2><span>AuraTêxtil</span></h2>
+        <h2><span>Aura Têxtil</span></h2>
       </template>
 
       <template #end>
-        <Button v-tooltip.left="'Configurações do sistema'" icon="pi pi-warehouse" class="flex-auto ml-2" text as="router-link" to="/configurations" ></Button>
+        <!-- <Button v-tooltip.left="'Configurações do sistema'" icon="pi pi-warehouse" class="flex-auto ml-2" text as="router-link" to="/configurations" ></Button> -->
         <Button v-tooltip.bottom="'Logout'" icon="pi pi-sign-out" class="flex-auto ml-2" severity="danger" text></Button>
       </template>
     </Toolbar>

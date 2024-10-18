@@ -18,6 +18,10 @@
                         <span>Arraste e solte a logo aqui.</span>
                     </template>
                   </FileUpload>
+
+                  <div v-if="logoUrl">
+                    <img :src="logoUrl" alt="Logotipo da empresa" style="max-width: 200px;" />
+                  </div>
                 </AccordionContent>
             </AccordionPanel>
           </Accordion>
@@ -29,6 +33,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, onMounted } from 'vue';
 import Card from 'primevue/card';
 import Accordion from 'primevue/accordion';
 import FileUpload from 'primevue/fileupload';
@@ -38,12 +43,21 @@ import AccordionContent from 'primevue/accordioncontent';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 
+const logoUrl = ref(null);
+
+onMounted(() => {
+  getFile()
+})
+
+const getFile = () => {
+
+}
+
 </script>
 
 <style module>
 .container {
   display: flex;
-  /* height: 100vh; */
 }
 
 .sidebar {
