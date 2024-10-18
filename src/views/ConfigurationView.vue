@@ -45,13 +45,13 @@ import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 
 const logoUrl = ref(null);
 
-onMounted(() => {
-  getFile()
-})
+// onMounted(() => {
+//   getFile()
+// })
 
-const getFile = () => {
+// const getFile = () => {
 
-}
+// }
 
 </script>
 
