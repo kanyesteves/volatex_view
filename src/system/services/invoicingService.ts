@@ -30,6 +30,15 @@ class invoicingService {
     return await api.post("/invoicings/register/", data)
   }
 
+  /**
+   * Envia os campos para exportar PDF
+   * @param {Object} form: campos com os dados para serem exportados
+   * @return {Array} Data: informações complementares e código de sucesso ou erro
+   */
+    async generatePDF(data: Form): Promise<any>{
+      return await api.post("/invoicings/generatePDF/", data)
+    }
+
 }
 
 export default new invoicingService()

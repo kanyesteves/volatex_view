@@ -20,7 +20,7 @@
               <StepPanels>
                 <StepPanel v-slot="{ activateCallback }" value="1">
 
-                  <div :class="$style.step">
+                  <div v-if="has_programings" :class="$style.step">
                     <div :class="$style.customborder">
                       <div v-for="programing of programings" :key="programing.id">
                         <Button
@@ -35,6 +35,8 @@
                       <Button label="Avançar" severity="success" icon="pi pi-arrow-right" @click="activateCallback('2')" />
                     </div>
                   </div>
+
+                  <Message v-else>Clique para <b><Button v-ripple  severity="info" as="router-link" to="/programing">Aqui</Button></b> criar uma programação</Message>
 
                 </StepPanel>
 
@@ -106,6 +108,7 @@ import Card from 'primevue/card';
 import Select from 'primevue/select';
 import Button from 'primevue/button';
 import Stepper from 'primevue/stepper';
+import Message from 'primevue/message';
 import StepList from 'primevue/steplist';
 import InputText from 'primevue/inputtext';
 import StepPanel from 'primevue/steppanel';
@@ -153,10 +156,14 @@ onMounted(() => {
 })
 
 const programings = ref([])
+const has_programings = ref(false)
 const getAllProgramings = debounce(async () => {
   await programingService.getAll().then((response) => {
     if (response.status == 200) {
       programings.value = response.data
+
+      if (programings.value.length > 0)
+        has_programings.value = true
     }
   })
 })

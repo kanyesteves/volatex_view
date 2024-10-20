@@ -104,8 +104,8 @@ watch(() => props.weight_per_porcentage, (newValue) => {
 
 
 const onSaveInvoincing = async () => {
-  console.log('Exportando...')
   formatValues()
+  exportPDF(form.value)
 
   await invoicingService.save(form.value).then(async (response) => {
 
@@ -114,6 +114,31 @@ const onSaveInvoincing = async () => {
       location.reload()
     }
   })
+}
+
+const exportPDF = async (data) => {
+  try {
+    const response = await invoicingService.generatePDF(form.value, {
+      responseType: 'blob'
+    });
+
+    if (response.status === 200) {
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'faturamento.pdf');
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      console.log('Exportado');
+    }
+  } catch (error) {
+    console.error('Erro ao exportar PDF', error);
+  }
 }
 
 const formatValues = () => {

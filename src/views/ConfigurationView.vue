@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import Card from 'primevue/card';
 import Accordion from 'primevue/accordion';
 import FileUpload from 'primevue/fileupload';
