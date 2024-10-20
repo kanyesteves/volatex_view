@@ -1,6 +1,7 @@
 <template>
   <Dialog v-model:visible="visible" modal header="Aviso de confirmação" :style="{ width: '25rem' }">
     <span>Tem certeza que deseja remover o artigo <b>{{ props.article.name }}</b>?</span>
+    <Message :class="$style.messageWarn" severity="warn"><b>Ao remover esse artigo você estará excluíndo todos vinculos criado com ele.</b></Message>
 
     <div :class="$style.space_bottons">
       <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
@@ -13,6 +14,7 @@
 import { defineModel, defineProps } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
+import Message from 'primevue/message';
 import articleService from '@/system/services/articleService';
 import { useToast } from 'primevue/usetoast';
 
@@ -36,5 +38,9 @@ const onRemoveArticle = () => {
     display: flex;
     justify-content: end;
     margin-top: 1.5rem;
+  }
+
+  .messageWarn {
+    margin-top: 1rem;
   }
 </style>

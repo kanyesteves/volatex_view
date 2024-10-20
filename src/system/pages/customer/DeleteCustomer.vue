@@ -1,6 +1,7 @@
 <template>
   <Dialog v-model:visible="visible" modal header="Aviso de confirmação" :style="{ width: '25rem' }">
     <span>Tem certeza que deseja remover o cliente <b>{{ props.customer.name }}</b>?</span>
+    <Message :class="$style.messageWarn" severity="warn"><b>Ao remover esse cliente você estará excluíndo todos vinculos criado com ele.</b></Message>
 
     <div :class="$style.space_bottons">
       <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
@@ -13,6 +14,7 @@
 import { defineModel, defineProps } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
+import Message from 'primevue/message';
 import customerService from '@/system/services/customerService';
 import { useToast } from 'primevue/usetoast';
 
@@ -37,5 +39,9 @@ const onRemoveCustomer = () => {
     display: flex;
     justify-content: end;
     margin-top: 1.5rem;
+  }
+
+  .messageWarn {
+    margin-top: 1rem;
   }
 </style>

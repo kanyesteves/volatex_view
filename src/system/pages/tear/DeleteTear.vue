@@ -1,5 +1,6 @@
 <template>
   <Dialog v-model:visible="visible" modal header="Aviso de confirmação" :style="{ width: '25rem' }">
+    <Message :class="$style.messageWarn" severity="warn"><b>Verique <Button v-ripple  severity="warn" as="router-link" to="/programing">aqui</Button> se o tear {{ props.tear.name }} está em alguma programação antes de remover !!</b></Message>
     <span>Tem certeza que deseja remover o tear <b>{{ props.tear.name }}</b>?</span>
 
     <div :class="$style.space_bottons">
@@ -13,6 +14,7 @@
 import { defineModel, defineProps } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
+import Message from 'primevue/message';
 import tearService from '@/system/services/tearService';
 import { useToast } from 'primevue/usetoast';
 
@@ -37,5 +39,9 @@ const onRemoveTear = () => {
     display: flex;
     justify-content: end;
     margin-top: 1.5rem;
+  }
+
+  .messageWarn {
+    margin-bottom: 1rem;
   }
 </style>
