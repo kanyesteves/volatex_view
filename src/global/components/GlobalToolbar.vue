@@ -15,7 +15,7 @@
 
       <template #end>
         <!-- <Button v-tooltip.left="'Configurações do sistema'" icon="pi pi-warehouse" class="flex-auto ml-2" text as="router-link" to="/configurations" ></Button> -->
-        <Button v-tooltip.bottom="'Logout'" icon="pi pi-sign-out" class="flex-auto ml-2" severity="danger" text></Button>
+        <Button v-tooltip.bottom="'Logout'" icon="pi pi-sign-out" as="router-link" to="/login" severity="danger" :style="{'text-decoration': 'none'}" text></Button>
       </template>
     </Toolbar>
   </div>
