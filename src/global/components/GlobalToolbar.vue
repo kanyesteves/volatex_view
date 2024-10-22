@@ -15,7 +15,7 @@
 
       <template #end>
         <!-- <Button v-tooltip.left="'Configurações do sistema'" icon="pi pi-warehouse" class="flex-auto ml-2" text as="router-link" to="/configurations" ></Button> -->
-        <Button v-tooltip.bottom="'Logout'" icon="pi pi-sign-out" as="router-link" to="/login" severity="danger" :style="{'text-decoration': 'none'}" text></Button>
+        <Button v-tooltip.bottom="'Logout'" @click="removeSession" icon="pi pi-sign-out" as="router-link" to="/login" severity="danger" :style="{'text-decoration': 'none'}" text></Button>
       </template>
     </Toolbar>
   </div>
@@ -31,6 +31,10 @@ const visible = ref(false)
 
 const onMenuClick = () => {
   visible.value = true
+}
+
+const removeSession = () => {
+  localStorage.removeItem('token')
 }
 
 

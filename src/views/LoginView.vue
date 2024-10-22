@@ -10,17 +10,37 @@
           <InputIcon>
               <i class="pi pi-user" />
           </InputIcon>
-          <InputText id="name" v-model="form.name" placeholder="Name" autofocus fluid />
+          <InputText id="name" v-model="form.name" placeholder="Login" autofocus fluid />
       </IconField>
 
       <IconField :style="{ 'margin-top': '0.4rem'}">
         <InputIcon>
             <i class="pi pi-key" />
         </InputIcon>
-        <InputText id="passwd" v-model="form.password" placeholder="Senha" type="password" fluid />
+        <InputText id="password" v-model="form.password" placeholder="Senha" type="password" fluid />
       </IconField>
 
-      <Button :style="{ 'margin-top': '1.8rem'}" type="submit" label="Entrar" />
+      <Button :style="{ 'margin-top': '1.8rem'}" type="submit" label="Entrar" @click="checkAuth" />
+      <Message v-if="unprocessable_entity" :class="$style.messageError" severity="error">
+        <b>
+          Campos obrigatórios:
+          <ul v-for="field of fields_error" :key="field">
+            <li>{{ (field.loc[1] == 'username') ? 'Login' : 'Senha' }}</li>
+          </ul>
+        </b>
+      </Message>
+
+      <Message v-if="unautothorized" :class="$style.messageError" severity="error">
+        <b>Usuário inválido</b>
+      </Message>
+
+      <Message v-if="server_error" :class="$style.messageError" severity="error">
+        Servidor parou. Entre em contato com o nosso time de suporte clicando 
+        <a href="https://wa.me/5547996288611" target="_blank">
+          Aqui.
+        </a>
+      </Message>
+
     </div>
   </div>
 </template>
@@ -28,16 +48,42 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import Button from 'primevue/button';
+import Message from 'primevue/message';
 import IconField from 'primevue/iconfield';
 import InputText from 'primevue/inputtext';
 import InputIcon from 'primevue/inputicon';
 import type { Form } from '@/system/type/loginType';
+import loginService from '@/system/services/loginService'
+import router from '@/router';
 
 const form = ref<Form>({})
+const unautothorized = ref(false)
+const unprocessable_entity = ref(false)
+const server_error = ref(false)
+const fields_error = ref([])
 
-// const checkAuth = async () => {
+const checkAuth = async () => {
+  server_error.value = false
+  unautothorized.value = false
+  unprocessable_entity.value = false
 
-// }
+  await loginService.check(form.value).then((response) => {
+    if (response.data.access_token) {
+      localStorage.setItem('token', response.data.acess_token)
+      router.push('/production')
+    }
+  }).catch((error) => {
+    if (error.code == "ERR_NETWORK") {
+      server_error.value = true
+    } else if (error.response.status == 401) {
+      fields_error.value = error.response.data.detail
+      unautothorized.value = true
+    } else if (error.response.status == 422) {
+      fields_error.value = error.response.data.detail
+      unprocessable_entity.value = true
+    }
+  })
+}
 
 </script>
 
@@ -71,4 +117,7 @@ const form = ref<Form>({})
     max-width: 150px;
   }
 
+  .messageError {
+    margin-top: 1rem;
+  }
 </style>

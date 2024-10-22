@@ -36,7 +36,7 @@
                     </div>
                   </div>
 
-                  <Message v-else>Clique para <b><Button v-ripple  severity="info" as="router-link" to="/programing">Aqui</Button></b> criar uma programação</Message>
+                  <Message v-else>Clique <b><Button v-ripple  severity="info" as="router-link" to="/programing">Aqui</Button></b> para criar uma programação</Message>
 
                 </StepPanel>
 
