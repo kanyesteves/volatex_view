@@ -8,7 +8,7 @@ class loginService {
    * @param {Form} Form: Credenciais do usuário para buscar as informações
    * @return {Array} Data: Informações do usuário e código de sucesso ou erro
    */
-  async get(data: Form): Promise<any>{
+  async check(data: Form): Promise<any>{
     return await api.post(`/login/`, data)
   }
 
