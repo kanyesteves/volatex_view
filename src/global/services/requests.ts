@@ -1,3 +1,4 @@
+import router from "@/router"
 import axios from "axios"
 import type { AxiosInstance } from "axios"
 
@@ -31,6 +32,10 @@ api.interceptors.response.use(
   function (error) {
     if (error.code === "ERR_NETWORK") {
       console.log('ERROR: ', 500)
+      router.push('/servererror')
+    } else if (error?.response.status === 401) {
+      console.log('UNAUTHORIZED: ', 401)
+      localStorage.removeItem('token')
     } else if (error?.response.status === 403) {
       console.log('FORBIDDEN: ', 403)
     } else if (error?.response.status === 405) {

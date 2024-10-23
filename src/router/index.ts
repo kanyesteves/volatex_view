@@ -4,12 +4,19 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: '',
-    component: () => import(/* webpackChunkName: "user" */ '../views/NotFoundView.vue')
+    component: () => import(/* webpackChunkName: "user" */ '../views/NotFoundView.vue'),
+    meta: { requiresAuth: true }
   },
   {
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "user" */ '../views/LoginView.vue')
+  },
+  {
+    path: '/servererror',
+    name: 'servererror',
+    component: () => import(/* webpackChunkName: "user" */ '../views/ServerErrorView.vue'),
+    meta: { requiresAuth: true }
   },
   {
     path: '/invoicing',

@@ -69,7 +69,7 @@ const checkAuth = async () => {
 
   await loginService.check(form.value).then((response) => {
     if (response.data.access_token) {
-      localStorage.setItem('token', response.data.acess_token)
+      localStorage.setItem('token', response.data.access_token)
       router.push('/production')
     }
   }).catch((error) => {
