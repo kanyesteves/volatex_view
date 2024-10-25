@@ -38,7 +38,7 @@
           <InputGroupAddon>Kg</InputGroupAddon>
         </InputGroup>
 
-        <InputGroup v-for="porcentage of weight_per_porcentage" :key="porcentage.name" :style="{ 'margin-top': '1rem', 'max-width': '250px' }">
+        <InputGroup v-for="porcentage of weight_per_porcentage" :key="porcentage.name" :style="{ 'margin-top': '1rem', 'max-width': formatWeightValue(porcentage) }">
           <InputGroupAddon>{{ porcentage.name }}</InputGroupAddon>
           <InputGroupAddon>{{ porcentage.value + '%' }}</InputGroupAddon>
           <InputText v-model="porcentage.weight" disabled />
@@ -148,6 +148,10 @@ const formatValues = () => {
   form.value.customer = customer.value
   form.value.article = article.value
   form.value.op = op.value.code
+}
+
+const formatWeightValue = (porcentage) => {
+  return (porcentage.name.length <= 6) ? (porcentage.name.length * 2.5) + 'rem' : (porcentage.name.length * 1.8) + 'rem'
 }
 
 </script>
