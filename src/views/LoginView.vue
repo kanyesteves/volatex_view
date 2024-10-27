@@ -17,7 +17,7 @@
         <InputIcon>
             <i class="pi pi-key" />
         </InputIcon>
-        <InputText id="password" v-model="form.password" placeholder="Senha" type="password" fluid />
+        <InputText id="password" v-model="form.password" @keydown.enter="checkAuth" placeholder="Senha" type="password" fluid />
       </IconField>
 
       <Button :style="{ 'margin-top': '1.8rem'}" type="submit" label="Entrar" @click="checkAuth" />

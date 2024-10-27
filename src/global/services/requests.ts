@@ -30,20 +30,19 @@ api.interceptors.response.use(
     return response
   },
   function (error) {
-    if (error.code === "ERR_NETWORK") {
+    if (error.code === "ERR_NETWORK" ||  error?.response.status === 500) {
       console.log('ERROR: ', 500)
       router.push('/servererror')
     } else if (error?.response.status === 401) {
       console.log('UNAUTHORIZED: ', 401)
       localStorage.removeItem('token')
+      router.push('/login')
     } else if (error?.response.status === 403) {
       console.log('FORBIDDEN: ', 403)
     } else if (error?.response.status === 405) {
       console.log('METHOD NOT ALLOWED: ', 405)
     } else if (error?.response.status === 422) {
       console.log('UNPROCESSABLE_ENTITY: ', 422)
-    } else if (error?.response.status === 500) {
-      console.log('ERROR: ', 500)
     }
 
     return Promise.reject(error)
