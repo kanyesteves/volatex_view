@@ -5,7 +5,7 @@
     <Message :class="$style.messageError" severity="error">
       Servidor parou ou está com problemas. Entre em contato com o nosso time de suporte clicando 
       <a href="https://wa.me/5547996288611" target="_blank">
-        Aqui.
+        AQUI.
       </a>
     </Message>
   </div>

@@ -170,7 +170,7 @@ const graphs = ref({})
 watch(() => props.graphs, (newValue) => {
   graphs.value = newValue
   graphs.value.total_weight = graphs.value.total_weight.toFixed(1)
-  graphs.value.total_invoiced = (graphs.value.total_invoiced.length > 0) ? ((graphs.value.total_invoiced / graphs.value.total_pieces) * 100).toFixed(0) : 0
+  graphs.value.total_invoiced = (graphs.value.total_invoiced > 0) ? ((graphs.value.total_invoiced / graphs.value.total_pieces) * 100).toFixed(0) : 0
 })
 
 const form = ref<Form>(props.op)
