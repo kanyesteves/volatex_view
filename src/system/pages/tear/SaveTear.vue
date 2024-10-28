@@ -14,20 +14,20 @@
             <InputGroupAddon>
                 <i class="pi pi-wrench"></i>
             </InputGroupAddon>
-            <InputText placeholder="Name" id="name" v-model="form.name" class="flex-auto" autocomplete="off" />
+            <InputText placeholder="Name" id="name" v-model="form.name" :invalid="name_empty" @change="removeError('name')" class="flex-auto" autocomplete="off" />
           </InputGroup>
 
           <InputGroup :style="{ 'margin-left': '1rem' }">
             <InputGroupAddon>
                 <i class="pi pi-cog"></i>
             </InputGroupAddon>
-              <InputText placeholder="Modelo" id="model" v-model="form.model" class="flex-auto" autocomplete="off" />
+              <InputText placeholder="Modelo" id="model" v-model="form.model" :invalid="model_empty" @change="removeError('model')" class="flex-auto" autocomplete="off" />
           </InputGroup>
         </div>
 
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Criar" severity="success" @click="onSaveUser"></Button>
+          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Criar" severity="success" @click="onSaveTear"></Button>
         </div>
 
       </Dialog>
@@ -47,19 +47,45 @@ import tearService from '@/system/services/tearService';
 import type Form from '@/system/type/tearType'
 
 const visible = defineModel()
-
+const name_empty = ref(false)
+const model_empty = ref(false)
 const form = ref<Form>({})
 
-const onSaveUser = async () => {
-
+const onSaveTear = async () => {
+  console.log(form.value)
   await tearService.save(form.value).then(async (response) => {
 
     if (response.status === 201) {
       visible.value = false
       location.reload()
     }
+  }).catch((error) => {
+    error.response.data.detail.forEach(element => {
+      formValid(element.loc)
+    });
   })
 
+}
+
+const removeError = (field) => {
+  if (field == 'name')
+    name_empty.value = false
+  else if (field == 'model')
+    model_empty.value = false
+}
+
+const formValid = (loc) => {
+  let field = loc[1]
+  switch (field) {
+    case 'name':
+      name_empty.value = true
+      break
+    case 'model':
+      model_empty.value = true
+      break
+    default:
+      break
+  }
 }
 
 </script>

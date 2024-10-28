@@ -8,14 +8,14 @@
             <InputGroupAddon>
                 <i class="pi pi pi-sliders-h"></i>
             </InputGroupAddon>
-              <InputText placeholder="Nome" id="wirename" v-model="form.name" class="flex-auto" autocomplete="off" />
+              <InputText placeholder="Nome" id="wirename" v-model="form.name" :invalid="name_empty" @change="removeError('name')" class="flex-auto" autocomplete="off" />
           </InputGroup>
 
           <InputGroup :style="{ 'margin-left': '1rem' }">
             <InputGroupAddon>
                 <i class="pi pi-shopping-bag"></i>
             </InputGroupAddon>
-            <InputText placeholder="Descrição" id="description" v-model="form.description" />
+            <InputText placeholder="Descrição" id="description" v-model="form.description" :invalid="description_empty" @change="removeError('description')"/>
           </InputGroup>
         </div>
 
@@ -40,7 +40,8 @@ import wireService from '@/system/services/wireService';
 import type Form from '@/system/type/wireType'
 
 const visible = defineModel()
-
+const name_empty = ref(false)
+const description_empty = ref(false)
 const form = ref<Form>({})
 
 const onSaveWire = async () => {
@@ -50,8 +51,33 @@ const onSaveWire = async () => {
       visible.value = false
       location.reload()
     }
+  }).catch((error) => {
+    error.response.data.detail.forEach(element => {
+      formValid(element.loc)
+    });
   })
 
+}
+
+const removeError = (field) => {
+  if (field == 'name')
+    name_empty.value = false
+  else if (field == 'description')
+    description_empty.value = false
+}
+
+const formValid = (loc) => {
+  let field = loc[1]
+  switch (field) {
+    case 'name':
+      name_empty.value = true
+      break
+    case 'description':
+      description_empty.value = true
+      break
+    default:
+      break
+  }
 }
 
 </script>

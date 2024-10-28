@@ -14,14 +14,14 @@
             <InputGroupAddon>
                 <i class="pi pi-user"></i>
             </InputGroupAddon>
-            <InputText placeholder="Name" id="name" v-model="form.name" class="flex-auto" autocomplete="off" />
+            <InputText placeholder="Name" id="name" v-model="form.name" :invalid="name_empty" @change="removeError('name')" class="flex-auto" autocomplete="off" />
           </InputGroup>
 
           <InputGroup :style="{ 'margin-left': '1rem' }">
             <InputGroupAddon>
                 <i class="pi pi-briefcase"></i>
             </InputGroupAddon>
-              <InputText placeholder="Cargo" id="office" v-model="form.office" class="flex-auto" autocomplete="off" />
+              <InputText placeholder="Cargo" id="office" v-model="form.office" :invalid="office_empty" @change="removeError('office')" class="flex-auto" autocomplete="off" />
           </InputGroup>
         </div>
 
@@ -47,7 +47,8 @@ import operatorService from '@/system/services/operatorService';
 import type Form from '@/system/type/operatorType'
 
 const visible = defineModel()
-
+const name_empty = ref(false)
+const office_empty = ref(false)
 const form = ref<Form>({})
 const options = ref([
   {name: '1º Primeiro', value: 'primeiro'},
@@ -56,15 +57,42 @@ const options = ref([
 ])
 
 const onSaveOperator = async () => {
-  form.value.turn = form.value.turn.value
+  if (form.value.turn != undefined)
+    form.value.turn = form.value.turn.value
+
   await operatorService.save(form.value).then(async (response) => {
 
     if (response.status === 201) {
       visible.value = false
       location.reload()
     }
+  }).catch((error) => {
+    error.response.data.detail.forEach(element => {
+      formValid(element.loc)
+    });
   })
 
+}
+
+const removeError = (field) => {
+  if (field == 'name')
+    name_empty.value = false
+  else if (field == 'model')
+    office_empty.value = false
+}
+
+const formValid = (loc) => {
+  let field = loc[1]
+  switch (field) {
+    case 'name':
+      name_empty.value = true
+      break
+    case 'office':
+      office_empty.value = true
+      break
+    default:
+      break
+  }
 }
 
 </script>

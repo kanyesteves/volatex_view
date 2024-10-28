@@ -35,7 +35,7 @@ api.interceptors.response.use(
       router.push('/servererror')
     } else if (error?.response.status === 401) {
       console.log('UNAUTHORIZED: ', 401)
-      localStorage.removeItem('token')
+      // localStorage.removeItem('token')
       router.push('/login')
     } else if (error?.response.status === 403) {
       console.log('FORBIDDEN: ', 403)
