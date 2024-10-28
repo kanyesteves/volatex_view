@@ -8,7 +8,7 @@
             <InputGroupAddon>
                 <i class="pi pi-key"></i>
             </InputGroupAddon>
-            <InputText placeholder="Código" id="code" v-model="form.code" class="flex-auto" autocomplete="off" />
+            <InputText placeholder="Código" id="code" v-model="form.code" :invalid="code_empty" @change="removeError('code')" class="flex-auto" autocomplete="off" />
           </InputGroup>
         </div>
 
@@ -17,22 +17,22 @@
             <InputGroupAddon>
                 <i class="pi pi-address-book"></i>
             </InputGroupAddon>
-            <Select v-model="form.customer" :options="props.customers" optionLabel="name" filter placeholder="Cliente" class="w-full md:w-80" />
+            <Select v-model="form.customer" :options="props.customers" :invalid="customers_empty" @change="removeError('customer')" optionLabel="name" filter placeholder="Cliente" class="w-full md:w-80" />
           </InputGroup>
 
           <InputGroup :style="{ 'max-width': '210px'}">
             <InputGroupAddon>
                 <i class="pi pi-thumbtack"></i>
             </InputGroupAddon>
-            <Select v-model="form.article" :options="props.articles" optionLabel="name" filter placeholder="Artigo" class="w-full md:w-80" />
+            <Select v-model="form.article" :options="props.articles" :invalid="articles_empty" @change="removeError('article')" optionLabel="name" filter placeholder="Artigo" class="w-full md:w-80" />
           </InputGroup>
 
           <InputGroup :style="{ 'max-width': '210px' }">
             <InputGroupAddon>
                 <i class="pi pi-sliders-h"></i>
             </InputGroupAddon>
-            <MultiSelect v-model="form.wires" :options="props.wires" optionLabel="name" filter placeholder="Fios"
-            :maxSelectedLabels="3" @change="updatePorcentage(form.wires)" class="w-full md:w-80" />
+            <MultiSelect v-model="form.wires" :options="props.wires" :invalid="wires_empty" optionLabel="name" filter placeholder="Fios"
+            :maxSelectedLabels="3" @change="[updatePorcentage(form.wires), removeError('wires')]" class="w-full md:w-80" />
           </InputGroup>
         </div>
 
@@ -44,6 +44,7 @@
           <InputGroup :style="{ 'max-width': '145px'}">
             <InputNumber 
               placeholder="00" 
+              :invalid="total_pieces_empty" @change="removeError('total_pieces')"
               id="totalPieces" 
               v-model="form.total_pieces"
               class="flex-auto" autocomplete="off" />
@@ -55,7 +56,8 @@
           <InputGroup :style="{ 'max-width': '145px'}">
             <InputNumber 
               placeholder="0.00" 
-              id="weightPerPiece" 
+              id="weightPerPiece"
+              :invalid="weight_per_piece_empty" @change="removeError('weight_per_piece')" 
               v-model="form.weight_per_piece" 
               :minFractionDigits="2" :maxFractionDigits="5"
               class="flex-auto" autocomplete="off" />
@@ -68,6 +70,7 @@
             <InputNumber 
               placeholder="0.00" 
               id="weightTotal" 
+              :invalid="total_weight_empty" @change="removeError('total_weight')"
               v-model="form.total_weight" 
               :minFractionDigits="1" :maxFractionDigits="5"
               class="flex-auto" autocomplete="off" />
@@ -117,7 +120,13 @@ import type Form from '@/system/type/orderOfOperationType'
 
 const visible = defineModel()
 const props = defineProps(['customers', 'articles', 'wires'])
-
+const code_empty = ref(false)
+const customers_empty = ref(false)
+const articles_empty = ref(false)
+const wires_empty = ref(false)
+const total_pieces_empty = ref(false)
+const total_weight_empty = ref(false)
+const weight_per_piece_empty = ref(false)
 const form = ref<Form>({})
 
 const onSaveOP = async () => {
@@ -129,6 +138,11 @@ const onSaveOP = async () => {
       visible.value = false
       location.reload()
     }
+  }).catch((error) => {
+    console.log(error)
+    error.response.data.detail.forEach(element => {
+      formValid(element.loc)
+    });
   })
 
 }
@@ -163,6 +177,52 @@ const updatePorcentage = (event) => {
       })
     });
 
+  }
+}
+
+const removeError = (field) => {
+  if (field == 'code')
+    code_empty.value = false
+  else if (field == 'customer')
+    customers_empty.value = false
+  else if (field == 'article')
+    articles_empty.value = false
+  else if (field == 'wires')
+    wires_empty.value = false
+  else if (field == 'total_weight')
+    total_weight_empty.value = false
+  else if (field == 'weight_per_piece')
+    weight_per_piece_empty.value = false
+  else if (field == 'total_pieces')
+    total_pieces_empty.value = false
+}
+
+const formValid = (loc) => {
+  let field = loc[1]
+  switch (field) {
+    case 'code':
+      code_empty.value = true
+      break
+    case 'customer':
+      customers_empty.value = true
+      break
+    case 'article':
+      articles_empty.value = true
+      break
+    case 'wires':
+      wires_empty.value = true
+      break
+    case 'total_weight':
+      total_weight_empty.value = true
+      break
+    case 'weight_per_piece':
+      weight_per_piece_empty.value = true
+      break
+    case 'total_pieces':
+      total_pieces_empty.value = true
+      break
+    default:
+      break
   }
 }
 
