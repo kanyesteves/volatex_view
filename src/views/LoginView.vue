@@ -53,7 +53,10 @@ import IconField from 'primevue/iconfield';
 import InputText from 'primevue/inputtext';
 import InputIcon from 'primevue/inputicon';
 import type { Form } from '@/system/type/loginType';
+import { jwtDecode as jwt_decode } from 'jwt-decode';
 import loginService from '@/system/services/loginService'
+import groupService from '@/system/services/groupService';
+import { setItemsConfig } from '@/global/storages/authStorage';
 import router from '@/router';
 
 const form = ref<Form>({})
@@ -71,6 +74,7 @@ const checkAuth = async () => {
     if (response.data.access_token) {
       localStorage.setItem('token', response.data.access_token)
       router.push('/production')
+      fetchUserPermissions()
     }
   }).catch((error) => {
     if (error.code == "ERR_NETWORK") {
@@ -84,6 +88,78 @@ const checkAuth = async () => {
     }
   })
 }
+
+const userPermissions = ref([])
+const items_config = ref([])
+
+const fetchUserPermissions = async () => {
+  const decodedToken = decodeToken();
+  if (decodedToken) {
+    await groupService.getPermissions(decodedToken).then((response) => {
+      userPermissions.value = response.data.permissions;
+      generateMenuItems();
+    })
+  }
+};
+
+const decodeToken = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const decoded = jwt_decode(token);
+    return decoded;
+  }
+  return null;
+};
+
+const generateMenuItems = () => {
+  items_config.value = [
+    {
+      label: 'Operações',
+      items: filterItems(['Faturamento', 'Produção', 'Programações do Tear', 'Ordens de Operação'])
+    },
+    {
+      label: 'Configurações',
+      items: filterItems(['Clientes', 'Teares', 'Operadores', 'Fios', 'Artigos'])
+    },
+    {
+      label: 'Sistema',
+      items: filterItems(['Grupos', 'Usuários'])
+    }
+  ];
+
+  setItemsConfig(items_config.value)
+}
+
+const filterItems = (itemLabels) => {
+
+  return itemLabels
+    .filter(label => userPermissions.value.some(perm => perm.name === label))
+    .map(label => {
+      const permission = userPermissions.value.find(perm => perm.name === label);
+      return {
+        label: permission.name,
+        icon: 'pi pi-' + getIcon(permission.name),
+        route: `/${permission.component.toLowerCase()}`
+      };
+    });
+};
+
+const getIcon = (name) => {
+  const icons = {
+    'Faturamento': 'dollar',
+    'Produção': 'clipboard',
+    'Programações do Tear': 'tags',
+    'Ordens de Operação': 'stopwatch',
+    'Clientes': 'address-book',
+    'Teares': 'cog',
+    'Operadores': 'wrench',
+    'Fios': 'sliders-h',
+    'Artigos': 'thumbtack',
+    'Grupos': 'id-card',
+    'Usuários': 'users'
+  };
+  return icons[name] || 'pi-folder';
+};
 
 </script>
 

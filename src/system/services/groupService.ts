@@ -21,6 +21,15 @@ class groupService {
   }
 
   /**
+   * Busca as permissões conforme o nome do usuário.
+   * @param {Object} form: nome do usuário para buscar as informações
+   * @return {Array} Data: Informações do usuário e código de sucesso ou erro
+   */
+    async getPermissions(payload: Form): Promise<any>{
+      return await api.post(`/groups/getPermissions`, payload)
+    }
+
+  /**
    * Busca uma lista de usuários conforme o ID validando a permissão
    * @param {number} id: Id do grupo para buscar as informações
    * @return {Array} Data: Informações do grupo e código de sucesso ou erro

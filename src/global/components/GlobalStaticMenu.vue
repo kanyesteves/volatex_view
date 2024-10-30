@@ -19,82 +19,11 @@
 
 
 <script lang="ts" setup>
-import { ref } from 'vue';
 import Card from 'primevue/card';
 import Menu from 'primevue/menu';
+import { getItemsConfig } from '@/global/storages/authStorage';
 
-const items_config = ref([
-  { 
-    label: 'Operações',
-    items: [
-      {
-        label: 'Faturamento',
-        icon: 'pi pi-dollar',
-        route: '/invoicing'
-      },
-      {
-        label: 'Produção',
-        icon: 'pi pi-clipboard',
-        route: '/production'
-      },
-      {
-        label: 'Programações do Tear',
-        icon: 'pi pi-tags',
-        route: '/programing'
-      },
-      {
-        label: 'Orderns de Operação',
-        icon: 'pi pi-stopwatch',
-        route: '/orderOfOperation'
-      }
-    ]
-  },
-  { 
-    label: 'Configurações',
-    items: [
-      {
-        label: 'Clientes',
-        icon: 'pi pi-address-book',
-        route: '/customer'
-      },
-      {
-        label: 'Teares',
-        icon: 'pi pi-cog',
-        route: '/tear'
-      },
-      {
-        label: 'Operadores',
-        icon: 'pi pi-wrench',
-        route: '/operator'
-      },
-      {
-        label: 'Fios',
-        icon: 'pi pi-sliders-h',
-        route: '/wire'
-      },
-      {
-        label: 'Artigos',
-        icon: 'pi pi-thumbtack',
-        route: '/article'
-      }
-    ]
-  }, 
-  {
-    label: 'Sistema',
-    items: [
-      {
-        label: 'Grupos de usuários',
-        icon: 'pi pi-id-card',
-        route: '/group'
-      },
-      {
-        label: 'Usuários',
-        icon: 'pi pi-users',
-        route: '/user'
-      }
-    ]
-  }
-]);
+const items_config = getItemsConfig()
 
 </script>
 
