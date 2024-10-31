@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import Card from 'primevue/card';
 import { debounce } from 'lodash';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
@@ -46,6 +46,29 @@ import SaveTear from '@/system/pages/tear/SaveTear.vue';
 import UpdateTear from '@/system/pages/tear/UpdateTear.vue';
 import DeleteTear from '@/system/pages/tear/DeleteTear.vue';
 import tearService from '@/system/services/tearService';
+import { getItemsConfig } from '@/global/storages/authStorage';
+import router from '@/router';
+
+const items_config = getItemsConfig()
+onMounted(() => {
+  validMenu()
+})
+
+const validMenu = () => {
+  items_config.forEach((section) => {
+    if (section.items.length == 1) {
+
+      section.items.forEach(element => {
+        if (element.label == "Produção") {
+
+          router.push('/production')
+
+        }
+      });
+
+    }
+  })
+}
 
 const tear_selected = ref({
   id: 0,

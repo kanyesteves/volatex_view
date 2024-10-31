@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import Card from 'primevue/card';
 import Accordion from 'primevue/accordion';
 import FileUpload from 'primevue/fileupload';
@@ -42,6 +42,30 @@ import AccordionHeader from 'primevue/accordionheader';
 import AccordionContent from 'primevue/accordioncontent';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
+
+import { getItemsConfig } from '@/global/storages/authStorage';
+import router from '@/router';
+
+const items_config = getItemsConfig()
+onMounted(() => {
+  validMenu()
+})
+
+const validMenu = () => {
+  items_config.forEach((section) => {
+    if (section.items.length == 1) {
+
+      section.items.forEach(element => {
+        if (element.label == "Produção") {
+
+          router.push('/production')
+
+        }
+      });
+
+    }
+  })
+}
 
 const logoUrl = ref(null);
 

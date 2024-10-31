@@ -4,6 +4,7 @@
 
     <div :class="$style.container">
       <GlobalStaticMenu
+        v-if="!only_production"
         :class="$style.sidebar" />
 
       <Card :class="$style.mainContent" class="card">
@@ -122,7 +123,10 @@ import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import operatorService from '@/system/services/operatorService';
 import productionService from '@/system/services/productionService'
 import type Form from '@/system/type/productionType'
+import { getItemsConfig } from '@/global/storages/authStorage';
 
+const items_config = getItemsConfig()
+const only_production = ref(false)
 const form = ref<Form>({})
 
 const onSaveRecord = debounce(async () => {
@@ -153,7 +157,24 @@ onMounted(() => {
 
   getAllProgramings()
   getAllOperators()
+  validMenu()
 })
+
+const validMenu = () => {
+  items_config.forEach((section) => {
+    if (section.items.length == 1) {
+
+      section.items.forEach(element => {
+        if (element.label == "Produção") {
+
+          only_production.value = true
+
+        }
+      });
+
+    }
+  })
+}
 
 const programings = ref([])
 const has_programings = ref(false)

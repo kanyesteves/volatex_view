@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import Card from 'primevue/card';
 import { debounce } from 'lodash';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
@@ -47,6 +47,29 @@ import DeleteUser from '@/system/pages/user/DeleteUser.vue';
 import ListUser from '@/system/pages/user/ListUser.vue';
 import UpdateUser from '@/system/pages/user/UpdateUser.vue'
 import userService from '@/system/services/userService';
+import { getItemsConfig } from '@/global/storages/authStorage';
+import router from '@/router';
+
+const items_config = getItemsConfig()
+onMounted(() => {
+  validMenu()
+})
+
+const validMenu = () => {
+  items_config.forEach((section) => {
+    if (section.items.length == 1) {
+
+      section.items.forEach(element => {
+        if (element.label == "Produção") {
+
+          router.push('/production')
+
+        }
+      });
+
+    }
+  })
+}
 
 const user_selected = ref({
   id: '',

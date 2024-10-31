@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import Card from 'primevue/card';
 import { debounce } from 'lodash'
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
@@ -51,6 +51,29 @@ import UpdateGroup from '@/system/pages/group/UpdateGroup.vue';
 import DeleteGroup from '@/system/pages/group/DeleteGroup.vue';
 import groupService from '@/system/services/groupService';
 import userService from '@/system/services/userService';
+import { getItemsConfig } from '@/global/storages/authStorage';
+import router from '@/router';
+
+const items_config = getItemsConfig()
+onMounted(() => {
+  validMenu()
+})
+
+const validMenu = () => {
+  items_config.forEach((section) => {
+    if (section.items.length == 1) {
+
+      section.items.forEach(element => {
+        if (element.label == "Produção") {
+
+          router.push('/production')
+
+        }
+      });
+
+    }
+  })
+}
 
 const group_selected = ref({
   id: '',

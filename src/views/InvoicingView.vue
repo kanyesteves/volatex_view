@@ -140,12 +140,33 @@ import orderOfOperationService from '@/system/services/orderOfOperationService';
 import invoicingService from '@/system/services/invoicingService';
 import SaveInvoicing from '@/system/pages/invoicing/SaveInvoicing.vue'
 import LookInvoicing from '@/system/pages/invoicing/LookInvoicing.vue'
+import { getItemsConfig } from '@/global/storages/authStorage';
+import router from '@/router';
+
+const items_config = getItemsConfig()
 
 onMounted(() => {
   getAllOps()
   loadAllInvoicings();
   responsiveScreen();
+  validMenu();
 })
+
+const validMenu = () => {
+  items_config.forEach((section) => {
+    if (section.items.length == 1) {
+
+      section.items.forEach(element => {
+        if (element.label == "Produção") {
+
+          router.push('/production')
+
+        }
+      });
+
+    }
+  })
+}
 
 const visible = ref(false)
 const visible_record = ref(false)

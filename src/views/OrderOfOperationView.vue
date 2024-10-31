@@ -61,6 +61,8 @@ import productionService from '@/system/services/productionService';
 import customerService from '@/system/services/customerService';
 import articleService from '@/system/services/articleService';
 import wireService from '@/system/services/wireService';
+import { getItemsConfig } from '@/global/storages/authStorage';
+import router from '@/router';
 
 const setVisibleToolbar = ref([])
 
@@ -68,7 +70,26 @@ onMounted(() => {
   getAllCustomers()
   getAllArticles()
   getAllWires()
+  validMenu()
 })
+
+
+const items_config = getItemsConfig()
+const validMenu = () => {
+  items_config.forEach((section) => {
+    if (section.items.length == 1) {
+
+      section.items.forEach(element => {
+        if (element.label == "Produção") {
+
+          router.push('/production')
+
+        }
+      });
+
+    }
+  })
+}
 
 const op_selected = ref({
   id: 0,

@@ -26,6 +26,7 @@ import { ref } from 'vue';
 import Button from 'primevue/button';
 import GlobalMenu from './GlobalMenu.vue';
 import Toolbar from 'primevue/toolbar';
+import { setItemsConfig } from '@/global/storages/authStorage';
 
 const visible = ref(false)
 
