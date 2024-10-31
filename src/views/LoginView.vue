@@ -115,7 +115,7 @@ const generateMenuItems = () => {
   items_config.value = [
     {
       label: 'Operações',
-      items: filterItems(['Faturamento', 'Produção', 'Programações do Tear', 'Ordens de Operação'])
+      items: filterItems(['Faturamento', 'Produção', 'Programações', 'Ordens de Operação'])
     },
     {
       label: 'Configurações',
@@ -148,7 +148,7 @@ const getIcon = (name) => {
   const icons = {
     'Faturamento': 'dollar',
     'Produção': 'clipboard',
-    'Programações do Tear': 'tags',
+    'Programações': 'tags',
     'Ordens de Operação': 'stopwatch',
     'Clientes': 'address-book',
     'Teares': 'cog',

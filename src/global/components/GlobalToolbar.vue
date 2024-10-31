@@ -35,6 +35,7 @@ const onMenuClick = () => {
 
 const removeSession = () => {
   localStorage.removeItem('token')
+  localStorage.removeItem('items_config')
 }
 
 

@@ -62,17 +62,17 @@ watch(() => props.users_selected, (newValue) => {
 const form = ref<Form>(props.group)
 
 const listPermissions = [
-  {name: 'Faturamento',        component: 'InvoicingView'},
-  {name: 'Produção',           component: 'ProductionView'},
-  {name: 'Clientes',           component: 'CustomerView'},
-  {name: 'Teares',             component: 'TearView'},
-  {name: 'Operadores',         component: 'OperatorView'},
-  {name: 'Fios',               component: 'WireView'},
-  {name: 'Artigos',            component: 'ArticleView'},
-  {name: 'Ordens de Operação', component: 'OrderOfOperationView'},
-  {name: 'Programações',       component: 'ProgramingView'},
-  {name: 'Grupos',             component: 'GroupView'},
-  {name: 'Usuários',           component: 'UserView'}
+  {name: 'Faturamento',        component: 'Invoicing'},
+  {name: 'Produção',           component: 'Production'},
+  {name: 'Clientes',           component: 'Customer'},
+  {name: 'Teares',             component: 'Tear'},
+  {name: 'Operadores',         component: 'Operator'},
+  {name: 'Fios',               component: 'Wire'},
+  {name: 'Artigos',            component: 'Article'},
+  {name: 'Ordens de Operação', component: 'OrderOfOperation'},
+  {name: 'Programações',       component: 'Programing'},
+  {name: 'Grupos',             component: 'Group'},
+  {name: 'Usuários',           component: 'User'}
 ]
 
 const onSaveGroup = async () => {

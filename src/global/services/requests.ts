@@ -32,10 +32,13 @@ api.interceptors.response.use(
   function (error) {
     if (error.code === "ERR_NETWORK" ||  error?.response.status === 500) {
       console.log('ERROR: ', 500)
-      router.push('/servererror')
+      localStorage.removeItem('token')
+      localStorage.removeItem('items_config')
+      router.push('/login')
     } else if (error?.response.status === 401) {
       console.log('UNAUTHORIZED: ', 401)
-      // localStorage.removeItem('token')
+      localStorage.removeItem('token')
+      localStorage.removeItem('items_config')
       router.push('/login')
     } else if (error?.response.status === 403) {
       console.log('FORBIDDEN: ', 403)
