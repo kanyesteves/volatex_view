@@ -48,10 +48,11 @@ import SaveOperator from '@/system/pages/operator/SaveOperator.vue';
 import UpdateOperator from '@/system/pages/operator/UpdateOperator.vue';
 import operatorService from '@/system/services/operatorService';
 import DeleteOperator from '@/system/pages/operator/DeleteOperator.vue';
-import { getItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
 
-const items_config = getItemsConfig()
+const menuStore = useMenuStore();
+const items_config = menuStore.items_config
 onMounted(() => {
   validMenu()
 })

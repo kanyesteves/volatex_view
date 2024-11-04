@@ -56,9 +56,10 @@ import type { Form } from '@/system/type/loginType';
 import { jwtDecode as jwt_decode } from 'jwt-decode';
 import loginService from '@/system/services/loginService'
 import groupService from '@/system/services/groupService';
-import { setItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
 
+const menuStore = useMenuStore();
 const form = ref<Form>({})
 const unautothorized = ref(false)
 const unprocessable_entity = ref(false)
@@ -127,7 +128,7 @@ const generateMenuItems = () => {
     }
   ];
 
-  setItemsConfig(items_config.value)
+  menuStore.setItemsConfig(items_config.value)
 }
 
 const filterItems = (itemLabels) => {

@@ -123,9 +123,11 @@ import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import operatorService from '@/system/services/operatorService';
 import productionService from '@/system/services/productionService'
 import type Form from '@/system/type/productionType'
-import { getItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 
-const items_config = getItemsConfig()
+const menuStore = useMenuStore();
+const items_config = menuStore.items_config
+
 const only_production = ref(false)
 const form = ref<Form>({})
 
@@ -164,9 +166,8 @@ const validMenu = () => {
   items_config.forEach((section) => {
     if (section.items.length == 1) {
 
-      section.items.forEach(element => {
+       section.items.forEach(element => {
         if (element.label == "Produção") {
-
           only_production.value = true
 
         }

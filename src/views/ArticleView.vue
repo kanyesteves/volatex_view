@@ -47,10 +47,11 @@ import SaveArticle from '@/system/pages/article/SaveArticle.vue';
 import UpdateArticle from '@/system/pages/article/UpdateArticle.vue';
 import DeleteArticle from '@/system/pages/article/DeleteArticle.vue';
 import articleService from '@/system/services/articleService';
-import { getItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
 
-const items_config = getItemsConfig()
+const menuStore = useMenuStore();
+const items_config = menuStore.items_config
 onMounted(() => {
   validMenu()
 })

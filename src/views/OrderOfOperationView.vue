@@ -61,7 +61,7 @@ import productionService from '@/system/services/productionService';
 import customerService from '@/system/services/customerService';
 import articleService from '@/system/services/articleService';
 import wireService from '@/system/services/wireService';
-import { getItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
 
 const setVisibleToolbar = ref([])
@@ -73,8 +73,8 @@ onMounted(() => {
   validMenu()
 })
 
-
-const items_config = getItemsConfig()
+const menuStore = useMenuStore();
+const items_config = menuStore.items_config
 const validMenu = () => {
   items_config.forEach((section) => {
     if (section.items.length == 1) {

@@ -1,7 +1,6 @@
 import router from "@/router"
 import axios from "axios"
 import type { AxiosInstance } from "axios"
-import { setItemsConfig } from '@/global/storages/authStorage';
 
 
 const api: AxiosInstance = axios.create({

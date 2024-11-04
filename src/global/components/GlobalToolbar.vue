@@ -26,8 +26,9 @@ import { ref } from 'vue';
 import Button from 'primevue/button';
 import GlobalMenu from './GlobalMenu.vue';
 import Toolbar from 'primevue/toolbar';
-import { setItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 
+const menuStore = useMenuStore()
 const visible = ref(false)
 
 const onMenuClick = () => {
@@ -36,7 +37,7 @@ const onMenuClick = () => {
 
 const removeSession = () => {
   localStorage.removeItem('token')
-  localStorage.removeItem('items_config')
+  menuStore.clearItemsConfig()
 }
 
 

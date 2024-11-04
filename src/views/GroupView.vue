@@ -51,10 +51,11 @@ import UpdateGroup from '@/system/pages/group/UpdateGroup.vue';
 import DeleteGroup from '@/system/pages/group/DeleteGroup.vue';
 import groupService from '@/system/services/groupService';
 import userService from '@/system/services/userService';
-import { getItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
 
-const items_config = getItemsConfig()
+const menuStore = useMenuStore();
+const items_config = menuStore.items_config
 onMounted(() => {
   validMenu()
 })

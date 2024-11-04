@@ -43,10 +43,11 @@ import AccordionContent from 'primevue/accordioncontent';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 
-import { getItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
 
-const items_config = getItemsConfig()
+const menuStore = useMenuStore();
+const items_config = menuStore.items_config
 onMounted(() => {
   validMenu()
 })

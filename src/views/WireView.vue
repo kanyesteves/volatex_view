@@ -46,10 +46,11 @@ import SaveWire from '@/system/pages/wire/SaveWire.vue';
 import UpdateWire from '@/system/pages/wire/UpdateWire.vue';
 import DeleteWire from '@/system/pages/wire/DeleteWire.vue';
 import wireService from '@/system/services/wireService';
-import { getItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
 
-const items_config = getItemsConfig()
+const menuStore = useMenuStore();
+const items_config = menuStore.items_config
 onMounted(() => {
   validMenu()
 })

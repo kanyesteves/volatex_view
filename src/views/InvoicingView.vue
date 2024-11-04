@@ -140,10 +140,11 @@ import orderOfOperationService from '@/system/services/orderOfOperationService';
 import invoicingService from '@/system/services/invoicingService';
 import SaveInvoicing from '@/system/pages/invoicing/SaveInvoicing.vue'
 import LookInvoicing from '@/system/pages/invoicing/LookInvoicing.vue'
-import { getItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
 
-const items_config = getItemsConfig()
+const menuStore = useMenuStore();
+const items_config = menuStore.items_config
 
 onMounted(() => {
   getAllOps()

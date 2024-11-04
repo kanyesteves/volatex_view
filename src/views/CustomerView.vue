@@ -48,10 +48,11 @@ import UpdateCustomer from '@/system/pages/customer/UpdateCustomer.vue';
 import DeleteCustomer from '@/system/pages/customer/DeleteCustomer.vue';
 import customerService from '@/system/services/customerService';
 
-import { getItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
 
-const items_config = getItemsConfig()
+const menuStore = useMenuStore();
+const items_config = menuStore.items_config
 onMounted(() => {
   validMenu()
 })

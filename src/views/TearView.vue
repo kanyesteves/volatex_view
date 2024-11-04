@@ -46,10 +46,11 @@ import SaveTear from '@/system/pages/tear/SaveTear.vue';
 import UpdateTear from '@/system/pages/tear/UpdateTear.vue';
 import DeleteTear from '@/system/pages/tear/DeleteTear.vue';
 import tearService from '@/system/services/tearService';
-import { getItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
 
-const items_config = getItemsConfig()
+const menuStore = useMenuStore();
+const items_config = menuStore.items_config
 onMounted(() => {
   validMenu()
 })

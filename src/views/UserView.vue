@@ -47,10 +47,11 @@ import DeleteUser from '@/system/pages/user/DeleteUser.vue';
 import ListUser from '@/system/pages/user/ListUser.vue';
 import UpdateUser from '@/system/pages/user/UpdateUser.vue'
 import userService from '@/system/services/userService';
-import { getItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
 
-const items_config = getItemsConfig()
+const menuStore = useMenuStore();
+const items_config = menuStore.items_config
 onMounted(() => {
   validMenu()
 })

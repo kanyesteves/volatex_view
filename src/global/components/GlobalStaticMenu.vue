@@ -2,7 +2,7 @@
   <div class="menu">
     <Card>
       <template #content>
-        <Menu :model="items_config">
+        <Menu :model="menuItems">
           <template #item="{ item, props }">
             <router-link v-slot="{ href, navigate }" :to="item.route" custom>
               <a v-ripple :href="href" v-bind="props.action" @click="navigate">
@@ -19,11 +19,17 @@
 
 
 <script lang="ts" setup>
+import { watch, computed } from 'vue';
 import Card from 'primevue/card';
 import Menu from 'primevue/menu';
-import { getItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 
-const items_config = getItemsConfig()
+const menuStore = useMenuStore();
+const menuItems = computed(() => menuStore.items_config);
+
+watch(menuItems, (newVal) => {
+  menuItems.value = newVal;
+}, { immediate: true });
 
 </script>
 

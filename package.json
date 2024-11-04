@@ -13,6 +13,7 @@
     "@vuelidate/validators": "^2.0.4",
     "axios": "^1.7.3",
     "jwt-decode": "^4.0.0",
+    "pinia": "^2.2.6",
     "primeicons": "^7.0.0",
     "primevue": "^4.0.3",
     "tailwindcss-primeui": "^0.3.4",

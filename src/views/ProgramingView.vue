@@ -43,7 +43,7 @@ import orderOfOperationService from '@/system/services/orderOfOperationService';
 import GlobalStaticMenu from '@/global/components/GlobalStaticMenu.vue';
 import DeletePrograming from '@/system/pages/programing/DeletePrograming.vue'
 import tearService from '@/system/services/tearService';
-import { getItemsConfig } from '@/global/storages/authStorage';
+import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
 
 const setVisibleToolbar = ref([])
@@ -54,7 +54,8 @@ onMounted(() => {
   validMenu()
 })
 
-const items_config = getItemsConfig()
+const menuStore = useMenuStore();
+const items_config = menuStore.items_config
 const validMenu = () => {
   items_config.forEach((section) => {
     if (section.items.length == 1) {
