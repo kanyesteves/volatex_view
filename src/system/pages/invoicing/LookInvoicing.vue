@@ -25,27 +25,29 @@
           <InputText v-model="op" disabled />
         </InputGroup>
     
+      </div>
+      
+      <div :class="$style.div_porcentage">
         <InputGroup :class="$style.div_info" :style="{ 'max-width': '180px' }">
           <InputGroupAddon>Artigo</InputGroupAddon>
           <InputText v-model="article" disabled />
         </InputGroup>
-      </div>
-  
-      <div :class="$style.div_porcentage">
+
         <InputGroup :class="$style.div_info" :style="{ 'max-width': '200px' }">
           <InputGroupAddon>Peso total</InputGroupAddon>
           <InputText v-model="total_weight" disabled />
           <InputGroupAddon>Kg</InputGroupAddon>
         </InputGroup>
-
-        <InputGroup v-for="porcentage of weight_per_wire" :key="porcentage.name" :style="{'margin-top': '1rem', 'max-width': formatWeightValue(porcentage) }">
-          <InputGroupAddon>{{ porcentage.name }}</InputGroupAddon>
-          <InputGroupAddon>{{ porcentage.value + '%' }}</InputGroupAddon>
-          <InputText v-model="porcentage.weight" disabled />
-          <InputGroupAddon>Kg</InputGroupAddon>
-        </InputGroup>
       </div>
+
     </div>
+    <Divider />
+
+    <DataTable :value="weight_per_wire" showGridlines tableStyle="min-width: 50rem">
+      <Column field="name" header="Nome"></Column>
+      <Column field="value" header="Porcentagem"></Column>
+      <Column field="weight" header="Peso"></Column>
+    </DataTable>
 
 
     <div :class="$style.space_bottons">

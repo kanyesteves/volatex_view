@@ -83,7 +83,7 @@
                       </InputGroup>
                     </div>
                     <div>
-                      <span><b>{{ programing_name }}</b> - <b>{{ date_format }}</b></span>
+                      <span><b>{{ programing_name }}</b></span>
                     </div>
                     <div :class="$style.buttons">
                       <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('2')" />
@@ -147,16 +147,7 @@ const clearForm = () => {
   form.value = {}
 }
 
-const date_format = ref()
-
 onMounted(() => {
-  var date_ = new Date()
-  var day = date_.getDay() + 1
-  var month = date_.getMonth() + 1
-  var year = date_.getFullYear()
-
-  date_format.value = day + '/' + month + '/' + year
-
   getAllProgramings()
   getAllOperators()
   validMenu()
