@@ -1,11 +1,10 @@
-import getEnvironment from "./getEnvironment"
 import router from "@/router"
 import axios from "axios"
 import type { AxiosInstance } from "axios"
 
-const apiUrl = getEnvironment('VITE_API_URL')
+const apiPort = process.env.VUE_APP_PORT
 const api: AxiosInstance = axios.create({
-  baseURL: apiUrl || 'http://localhost:8000',
+  baseURL: "http://localhost:" + apiPort,
   headers: {
     'Content-Type': 'application/json'
   },
