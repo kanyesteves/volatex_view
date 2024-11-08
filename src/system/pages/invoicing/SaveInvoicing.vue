@@ -3,7 +3,6 @@
 
     <DataTable :value="records_for_invoice" showGridlines tableStyle="min-width: 50rem">
       <Column field="code_per_piece" header="Código"></Column>
-      <Column field="invoiced" header="Faturado"></Column>
       <Column field="date" header="Data"></Column>
       <Column field="weight" header="Peso"></Column>
       <Column field="op" header="Ordem de Operação"></Column>
@@ -24,28 +23,30 @@
           <InputGroupAddon>Ordem de Operação</InputGroupAddon>
           <InputText v-model="op.code" disabled />
         </InputGroup>
-    
+
+      </div>
+  
+      <div :class="$style.div_porcentage">
         <InputGroup :class="$style.div_info" :style="{ 'max-width': '180px' }">
           <InputGroupAddon>Artigo</InputGroupAddon>
           <InputText v-model="article" disabled />
         </InputGroup>
-      </div>
-  
-      <div :class="$style.div_porcentage">
+
         <InputGroup :class="$style.div_info" :style="{ 'max-width': '200px' }">
           <InputGroupAddon>Peso total</InputGroupAddon>
           <InputText v-model="total_weight" disabled />
           <InputGroupAddon>Kg</InputGroupAddon>
         </InputGroup>
-
-        <InputGroup v-for="porcentage of weight_per_porcentage" :key="porcentage.name" :style="{ 'margin-top': '1rem', 'max-width': formatWeightValue(porcentage) }">
-          <InputGroupAddon>{{ porcentage.name }}</InputGroupAddon>
-          <InputGroupAddon>{{ porcentage.value + '%' }}</InputGroupAddon>
-          <InputText v-model="porcentage.weight" disabled />
-          <InputGroupAddon>Kg</InputGroupAddon>
-        </InputGroup>
       </div>
+
     </div>
+    <Divider />
+
+    <DataTable :value="weight_per_porcentage" showGridlines tableStyle="min-width: 50rem">
+      <Column field="name" header="Nome"></Column>
+      <Column field="value" header="Porcentagem"></Column>
+      <Column field="weight" header="Peso"></Column>
+    </DataTable>
 
 
     <div :class="$style.space_bottons">
@@ -94,7 +95,7 @@ watch(() => props.records_for_invoice, (newValue) => {
 
 const total_weight = ref(props.total_weight)
 watch(() => props.total_weight, (newValue) => {
-  total_weight.value = newValue
+  total_weight.value = newValue.toFixed(2)
 })
 
 const weight_per_porcentage = ref(props.weight_per_porcentage)

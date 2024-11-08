@@ -3,7 +3,6 @@
 
     <DataTable :value="props.records" showGridlines tableStyle="min-width: 50rem">
       <Column field="code_per_piece" header="Código"></Column>
-      <Column field="invoiced" header="Faturado"></Column>
       <Column field="date" header="Data"></Column>
       <Column field="weight" header="Peso"></Column>
       <Column field="op" header="Ordem de Operação"></Column>
