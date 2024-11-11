@@ -83,7 +83,7 @@
                       </InputGroup>
                     </div>
                     <div>
-                      <span><b>{{ programing_name }}</b></span>
+                      <span><b>{{ programing_name }}</b> - <b>{{ form.weight }}</b></span>
                     </div>
                     <div :class="$style.buttons">
                       <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('2')" />
