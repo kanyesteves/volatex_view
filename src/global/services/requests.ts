@@ -2,9 +2,9 @@ import router from "@/router"
 import axios from "axios"
 import type { AxiosInstance } from "axios"
 
-const apiPort = process.env.VUE_APP_PORT
+const apiPort = process.env.VUE_APP_BACKEND_PORT
 const api: AxiosInstance = axios.create({
-  baseURL: "http://localhost:" + apiPort,
+  baseURL: "http://145.223.29.176:" + apiPort,
   headers: {
     'Content-Type': 'application/json'
   },

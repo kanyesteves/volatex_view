@@ -7,4 +7,5 @@ COPY . /app
 RUN npm install
 RUN npm run build
 
-CMD ["npx", "serve", "-s", "dist"]
+RUN chmod +x start.sh
+CMD ["./start.sh"]
