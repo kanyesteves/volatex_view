@@ -85,6 +85,7 @@
                     <div>
                       <span><b>{{ programing_name }}</b> - <b>{{ form.weight }}</b></span>
                     </div>
+                    <Toast />
                     <div :class="$style.buttons">
                       <Button label="Voltar" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('2')" />
                       <Button label="Registrar" severity="success" v-on:click="onSaveRecord" @click="activateCallback('1')" />
@@ -106,6 +107,7 @@ import { debounce } from 'lodash'
 import { ref, onMounted } from 'vue'
 import Step from 'primevue/step';
 import Card from 'primevue/card';
+import Toast from 'primevue/toast';
 import Select from 'primevue/select';
 import Button from 'primevue/button';
 import Stepper from 'primevue/stepper';
@@ -113,6 +115,7 @@ import Message from 'primevue/message';
 import StepList from 'primevue/steplist';
 import InputText from 'primevue/inputtext';
 import StepPanel from 'primevue/steppanel';
+import { useToast } from 'primevue/usetoast';
 import StepPanels from 'primevue/steppanels';
 import InputGroup from 'primevue/inputgroup';
 import InputNumber from 'primevue/inputnumber';
@@ -126,6 +129,7 @@ import type Form from '@/system/type/productionType'
 import { useMenuStore } from '@/global/storages/authStorage';
 
 const menuStore = useMenuStore();
+const toast = useToast();
 const items_config = menuStore.items_config
 
 const only_production = ref(false)
@@ -136,6 +140,7 @@ const onSaveRecord = debounce(async () => {
   
   await productionService.save(form.value).then((response) => {
     if (response.status == 201) {
+      toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Peça registrada no sistema !!', life: 3500 });
       console.log(response.data)
     }
   })
