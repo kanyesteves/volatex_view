@@ -1,7 +1,7 @@
 <template>
   <Dialog v-model:visible="visible" modal header="Visualizar faturamento" :style="{ width: '60rem' }">
 
-    <DataTable :value="props.records" showGridlines tableStyle="min-width: 50rem">
+    <DataTable :value="props.records" scrollable scrollHeight="14.8rem" showGridlines tableStyle="min-width: 50rem">
       <Column field="code_per_piece" header="Código"></Column>
       <Column field="date" header="Data"></Column>
       <Column field="weight" header="Peso"></Column>
@@ -88,12 +88,12 @@ watch(() => props.op, (newValue) => {
 })
 
 const customer = ref('')
-watch(() => props.op, (newValue) => {
+watch(() => props.customer, (newValue) => {
   customer.value = newValue
 })
 
 const article = ref('')
-watch(() => props.op, (newValue) => {
+watch(() => props.article, (newValue) => {
   article.value = newValue
 })
 
@@ -111,10 +111,6 @@ const weight_per_wire = ref(props.weight_per_wire)
 watch(() => props.weight_per_wire, (newValue) => {
   weight_per_wire.value = newValue
 })
-
-const formatWeightValue = (porcentage) => {
-  return (porcentage.name.length <= 6) ? (porcentage.name.length * 2.5) + 'rem' : (porcentage.name.length * 1.8) + 'rem'
-}
 
 </script>
 

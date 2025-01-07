@@ -15,6 +15,7 @@
             </TabList>
             <TabPanels>
 
+              <!-- Aba dos Faturamentos -->
               <TabPanel value="0">
                 <div :class="$style.box_invoiced">
                   <InputGroup :style="{ 'max-width': '350px' }">
@@ -36,6 +37,8 @@
                   :scroll-height="screenHeight"
                   :value="productions"
                   :metaKeySelection="false"
+                  @row-unselect-all="onRowUnSelectAll"
+                  @row-select-all="onRowSelectAll"
                   @rowSelect="onRowSelect"
                   @rowUnselect="onRowUnSelect"
                   dataKey="id"
@@ -57,7 +60,7 @@
                 </DataTable>
               </TabPanel>
 
-
+              <!-- Aba dos Relatórios -->
               <TabPanel value="1">
                 <div :class="$style.box_invoiced">
                   <Button :disabled="invoicing_view.length != 1" type="button" @click="getInvoicing()" label="Visualizar faturamento" severity="success"></Button>
@@ -222,6 +225,32 @@ const calcRecords = () => {
     weight: ((value / 100) * totalWeight).toFixed(2)
   }));
 
+}
+
+const onRowSelectAll = (event) => {
+  var rows = event.data
+  
+  rows.forEach((element) => {
+    total_weight.value += element.weight
+
+    if (element.invoiced == 'Não') {
+
+      var has_index = records_for_invoice.value.findIndex(item => item == element)
+      if (has_index == -1)
+        records_for_invoice.value.push(element)
+
+    }
+
+  })
+
+}
+
+const onRowUnSelectAll = (event) => {  
+  if (!event.data) {
+    records_for_invoice.value = []
+    total_weight.value = 0
+  
+  }
 }
 
 const onRowSelect = (event) => {

@@ -1,7 +1,7 @@
 <template>
   <Dialog v-model:visible="visible" modal header="Revisão do faturamento" :style="{ width: '60rem' }">
 
-    <DataTable :value="records_for_invoice" showGridlines tableStyle="min-width: 50rem">
+    <DataTable :value="records_for_invoice" scrollable scrollHeight="14.8rem" showGridlines tableStyle="min-width: 50rem">
       <Column field="code_per_piece" header="Código"></Column>
       <Column field="date" header="Data"></Column>
       <Column field="weight" header="Peso"></Column>
@@ -51,7 +51,7 @@
 
     <div :class="$style.space_bottons">
       <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-      <Button :style="{ 'margin-left': '1rem' }" type="button" label="Faturar e Exportar" severity="success" @click="onSaveInvoincing"></Button>
+      <Button :style="{ 'margin-left': '1rem' }" type="button" label="Faturar" severity="success" @click="onSaveInvoincing"></Button>
     </div>
   </Dialog>
 </template>
@@ -149,10 +149,6 @@ const formatValues = () => {
   form.value.customer = customer.value
   form.value.article = article.value
   form.value.op = op.value.code
-}
-
-const formatWeightValue = (porcentage) => {
-  return (porcentage.name.length <= 6) ? (porcentage.name.length * 2.5) + 'rem' : (porcentage.name.length * 1.8) + 'rem'
 }
 
 </script>
