@@ -11,7 +11,16 @@
               <InputText placeholder="Nome" id="wirename" v-model="form.name" :invalid="name_empty" @change="removeError('name')" class="flex-auto" autocomplete="off" />
           </InputGroup>
 
-          <InputGroup :style="{ 'margin-left': '1rem' }">
+          <InputGroup :style="{ 'margin-left': '1rem', 'width': '22rem' }">
+            <InputNumber v-model="form.weight" inputId="minmaxfraction" :minFractionDigits="2" :maxFractionDigits="5" fluid />
+            <InputGroupAddon>
+                <i>Peso/Kg</i>
+            </InputGroupAddon>
+          </InputGroup>
+        </div>
+
+        <div :class="$style.div_box" class="flex items-center">
+          <InputGroup>
             <InputGroupAddon>
                 <i class="pi pi-shopping-bag"></i>
             </InputGroupAddon>
@@ -35,6 +44,7 @@ import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import InputGroup from 'primevue/inputgroup';
+import InputNumber from 'primevue/inputnumber';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import wireService from '@/system/services/wireService';
 import type Form from '@/system/type/wireType'

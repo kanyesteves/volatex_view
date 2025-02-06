@@ -45,7 +45,7 @@
             <InputNumber 
               placeholder="00" 
               id="totalPieces" 
-              :disabled="checkStatus()"
+              :disabled="checkStatusKg()"
               v-model="form.total_pieces"
               class="flex-auto" autocomplete="off" />
               <InputGroupAddon>
@@ -57,7 +57,7 @@
             <InputNumber 
               placeholder="0.00" 
               id="weightPerPiece" 
-              :disabled="checkStatus()"
+              :disabled="checkStatusKg()"
               v-model="form.weight_per_piece" 
               :minFractionDigits="2" :maxFractionDigits="5"
               class="flex-auto" autocomplete="off" />
@@ -70,7 +70,7 @@
             <InputNumber 
               placeholder="0.00" 
               id="weightTotal" 
-              :disabled="checkStatus()"
+              :disabled="checkStatusKg()"
               v-model="form.total_weight" 
               :minFractionDigits="2" :maxFractionDigits="5"
               class="flex-auto" autocomplete="off" />
@@ -198,6 +198,11 @@ const onUpdateOP = async () => {
 
 const checkStatus = () => {
   if (form.value.status == 'closed' || form.value.status == 'in_progress')
+    return true
+}
+
+const checkStatusKg = () => {
+  if (form.value.status == 'closed')
     return true
 }
 

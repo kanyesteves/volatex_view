@@ -14,6 +14,7 @@
 
       <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
       <Column field="name" header="Nome" style="width: 35%"></Column>
+      <Column field="weight" header="Peso"></Column>
       <Column field="description" header="Descrição"></Column>
 
     </DataTable>

@@ -74,7 +74,8 @@ const validMenu = () => {
 const wire_selected = ref({
   id: '',
   name: '',
-  description: ''
+  description: '',
+  weight: 0.0
 })
 
 const setVisibleToolbar = ref([])
@@ -112,6 +113,7 @@ const getWireById = debounce(async () => {
       wire_selected.value.id = response.data.id
       wire_selected.value.name = response.data.name
       wire_selected.value.description = response.data.description
+      wire_selected.value.weight = response.data.weight
     }
   });
 });
