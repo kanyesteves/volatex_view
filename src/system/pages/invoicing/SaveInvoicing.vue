@@ -19,9 +19,14 @@
           <InputText v-model="customer" disabled />
         </InputGroup>
 
-        <InputGroup :class="$style.div_info" :style="{ 'max-width': '230px' }">
-          <InputGroupAddon>Ordem de Operação</InputGroupAddon>
+        <InputGroup :class="$style.div_info" :style="{ 'max-width': '180px' }">
+          <InputGroupAddon>OP/OT</InputGroupAddon>
           <InputText v-model="op.code" disabled />
+        </InputGroup>
+
+        <InputGroup :class="$style.div_info" :style="{ 'max-width': '180px' }">
+          <InputGroupAddon>Volumes</InputGroupAddon>
+          <InputText v-model="count_registers" disabled />
         </InputGroup>
 
       </div>
@@ -35,6 +40,12 @@
         <InputGroup :class="$style.div_info" :style="{ 'max-width': '200px' }">
           <InputGroupAddon>Peso total</InputGroupAddon>
           <InputText v-model="total_weight" disabled />
+          <InputGroupAddon>Kg</InputGroupAddon>
+        </InputGroup>
+
+        <InputGroup :class="$style.div_info" :style="{ 'max-width': '200px' }">
+          <InputGroupAddon>Peso adicional</InputGroupAddon>
+          <InputText v-model="weight_additional" />
           <InputGroupAddon>Kg</InputGroupAddon>
         </InputGroup>
       </div>
@@ -73,6 +84,7 @@ const form = ref<Form>({})
 const visible = defineModel()
 const props = defineProps([
   'op',
+  'count',
   'records_for_invoice',
   'total_weight',
   'weight_per_porcentage'
@@ -93,6 +105,12 @@ watch(() => props.records_for_invoice, (newValue) => {
   records_for_invoice.value = newValue
 })
 
+const count_registers = ref(props.count)
+watch(() => props.count, (newValue) => {
+  count_registers.value = newValue
+})
+
+const weight_additional = ref(0)
 const total_weight = ref(props.total_weight)
 watch(() => props.total_weight, (newValue) => {
   total_weight.value = newValue.toFixed(2)
@@ -145,7 +163,7 @@ const exportPDF = async (data) => {
 const formatValues = () => {
   form.value.records = records_for_invoice.value
   form.value.weight_per_wire = weight_per_porcentage.value
-  form.value.total_weight = total_weight.value
+  form.value.total_weight = parseInt(total_weight.value) + parseInt(weight_additional.value)
   form.value.customer = customer.value
   form.value.article = article.value
   form.value.op = op.value.code

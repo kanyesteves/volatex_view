@@ -14,7 +14,11 @@
 
       <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
       <Column field="name" header="Nome" style="width: 35%"></Column>
-      <Column field="weight" header="Peso"></Column>
+      <Column field="weight" header="Peso">
+        <template #body="slotProps">
+          <Tag :value="slotProps.data.weight + ' kg'" :severity="getSeverity(slotProps.data)" />
+        </template>
+      </Column>
       <Column field="description" header="Descrição"></Column>
 
     </DataTable>
@@ -22,6 +26,7 @@
 </template>
 
 <script lang="ts" setup>
+import Tag from 'primevue/tag';
 import { debounce } from 'lodash';
 import { ref, onMounted, defineEmits } from 'vue'
 import DataTable from 'primevue/datatable';
@@ -48,6 +53,15 @@ const onRowSelect = (event) => {
 const onRowUnSelect = (event) => {
   emit('unselected', event)
 };
+
+const getSeverity = (value) => {
+  if (value.weight > 20)
+    return "success"
+  else if (value.weight >= 10 && value.weight <= 20)
+    return "warn"
+  else if (value.weight < 10)
+    return "danger"
+}
 
 const onLoadWire = debounce(async () => {
   loadTable.value = true

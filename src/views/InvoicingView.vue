@@ -100,6 +100,7 @@
     <SaveInvoicing 
       v-model="visible"
       :op="op"
+      :count="count_registers"
       :total_weight="total_weight"
       :weight_per_porcentage="weight_per_porcentage"
       :records_for_invoice="records_for_invoice" />
@@ -176,6 +177,7 @@ const visible = ref(false)
 const visible_record = ref(false)
 const op = ref()
 const ops = ref([])
+const count_registers = ref(0)
 const all_invoicings = ref([])
 const productions = ref()
 const recordSelected = ref()
@@ -231,33 +233,30 @@ const onRowSelectAll = (event) => {
   var rows = event.data
   
   rows.forEach((element) => {
+
+    count_registers.value += 1
     total_weight.value += element.weight
 
-    if (element.invoiced == 'Não') {
-
-      var has_index = records_for_invoice.value.findIndex(item => item == element)
-      if (has_index == -1)
-        records_for_invoice.value.push(element)
-
-    }
+    var has_index = records_for_invoice.value.findIndex(item => item == element)
+    if (has_index == -1)
+      records_for_invoice.value.push(element)
 
   })
-
 }
 
 const onRowUnSelectAll = (event) => {  
   if (!event.data) {
     records_for_invoice.value = []
     total_weight.value = 0
-  
+    count_registers.value = 0
   }
 }
 
 const onRowSelect = (event) => {
+  
+  count_registers.value += 1
   total_weight.value += event.data.weight
-
-  if (event.data.invoiced == 'Não')
-    records_for_invoice.value.push(event.data)
+  records_for_invoice.value.push(event.data)
 
 };
 
@@ -267,6 +266,7 @@ const onRowUnSelect = (event) => {
   if (index !== -1) {
     records_for_invoice.value.splice(index, 1);
     total_weight.value -= event.data.weight
+    count_registers.value -= 1
   }
 };
 
