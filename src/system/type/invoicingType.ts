@@ -5,4 +5,5 @@ export interface Form {
   customer: string | undefined
   article: string | undefined
   op: string | undefined
+  volume: number | undefined
 }

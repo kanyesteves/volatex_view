@@ -108,6 +108,7 @@
     <LookInvoicing
       v-model="visible_record"
       :date="invoicing_view.date"
+      :volume="invoicing_view.volume"
       :op="invoicing_view.op"
       :customer="invoicing_view.customer"
       :article="invoicing_view.article"
@@ -283,7 +284,7 @@ const getSeverity = (status) => {
   }
 };
 
-// ------------------------------------------
+// ------------------------------------------ LookInvoicing.vue Component
 
 const onRowInvoicingSelect = (event) => {
   if (!Array.isArray(invoicing_view.value)) {

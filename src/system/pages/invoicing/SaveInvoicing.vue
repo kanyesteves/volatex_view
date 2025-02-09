@@ -161,6 +161,7 @@ const exportPDF = async (data) => {
 }
 
 const formatValues = () => {
+  form.value.volume = count_registers.value
   form.value.records = records_for_invoice.value
   form.value.weight_per_wire = weight_per_porcentage.value
   form.value.total_weight = parseInt(total_weight.value) + parseInt(weight_additional.value)

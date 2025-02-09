@@ -19,11 +19,15 @@
           <InputText v-model="customer" disabled />
         </InputGroup>
 
-        <InputGroup :class="$style.div_info" :style="{ 'max-width': '230px' }">
-          <InputGroupAddon>Ordem de Operação</InputGroupAddon>
+        <InputGroup :class="$style.div_info" :style="{ 'max-width': '180px' }">
+          <InputGroupAddon>OP/OT</InputGroupAddon>
           <InputText v-model="op" disabled />
         </InputGroup>
     
+        <InputGroup :class="$style.div_info" :style="{ 'max-width': '180px' }">
+          <InputGroupAddon>Volumes</InputGroupAddon>
+          <InputText v-model="volume" disabled />
+        </InputGroup>
       </div>
       
       <div :class="$style.div_porcentage">
@@ -72,6 +76,7 @@ const props = defineProps([
   'article',
   'date',
   'op',
+  'volume',
   'records',
   'total_weight',
   'weight_per_wire'
@@ -100,6 +105,11 @@ watch(() => props.article, (newValue) => {
 const records_for_invoice = ref(props.records_for_invoice)
 watch(() => props.records, (newValue) => {
   records_for_invoice.value = newValue
+})
+
+const volume = ref(props.count)
+watch(() => props.volume, (newValue) => {
+  volume.value = newValue
 })
 
 const total_weight = ref(props.total_weight)
