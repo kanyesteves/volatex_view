@@ -5,12 +5,12 @@
       <template #start>
         <!-- <Button icon="pi pi-bars" severity="success" @click="onMenuClick" /> -->
         <div :class="$style.logo">
-          <img src="../../assets/auratextil.png" width="30px" height="43px" alt="AuraTêxtil">
+          <img src="../../assets/auratextil.png" width="25px" height="33px" alt="AuraTêxtil">
         </div>
       </template>
 
       <template #center>
-        <h2><span>Aura Têxtil</span></h2>
+        <h3><span>Aura Têxtil</span></h3>
       </template>
 
       <template #end>
