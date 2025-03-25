@@ -45,7 +45,7 @@
 
         <InputGroup :class="$style.div_info" :style="{ 'max-width': '200px' }">
           <InputGroupAddon>Peso adicional</InputGroupAddon>
-          <InputText v-model="weight_additional" />
+          <InputText v-model="weight_additional" @input="formatWeight(weight_additional)"/>
           <InputGroupAddon>Kg</InputGroupAddon>
         </InputGroup>
       </div>
@@ -164,10 +164,23 @@ const formatValues = () => {
   form.value.volume = count_registers.value
   form.value.records = records_for_invoice.value
   form.value.weight_per_wire = weight_per_porcentage.value
-  form.value.total_weight = parseInt(total_weight.value) + parseInt(weight_additional.value)
+  form.value.total_weight = parseFloat(total_weight.value) + parseInt(weight_additional.value)
   form.value.customer = customer.value
   form.value.article = article.value
   form.value.op = op.value.code
+}
+
+const formatWeight = (value) => {
+  if (!value)
+    value = 0
+
+  const total = parseFloat(total_weight.value) + parseInt(value)
+
+  weight_per_porcentage.value.forEach(element => {
+
+    element.weight = ((element.value / 100) * total).toFixed(2)
+
+  });
 }
 
 </script>
