@@ -9,4 +9,5 @@ export interface Form {
   status: string | undefined
   label_item: boolean | undefined
   wire_porcentage: JSON | undefined
+  fiscal_note: string | undefined
 }

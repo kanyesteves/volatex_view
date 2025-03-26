@@ -4,6 +4,7 @@
       stripedRows scrollable
       paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
       v-model:selection="opSelected"
+      v-model:filters="filters"
       :scroll-height="screenHeight"
       :value="ops"
       :metaKeySelection="false"
@@ -11,6 +12,22 @@
       @rowUnselect="onRowUnSelect"
       dataKey="id"
       tableStyle="min-width: 50rem">
+      <template #header>
+        <div class="flex justify-end">
+            <InputGroup :style="{'max-width': '250px'}">
+                <InputGroupAddon>
+                    <i class="pi pi-filter" />
+                </InputGroupAddon>
+                <InputText v-model="filters['global'].value" placeholder="Filtrar" />
+            </InputGroup>
+        </div>
+      </template>
+
+      <template #empty> 
+        <Tag severity="warn">
+          Nenhuma OP cadastrada. 
+        </Tag>
+      </template>
 
       <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
       <Column field="status" header="Status" style="width: 14%">
@@ -18,6 +35,7 @@
           <Tag :value="slotProps.data.status" :severity="getSeverity(slotProps.data)" />
         </template>
       </Column>
+      <Column field="fiscal_note" header="NF"></Column>
       <Column field="code" header="Código"></Column>
       <Column field="weight_per_piece" header="Peso por peça"></Column>
       <Column field="customer" header="Cliente"></Column>
@@ -32,11 +50,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, defineEmits } from 'vue'
+import { ref, onMounted, defineEmits, warn } from 'vue'
 import DataTable from 'primevue/datatable';
 import Tag from 'primevue/tag';
 import Column from 'primevue/column';
 import { debounce } from 'lodash';
+import InputText from 'primevue/inputtext';
+import InputGroup from 'primevue/inputgroup';
+import { FilterMatchMode } from '@primevue/core/api';
+import InputGroupAddon from 'primevue/inputgroupaddon';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 
 const emit = defineEmits(['selected', 'unselected'])
@@ -50,6 +72,9 @@ const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()
 const opSelected = ref();
 const ops = ref([]);
+const filters = ref({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+});
 
 const onRowSelect = (event) => {
   emit('selected', event)

@@ -10,6 +10,13 @@
             </InputGroupAddon>
             <InputText placeholder="Código" id="code" v-model="form.code" :invalid="code_empty" @change="removeError('code')" class="flex-auto" autocomplete="off" />
           </InputGroup>
+
+          <InputGroup :style="{ 'max-width': '120px' }">
+            <InputGroupAddon>
+                <i class="pi pi-clipboard"></i>
+            </InputGroupAddon>
+            <InputText placeholder="NF" id="fiscal_note" v-model="form.fiscal_note" class="flex-auto" autocomplete="off" />
+          </InputGroup>
         </div>
 
         <div :class="$style.div_box_2" class="flex items-center">
@@ -238,6 +245,7 @@ const formValid = (loc) => {
   display: flex;
   margin-top: 1rem;
 
+  max-width: 560px;
   justify-content: space-between;
  }
  .div_box_2 {

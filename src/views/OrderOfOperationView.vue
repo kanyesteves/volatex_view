@@ -100,7 +100,8 @@ const op_selected = ref({
   status: '',
   label_item: false,
   date_closed: '',
-  wire_porcentage: []
+  wire_porcentage: [],
+  fiscal_note: ''
 });
 
 const rowSelected = (event) => {
@@ -154,6 +155,7 @@ const getOpById = debounce(async () => {
       op_selected.value.total_weight = response.data.total_weight
       op_selected.value.total_pieces = response.data.total_pieces
       op_selected.value.status = response.data.status
+      op_selected.value.fiscal_note = response.data.fiscal_note
       op_selected.value.label_item = response.data.label_item
       op_selected.value.date_closed = formatDateClosed(response.data.date_closed)
       op_selected.value.wire_porcentage = response.data.wire_porcentage
