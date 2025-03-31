@@ -38,7 +38,9 @@ import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import customerService from '@/system/services/customerService';
 import type Form from '@/system/type/customerType'
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
+const use_refresh_table = useRefreshTable()
 const visible = defineModel()
 const name_empty = ref(false)
 const description_empty = ref(false)
@@ -49,7 +51,8 @@ const onSaveCustomer = async () => {
   await customerService.save(form.value).then(async (response) => {
     if (response.status === 201) {
       visible.value = false
-      location.reload()
+      use_refresh_table.setRefresh(true)
+      // location.reload()
     }
   }).catch((error) => {
     error.response.data.detail.forEach(element => {

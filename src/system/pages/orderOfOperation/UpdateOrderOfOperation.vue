@@ -131,7 +131,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, defineProps, watch, ref } from 'vue'
+import { defineModel, defineProps, defineEmits, watch, ref } from 'vue'
 import Knob from 'primevue/knob';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
@@ -145,7 +145,9 @@ import ToggleButton from 'primevue/togglebutton';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import type Form from '@/system/type/orderOfOperationType'
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
+const use_refresh_table = useRefreshTable()
 const visible = defineModel()
 const props = defineProps([
   'customers',
@@ -157,6 +159,7 @@ const props = defineProps([
   'article_selected',
   'wires_selected'
 ])
+const emit = defineEmits(['selectrestore'])
 
 const customer_has_op = ref(props.customer_selected)
 watch(() => props.customer_selected, (newValue) => {
@@ -187,6 +190,10 @@ watch(() => form.value.wire_porcentage, (newValue) => {
   porcentages.value = newValue
 })
 
+const onSelectRestore = () => {
+  emit('selectrestore', [])
+}
+
 const onUpdateOP = async () => {
   formatValuesForSaveRelations()
 
@@ -194,7 +201,9 @@ const onUpdateOP = async () => {
 
     if (response.status === 200) {
       visible.value = false
-      location.reload()
+      use_refresh_table.setRefresh(true)
+      onSelectRestore()
+      // location.reload()
     }
 
   }).catch(async (response) => {

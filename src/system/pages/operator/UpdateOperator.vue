@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref } from 'vue'
+import { defineEmits, defineModel, ref } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
@@ -45,6 +45,7 @@ import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import operatorService from '@/system/services/operatorService';
 import type Form from '@/system/type/operatorType'
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const visible = defineModel()
 const options = ref([
@@ -53,15 +54,22 @@ const options = ref([
   {name: '3º Terceiro', value: 'terceiro'},
 ])
 
+const use_refresh_table = useRefreshTable()
 const props = defineProps(['operator'])
 const form = ref<Form>(props.operator)
+const emit = defineEmits(['selectrestore'])
 
+const onSelectRestore = () => {
+  emit('selectrestore', [])
+}
 
 const onSaveOperator = async () => {
   form.value.turn = form.value.turn.value
   await operatorService.save(form.value).then(async () => {
     visible.value = false
-    location.reload()
+    use_refresh_table.setRefresh(true)
+    onSelectRestore()
+    // location.reload()
   })
 
 }

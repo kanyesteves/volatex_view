@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref, defineProps } from 'vue'
+import { defineModel, ref, defineProps, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
@@ -48,17 +48,26 @@ import InputNumber from 'primevue/inputnumber';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import wireService from '@/system/services/wireService';
 import type Form from '@/system/type/wireType'
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
+const use_refresh_table = useRefreshTable()
 const visible = defineModel()
 const props = defineProps(['wire'])
+const emit = defineEmits(['selectrestore'])
 
 const form = ref<Form>(props.wire)
+
+const onSelectRestore = () => {
+  emit('selectrestore',  [])
+}
 
 const onSaveWire = async () => {
 
   await wireService.save(form.value).then(async () => {
     visible.value = false
-    location.reload()
+    use_refresh_table.setRefresh(true)
+    onSelectRestore()
+    // location.reload()
   })
 
 }

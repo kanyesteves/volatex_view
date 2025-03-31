@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref, defineProps, watch } from 'vue'
+import { defineModel, ref, defineProps, watch, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
@@ -50,9 +50,12 @@ import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import groupService from '@/system/services/groupService';
 import type Form from '@/system/type/groupType'
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const visible = defineModel()
 const props = defineProps(['group', 'users', 'users_selected'])
+const emit = defineEmits(['selectrestore'])
+const use_refresh_table = useRefreshTable()
 
 const users_has_group = ref(props.users_selected)
 watch(() => props.users_selected, (newValue) => {
@@ -75,13 +78,18 @@ const listPermissions = [
   {name: 'Usuários',           component: 'User'}
 ]
 
+const onSelectRestore = () => {
+  emit('selectrestore', [])
+}
+
 const onSaveGroup = async () => {
   form.value.users = users_has_group.value.map(item => item.id)
-  console.log(form.value.users)
   await groupService.save(form.value).then(async (response) => {
     if (response.status === 200) {
       visible.value = false
-      location.reload()
+      use_refresh_table.setRefresh(true)
+      onSelectRestore()
+      // location.reload()
     }
   })
 

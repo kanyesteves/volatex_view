@@ -26,11 +26,13 @@
   
     <UpdateArticle 
       v-model="edit_article" 
-      :article="article_selected" />
+      :article="article_selected"
+      @selectrestore="selectRestore"  />
   
     <DeleteArticle
       v-model="remove_article"
-      :article="article_selected" />
+      :article="article_selected"
+      @selectrestore="selectRestore"  />
 
   </div>
 </template>
@@ -89,6 +91,10 @@ const rowSelected = (event) => {
 const rowUnSelected = (event) => {
   const index = setVisibleToolbar.value.indexOf(event.data.id);
   setVisibleToolbar.value.splice(index, 1)
+}
+
+const selectRestore = (event) => {
+  setVisibleToolbar.value = event
 }
 
 const new_article = ref(false)

@@ -45,11 +45,13 @@ import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import operatorService from '@/system/services/operatorService';
 import type Form from '@/system/type/operatorType'
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const visible = defineModel()
 const name_empty = ref(false)
 const office_empty = ref(false)
 const form = ref<Form>({})
+const use_refresh_table = useRefreshTable()
 const options = ref([
   {name: '1º Primeiro', value: 'primeiro'},
   {name: '2º Segundo', value: 'segundo'},
@@ -64,7 +66,8 @@ const onSaveOperator = async () => {
 
     if (response.status === 201) {
       visible.value = false
-      location.reload()
+      use_refresh_table.setRefresh(true)
+      // location.reload()
     }
   }).catch((error) => {
     error.response.data.detail.forEach(element => {

@@ -55,8 +55,10 @@ import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import userService from '@/system/services/userService';
 import type Form from '@/system/type/userType'
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const visible = defineModel()
+const use_refresh_table = useRefreshTable()
 
 const form = ref<Form>({})
 
@@ -66,7 +68,8 @@ const onSaveUser = async () => {
 
     if (response.status === 201) {
       visible.value = false
-      location.reload()
+      use_refresh_table.setRefresh(true)
+      // location.reload()
     }
   })
 

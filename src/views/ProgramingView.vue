@@ -27,7 +27,8 @@
   
     <DeletePrograming
       v-model="remove_programing" 
-      :programing="programing_selected" />
+      :programing="programing_selected" 
+      @selectrestore="selectRestore" />
   </div>
 </template>
 
@@ -86,6 +87,10 @@ const rowSelected = (event) => {
 const rowUnSelected = (event) => {
   const index = setVisibleToolbar.value.indexOf(event.data.id);
   setVisibleToolbar.value.splice(index, 1)
+}
+
+const selectRestore = (event) => {
+  setVisibleToolbar.value = event
 }
 
 const new_programing = ref(false)

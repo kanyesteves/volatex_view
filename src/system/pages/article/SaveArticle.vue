@@ -38,18 +38,21 @@ import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import articleService from '@/system/services/articleService';
 import type Form from '@/system/type/articleType';
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const visible = defineModel()
 const name_empty = ref(false)
 const description_empty = ref(false)
 const form = ref<Form>({})
+const use_refresh_table = useRefreshTable()
 
 
 const onSaveArticle = async () => {
   await articleService.save(form.value).then(async (response) => {  
     if (response.status === 201) {
       visible.value = false
-      location.reload()
+      use_refresh_table.setRefresh(true)
+      // location.reload()
     }
 
   }).catch((error) => {

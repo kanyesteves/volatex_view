@@ -26,11 +26,13 @@
   
     <UpdateWire 
       v-model="edit_wire" 
-      :wire="wire_selected" />
+      :wire="wire_selected" 
+      @selectrestore="selectRestore" />
   
     <DeleteWire
       v-model="remove_wire"
-      :wire="wire_selected" />
+      :wire="wire_selected" 
+      @selectrestore="selectRestore" />
   </div>
 </template>
 
@@ -89,6 +91,10 @@ const rowSelected = (event) => {
 const rowUnSelected = (event) => {
   const index = setVisibleToolbar.value.indexOf(event.data.id);
   setVisibleToolbar.value.splice(index, 1)
+}
+
+const selectRestore = (event) => {
+  setVisibleToolbar.value = event
 }
 
 const new_wire = ref(false)

@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref } from 'vue'
+import { defineModel, ref, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
@@ -45,16 +45,25 @@ import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import tearService from '@/system/services/tearService';
 import type Form from '@/system/type/tearType'
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
+const use_refresh_table = useRefreshTable()
 const visible = defineModel()
 const props = defineProps(['tear'])
+const emit = defineEmits(['selectrestore'])
 
 const form = ref<Form>(props.tear)
+
+const onSelectRestore = () => {
+  emit('selectrestore', [])
+}
 
 const onSaveTear = async () => {
   await tearService.save(form.value).then(async () => {
     visible.value = false
-    location.reload()
+    use_refresh_table.setRefresh(true)
+    onSelectRestore()
+    // location.reload()
   })
 
 }

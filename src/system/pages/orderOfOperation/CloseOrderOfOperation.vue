@@ -11,22 +11,31 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, defineProps } from 'vue'
+import { defineModel, defineProps, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import { useToast } from 'primevue/usetoast';
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const toast = useToast();
 const visible = defineModel()
 const props = defineProps(['op'])
+const emit = defineEmits(['selectrestore'])
+const use_refresh_table = useRefreshTable()
+
+const onSelectRestore = () => {
+  emit('selectrestore', [])
+}
 
 
 const onCloseOp = () => {
   orderOfOperationService.close(props.op.id).then((response) => {
     toast.add({ severity: 'success', summary: 'Sucesso',  detail: response.data, life: 2000 })
     visible.value = false
-    location.reload()
+    use_refresh_table.setRefresh(true)
+    onSelectRestore()
+    // location.reload()
   })
 }
 

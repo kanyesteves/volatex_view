@@ -26,11 +26,13 @@
 
     <UpdateUser 
       v-model="edit_user"
-      :user="user_selected" />
+      :user="user_selected" 
+      @selectrestore="selectRestore" />
     
     <DeleteUser 
       v-model="remove_user" 
-      :user="user_selected" />
+      :user="user_selected" 
+      @selectrestore="selectRestore" />
 
   </div>
 </template>
@@ -89,6 +91,10 @@ const rowSelected = (event) => {
 const rowUnSelected = (event) => {
   const index = setVisibleToolbar.value.indexOf(event.data.id);
   setVisibleToolbar.value.splice(index, 1)
+}
+
+const selectRestore = (event) => {
+  setVisibleToolbar.value = event
 }
 
 const new_user = ref(false)

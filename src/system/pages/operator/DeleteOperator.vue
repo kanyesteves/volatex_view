@@ -10,21 +10,30 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, defineProps } from 'vue'
+import { defineEmits, defineModel, defineProps } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import operatorService from '@/system/services/operatorService';
 import { useToast } from 'primevue/usetoast';
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const toast = useToast();
 const visible = defineModel()
 const props = defineProps(['operator'])
+const emit = defineEmits(['selectrestore'])
+const use_refresh_table = useRefreshTable()
+
+const onSelectRestore = () => {
+  emit('selectrestore', [])
+}
 
 const onRemoveOperator = () => {
   operatorService.remove(props.operator.id).then((response) => {
     toast.add({ severity: 'success', summary: 'Sucesso',  detail: response.data, life: 2000 })
     visible.value = false
-    location.reload()
+    use_refresh_table.setRefresh(true)
+    onSelectRestore()
+    // location.reload()
   })
 }
 

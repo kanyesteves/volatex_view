@@ -29,11 +29,13 @@
       v-model="edit_group" 
       :users="all_users" 
       :users_selected="users_selected" 
-      :group="group_selected" />
+      :group="group_selected" 
+      @selectrestore="selectRestore" />
 
     <DeleteGroup
       v-model="remove_group"
-      :group="group_selected"/>
+      :group="group_selected"
+      @selectrestore="selectRestore" />
 
   </div>
 </template>
@@ -93,6 +95,10 @@ const rowSelected = (event) => {
 const rowUnSelected = (event) => {
   const index = setVisibleToolbar.value.indexOf(event.data.id);
   setVisibleToolbar.value.splice(index, 1)
+}
+
+const selectRestore = (event) => {
+  setVisibleToolbar.value = event
 }
 
 const new_group = ref(false)

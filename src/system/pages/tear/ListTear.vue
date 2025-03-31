@@ -12,26 +12,40 @@
       dataKey="id" 
       tableStyle="min-width: 50rem">
 
-      <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
+      <Column selectionMode="multiple" headerStyle="width: 3rem">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
       <Column field="status" header="Status">
         <template #body="slotProps">
           <Tag :value="slotProps.data.status" :severity="getSeverity(slotProps.data)" />
         </template>
       </Column>
-      <Column field="name" header="Nome"></Column>
-      <Column field="model" header="Modelo"></Column>
+      <Column field="name" header="Nome">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
+      <Column field="model" header="Modelo">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
 
     </DataTable>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, defineEmits } from 'vue'
+import { ref, onMounted, defineEmits, watch } from 'vue'
 import Tag from 'primevue/tag';
 import { debounce } from 'lodash';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Skeleton from 'primevue/skeleton';
 import tearService from '@/system/services/tearService';
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const emit = defineEmits(['selected', 'unselected'])
 
@@ -40,10 +54,12 @@ onMounted(() => {
   responsiveScreen();
 })
 
+const use_refresh_table = useRefreshTable()
 const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()
 const tearSelected = ref();
 const teares = ref([]);
+const refresh = ref(false)
 
 const onRowSelect = (event) => {
   emit('selected', event)
@@ -53,10 +69,22 @@ const onRowUnSelect = (event) => {
   emit('unselected', event)
 };
 
+watch(() => use_refresh_table.getRefresh(), (newValue) => {
+  refresh.value = newValue
+  onLoadTeares()
+})
+
 const onLoadTeares = debounce(async () => {
   await tearService.getAll().then((response) => {
     if (response.status === 200) {
       teares.value = response.data
+      tearSelected.value = null
+
+      setTimeout(() => {
+        use_refresh_table.setRefresh(false)
+        refresh.value = false
+      }, 500)
+      
       teares.value.map(item => (item.status == true) ? item.status = 'Ativo' : item.status = 'Inativo')
     }
   })

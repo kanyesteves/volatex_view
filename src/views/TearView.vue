@@ -26,11 +26,13 @@
   
     <UpdateTear 
       v-model="edit_tear"
-      :tear="tear_selected" />
+      :tear="tear_selected" 
+      @selectrestore="selectRestore" />
   
     <DeleteTear
       v-model="remove_tear" 
-      :tear="tear_selected" />
+      :tear="tear_selected" 
+      @selectrestore="selectRestore" />
   </div>
 </template>
 
@@ -90,6 +92,10 @@ const rowSelected = (event) => {
 const rowUnSelected = (event) => {
   const index = setVisibleToolbar.value.indexOf(event.data.id);
   setVisibleToolbar.value.splice(index, 1)
+}
+
+const selectRestore = (event) => {
+  setVisibleToolbar.value = event
 }
 
 const new_tear = ref(false)

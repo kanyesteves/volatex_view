@@ -28,11 +28,13 @@
 
     <UpdateOperator
       v-model="edit_operator" 
-      :operator="operator_selected" />
+      :operator="operator_selected" 
+      @selectrestore="selectRestore"/>
 
     <DeleteOperator
       v-model="remove_operator" 
-      :operator="operator_selected" />
+      :operator="operator_selected"
+      @selectrestore="selectRestore"/>
 
 </template>
 
@@ -95,6 +97,10 @@ const rowSelected = (event) => {
 const rowUnSelected = (event) => {
   const index = setVisibleToolbar.value.indexOf(event.data.id);
   setVisibleToolbar.value.splice(index, 1)
+}
+
+const selectRestore = (event) => {
+  setVisibleToolbar.value = event
 }
 
 const new_operator = ref(false)

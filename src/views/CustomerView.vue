@@ -26,11 +26,13 @@
 
     <UpdateCustomer 
       v-model="edit_customer"
-      :customer="customer_selected" />
+      :customer="customer_selected"
+      @selectrestore="selectRestore" />
 
     <DeleteCustomer
       v-model="remove_customer"
-      :customer="customer_selected" />
+      :customer="customer_selected"
+      @selectrestore="selectRestore" />
 
   </div>
 </template>
@@ -89,6 +91,10 @@ const rowSelected = (event) => {
 const rowUnSelected = (event) => {
   const index = setVisibleToolbar.value.indexOf(event.data.id);
   setVisibleToolbar.value.splice(index, 1)
+}
+
+const selectRestore = (event) => {
+  setVisibleToolbar.value = event
 }
 
 const new_customer = ref(false)

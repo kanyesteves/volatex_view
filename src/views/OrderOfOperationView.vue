@@ -36,11 +36,13 @@
       :articles="articles"
       :wires="wires"
       :op="op_selected"
-      :graphs="graphs" />
+      :graphs="graphs" 
+      @selectrestore="selectRestore"/>
   
     <CloseOrderOfOperation
       v-model="done_op" 
-      :op="op_selected"/>
+      :op="op_selected"
+      @selectrestore="selectRestore"/>
 
   </div>
 </template>
@@ -113,6 +115,10 @@ const rowSelected = (event) => {
 const rowUnSelected = (event) => {
   const index = setVisibleToolbar.value.indexOf(event.data.id);
   setVisibleToolbar.value.splice(index, 1)
+}
+
+const selectRestore = (event) => {
+  setVisibleToolbar.value = event
 }
 
 const new_op = ref(false)

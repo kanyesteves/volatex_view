@@ -10,22 +10,31 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, defineProps } from 'vue'
+import { defineModel, defineProps, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import groupService from '@/system/services/groupService';
 import { useToast } from 'primevue/usetoast';
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const toast = useToast();
 const visible = defineModel()
 const props = defineProps(['group'])
+const emit = defineEmits(['selectrestore'])
+const use_refresh_table = useRefreshTable()
+
+const onSelectRestore = () => {
+  emit('selectrestore', [])
+}
 
 
 const onRemoveGroup = () => {
   groupService.remove(props.group.id).then((response) => {
     toast.add({ severity: 'success', summary: 'Sucesso',  detail: response.data, life: 2000 })
     visible.value = false
-    location.reload()
+    use_refresh_table.setRefresh(true)
+    onSelectRestore()
+    // location.reload()
   })
 }
 

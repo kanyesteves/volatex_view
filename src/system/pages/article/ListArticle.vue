@@ -12,9 +12,21 @@
       dataKey="id" 
       tableStyle="min-width: 50rem">
 
-      <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-      <Column field="name" header="Nome" style="width: 35%"></Column>
-      <Column field="description" header="Descrição"></Column>
+      <Column selectionMode="multiple" headerStyle="width: 3rem">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
+      <Column field="name" header="Nome" style="width: 35%">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
+      <Column field="description" header="Descrição">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
 
     </DataTable>
   </div>
@@ -22,12 +34,15 @@
 
 <script lang="ts" setup>
 import { debounce } from 'lodash';
-import { ref, onMounted, defineEmits } from 'vue'
+import { ref, onMounted, defineEmits, watch } from 'vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Skeleton from 'primevue/skeleton';
 import articleService from '@/system/services/articleService';
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const emit = defineEmits(['selected', 'unselected'])
+const use_refresh_table = useRefreshTable()
 
 onMounted(() => {
   onLoadArticle()
@@ -36,9 +51,9 @@ onMounted(() => {
 
 const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()
-const loadTable = ref(false)
 const articleSelected = ref();
 const articles = ref([]);
+const refresh = ref(false)
 
 const onRowSelect = (event) => {
   emit('selected', event)
@@ -48,12 +63,23 @@ const onRowUnSelect = (event) => {
   emit('unselected', event)
 };
 
+watch(() => use_refresh_table.getRefresh(), (newValue) => {
+  refresh.value = newValue
+  onLoadArticle()
+})
+
 const onLoadArticle = debounce(async () => {
-  loadTable.value = true
   await articleService.getAll().then((response) => {
     if (response.status === 200) {
-      loadTable.value = false
       articles.value = response.data
+      articleSelected.value = null
+
+      setTimeout(() => {
+        use_refresh_table.setRefresh(false);
+        refresh.value = false
+      }, 500)
+
+
     }
   })
 });

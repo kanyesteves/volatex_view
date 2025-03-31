@@ -29,28 +29,68 @@
         </Tag>
       </template>
 
-      <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
+      <Column selectionMode="multiple" headerStyle="width: 3rem">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
       <Column field="status" header="Status" style="width: 14%">
         <template #body="slotProps">
           <Tag :value="slotProps.data.status" :severity="getSeverity(slotProps.data)" />
         </template>
       </Column>
-      <Column field="fiscal_note" header="NF"></Column>
-      <Column field="code" header="Código"></Column>
-      <Column field="weight_per_piece" header="Peso por peça"></Column>
-      <Column field="customer" header="Cliente"></Column>
-      <Column field="article" header="Artigo"></Column>
-      <Column field="wires" header="Fios"></Column>
-      <Column field="total_weight" header="Peso total"></Column>
-      <Column field="total_pieces" header="Total de peças"></Column>
-      <Column field="date_open" header="Data de abertura"></Column>
+      <Column field="fiscal_note" header="NF">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
+      <Column field="code" header="Código">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
+      <Column field="weight_per_piece" header="Peso por peça">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
+      <Column field="customer" header="Cliente">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
+      <Column field="article" header="Artigo">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
+      <Column field="wires" header="Fios">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
+      <Column field="total_weight" header="Peso total">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
+      <Column field="total_pieces" header="Total de peças">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
+      <Column field="date_open" header="Data de abertura">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
 
     </DataTable>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, defineEmits, warn } from 'vue'
+import { ref, onMounted, defineEmits, watch } from 'vue'
 import DataTable from 'primevue/datatable';
 import Tag from 'primevue/tag';
 import Column from 'primevue/column';
@@ -59,15 +99,19 @@ import InputText from 'primevue/inputtext';
 import InputGroup from 'primevue/inputgroup';
 import { FilterMatchMode } from '@primevue/core/api';
 import InputGroupAddon from 'primevue/inputgroupaddon';
+import Skeleton from 'primevue/skeleton';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const emit = defineEmits(['selected', 'unselected'])
+const use_refresh_table = useRefreshTable()
 
 onMounted(() => {
   onLoadOps()
   responsiveScreen();
 })
 
+const refresh = ref(false)
 const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()
 const opSelected = ref();
@@ -84,10 +128,22 @@ const onRowUnSelect = (event) => {
   emit('unselected', event)
 };
 
+watch(() => use_refresh_table.getRefresh(), (newValue) => {
+  refresh.value = newValue
+  onLoadOps()
+})
+
 const onLoadOps = debounce(async () => {
   await orderOfOperationService.getAll().then((response) => {
     if (response.status === 200) {
       ops.value = response.data
+      opSelected.value = null
+
+      setTimeout(() => {
+        use_refresh_table.setRefresh(false)
+        refresh.value = false
+      }, 500)
+
       ops.value.forEach((ele) => {
         ele.weight_per_piece = ele.weight_per_piece + ' kg'
         ele.total_weight = ele.total_weight + ' kg'

@@ -12,19 +12,29 @@
       dataKey="id" 
       tableStyle="min-width: 50rem">
 
-      <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-      <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
+      <Column selectionMode="multiple" headerStyle="width: 3rem">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
+      <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
 
     </DataTable>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, defineEmits } from 'vue'
+import { ref, onMounted, defineEmits, watch } from 'vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { debounce } from 'lodash';
+import Skeleton from 'primevue/skeleton';
 import operatorService from '@/system/services/operatorService';
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const emit = defineEmits(['selected', 'unselected'])
 
@@ -33,10 +43,12 @@ onMounted(() => {
   responsiveScreen();
 })
 
+const use_refresh_table = useRefreshTable()
 const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()
 const operatorSelected = ref();
 const operators = ref([]);
+const refresh = ref(false)
 
 const columns = [
   { field: 'turn', header: 'Turno' },
@@ -52,10 +64,22 @@ const onRowUnSelect = (event) => {
   emit('unselected', event)
 };
 
+watch(() => use_refresh_table.getRefresh(), (newValue) => {
+  refresh.value = newValue
+  onLoadOperators()
+})
+
 const onLoadOperators = debounce(async () => {
   await operatorService.getAll().then((response) => {
     if (response.status === 200) {
       operators.value = response.data
+      operatorSelected.value = null
+
+      setTimeout(() => {
+        use_refresh_table.setRefresh(false)
+        refresh.value = false
+      }, 500)
+
     }
   })
 });

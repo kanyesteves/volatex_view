@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, ref, defineProps } from 'vue'
+import { defineModel, ref, defineProps, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
@@ -38,17 +38,26 @@ import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import customerService from '@/system/services/customerService';
 import type Form from '@/system/type/customerType'
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const visible = defineModel()
 const props = defineProps(['customer'])
+const emit = defineEmits(['selectrestore'])
 
+const use_refresh_table = useRefreshTable()
 const form = ref<Form>(props.customer)
+
+const onSelectRestore = () => {
+  emit('selectrestore', [])
+};
 
 const onSaveCustomer = async () => {
 
   await customerService.save(form.value).then(async () => {
     visible.value = false
-    location.reload()
+    use_refresh_table.setRefresh(true)
+    onSelectRestore()
+    //location.reload()
   })
 
 }

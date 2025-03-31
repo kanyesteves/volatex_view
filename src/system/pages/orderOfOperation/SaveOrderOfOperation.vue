@@ -124,6 +124,7 @@ import ToggleButton from 'primevue/togglebutton';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import orderOfOperationService from '@/system/services/orderOfOperationService';
 import type Form from '@/system/type/orderOfOperationType'
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const visible = defineModel()
 const props = defineProps(['customers', 'articles', 'wires'])
@@ -135,6 +136,7 @@ const total_pieces_empty = ref(false)
 const total_weight_empty = ref(false)
 const weight_per_piece_empty = ref(false)
 const form = ref<Form>({})
+const use_refresh_table = useRefreshTable()
 
 const onSaveOP = async () => {
   formatValuesForSaveRelations()
@@ -143,7 +145,8 @@ const onSaveOP = async () => {
 
     if (response.status === 201) {
       visible.value = false
-      location.reload()
+      use_refresh_table.setRefresh(true)
+      // location.reload()
     }
   }).catch((error) => {
     console.log(error)

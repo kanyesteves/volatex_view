@@ -50,9 +50,11 @@ import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import groupService from '@/system/services/groupService';
 import type Form from '@/system/type/groupType'
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const visible = defineModel()
 const props = defineProps(['users'])
+const use_refresh_table = useRefreshTable()
 
 const form = ref<Form>({})
 
@@ -75,7 +77,8 @@ const onSaveGroup = async () => {
   await groupService.save(form.value).then(async (response) => {
     if (response.status === 201) {
       visible.value = false
-      location.reload()
+      use_refresh_table.setRefresh(true)
+      // location.reload()
     }
   })
 

@@ -12,21 +12,32 @@
       dataKey="id" 
       tableStyle="min-width: 50rem">
 
-      <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-      <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
+      <Column selectionMode="multiple" headerStyle="width: 3rem">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
+      <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
 
     </DataTable>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, defineEmits } from 'vue'
+import { ref, onMounted, defineEmits, watch } from 'vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { debounce } from 'lodash';
+import Skeleton from 'primevue/skeleton';
 import programingService from '@/system/services/programingService';
+import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const emit = defineEmits(['selected', 'unselected'])
+const use_refresh_table = useRefreshTable()
 
 onMounted(() => {
   onLoadPrograming()
@@ -37,6 +48,7 @@ const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()
 const programingSelected = ref();
 const programings = ref([]);
+const refresh = ref(false)
 
 const columns = [
   { field: 'tear', header: 'Tear' },
@@ -52,10 +64,22 @@ const onRowUnSelect = (event) => {
   emit('unselected', event)
 };
 
+watch(() => use_refresh_table.getRefresh(), (newValue) => {
+  refresh.value = newValue
+  onLoadPrograming()
+})
+
 const onLoadPrograming = debounce(async () => {
   await programingService.getAll().then((response) => {
     if (response.status === 200) {
       programings.value = response.data
+      programingSelected.value = null
+
+      setTimeout(() => {
+        use_refresh_table.setRefresh(false)
+        refresh.value = false
+      }, 500)
+
       programings.value.forEach((ele) => {
 
         if (ele.tear != null) {
