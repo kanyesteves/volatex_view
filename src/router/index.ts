@@ -90,11 +90,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "notfound" */ '../views/ConfigurationView.vue'),
     meta: { requiresAuth: true }
   },
-  {
-    path: '/inputoutputofwires',
-    name: 'inputoutputofwires',
-    component: () => import('../views/InputOutputOfWiresView.vue')
-  },
+  // {
+  //   path: '/inputoutputofwires',
+  //   name: 'inputoutputofwires',
+  //   component: () => import('../views/InputOutputOfWiresView.vue')
+  // },
 ]
 
 const router = createRouter({
