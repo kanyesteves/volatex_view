@@ -104,15 +104,11 @@ const getSeverity = (status) => {
 };
 
 const responsiveScreen = () => {
-  if (windowHeight.value === 993)
-    screenHeight.value = "800px"
-
-  if (windowHeight.value === 813)
-    screenHeight.value = "640px"
+  screenHeight.value = calcHeight(windowHeight.value) + 'px'
 };
 
+const calcHeight = (height) => {
+  return height - 285
+}
+
 </script>
-
-<style module>
-
-</style>
