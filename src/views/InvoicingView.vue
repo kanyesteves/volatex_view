@@ -325,10 +325,12 @@ const getInvoicing = async () => {
 const windowHeight = ref(window.innerHeight);
 const screenHeight = ref()
 const responsiveScreen = () => {
-  if (windowHeight.value <= 820) {
-    screenHeight.value = "425px"
-  }
+  screenHeight.value = calcHeight(windowHeight.value) + 'px'
 };
+
+const calcHeight = (height) => {
+  return height - 285
+}
 
 </script>
 
