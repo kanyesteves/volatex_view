@@ -14,12 +14,12 @@
       tableStyle="min-width: 50rem">
       <template #header>
         <div class="flex justify-end">
-            <InputGroup :style="{'max-width': '250px'}">
-                <InputGroupAddon>
-                    <i class="pi pi-filter" />
-                </InputGroupAddon>
-                <InputText v-model="filters['global'].value" placeholder="Filtrar" />
-            </InputGroup>
+          <InputGroup :style="{'max-width': '250px'}">
+            <InputGroupAddon>
+              <i class="pi pi-filter" />
+            </InputGroupAddon>
+            <InputText v-model="filters['global'].value" placeholder="Filtrar" />
+          </InputGroup>
         </div>
       </template>
 

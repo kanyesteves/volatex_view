@@ -24,6 +24,12 @@
                     </InputGroupAddon>
                     <Select v-model="op" :options="ops" optionLabel="code" v-on:change="getProductionByOp(op)" filter placeholder="Ordens de Operação" class="w-full md:w-80" />
                   </InputGroup>
+                  <InputGroup :style="{'max-width': '250px', 'margin-left': '10px'}">
+                    <InputGroupAddon>
+                      <i class="pi pi-filter" />
+                    </InputGroupAddon>
+                    <InputText v-model="filters['global'].value" placeholder="Filtrar" />
+                  </InputGroup>
                   <Button :disabled="records_for_invoice.length < 1" :style="{ 'margin-left': '2rem' }" type="button" @click="calcRecords()" label="Faturar peças" severity="success"></Button>
                 </div>
                 <Divider />
@@ -34,6 +40,7 @@
                   stripedRows scrollable
                   paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
                   v-model:selection="recordSelected"
+                  v-model:filters="filters"
                   :scroll-height="screenHeight"
                   :value="productions"
                   :metaKeySelection="false"
@@ -135,6 +142,7 @@ import Message from 'primevue/message';
 import Divider from 'primevue/divider';
 import TabPanel from 'primevue/tabpanel';
 import TabPanels from 'primevue/tabpanels';
+import InputText from 'primevue/inputtext';
 import DataTable from 'primevue/datatable';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
@@ -145,6 +153,7 @@ import orderOfOperationService from '@/system/services/orderOfOperationService';
 import invoicingService from '@/system/services/invoicingService';
 import SaveInvoicing from '@/system/pages/invoicing/SaveInvoicing.vue'
 import LookInvoicing from '@/system/pages/invoicing/LookInvoicing.vue'
+import { FilterMatchMode } from '@primevue/core/api';
 import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
 
@@ -185,6 +194,9 @@ const recordSelected = ref()
 const invoicingSelected = ref()
 const records_for_invoice = ref([])
 const invoicing_view = ref([])
+const filters = ref({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+});
 
 const getAllOps = debounce(async () => {
   await orderOfOperationService.getAllOpenAndInProgress().then((response) => {
