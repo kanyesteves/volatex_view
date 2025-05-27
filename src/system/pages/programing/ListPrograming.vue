@@ -51,9 +51,11 @@ const programings = ref([]);
 const refresh = ref(false)
 
 const columns = [
-  { field: 'tear', header: 'Tear' },
-  { field: 'name', header: 'Nome' },
-  { field: 'op',   header: 'Ordem de Operação' },
+  { field: 'tear',       header: 'Tear' },
+  { field: 'name',       header: 'Nome' },
+  { field: 'op',         header: 'Ordem de Operação' },
+  { field: 'date_start', header: 'Data Inicial' },
+  { field: 'date_end',   header: 'Data Final' },
 ];
 
 const onRowSelect = (event) => {
