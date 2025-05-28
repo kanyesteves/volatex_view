@@ -36,7 +36,7 @@
 
       <Message v-if="server_error" :class="$style.messageError" severity="error">
         Servidor parou. Entre em contato com o nosso time de suporte clicando 
-        <a href="https://wa.me/5547996288611" target="_blank">
+        <a href="https://wa.me/5547999583797" target="_blank">
           Aqui.
         </a>
       </Message>

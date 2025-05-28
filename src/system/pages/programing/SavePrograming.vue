@@ -69,7 +69,7 @@
         </div>
 
         <Fieldset legend="Fios">
-          <div :class="$style.div_box_wires">
+          <div :class="$style.div_box_wires" v-if="wires.length">
             <InputGroup :style="{ 'max-width': '440px', 'margin-top': '10px' }" v-for="wire of wires" :key="wire.name">
               <InputGroupAddon>{{ wire.name }}</InputGroupAddon>
               <InputNumber
@@ -92,6 +92,9 @@
                 class="flex-auto" autocomplete="off" />
             </InputGroup>
           </div>
+          <div v-else>
+            <Message>Selecione uma Ordem de Operação</Message>
+          </div>
         </Fieldset>
 
         <Fieldset legend="Estimativas">
@@ -103,21 +106,23 @@
                 v-model="form.weight_daily"
                 :minFractionDigits="2" :maxFractionDigits="5"
                 class="flex-auto" autocomplete="off" />
+              <InputGroupAddon>Kg</InputGroupAddon>
             </InputGroup>
             <InputGroup :style="{'max-width': '300px', 'margin-top': '10px'}">
-              <InputGroupAddon>Dias para concluir programação</InputGroupAddon>
+              <InputGroupAddon>Concluir programação</InputGroupAddon>
               <InputNumber 
                 id="days_for_done" 
                 v-model="form.days_for_done"
                 :minFractionDigits="2" :maxFractionDigits="5"
                 class="flex-auto" autocomplete="off"/>
+              <InputGroupAddon>Dias</InputGroupAddon>
             </InputGroup>
           </div>
         </Fieldset>
 
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Calcular" severity="info" @click="calcProgramming"></Button>
+          <Button :style="{ 'margin-left': '1rem' }" type="button" label="Calcular Produção" severity="info" @click="calcProgramming"></Button>
           <Button :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" severity="success" @click="onSavePrograming"></Button>
         </div>
 
@@ -133,11 +138,12 @@ import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import Select from 'primevue/select';
 import Divider from 'primevue/divider';
+import Message from 'primevue/message';
 import Fieldset from 'primevue/fieldset';
 import InputText from 'primevue/inputtext';
-import InputNumber from 'primevue/inputnumber';
 import InputGroup from 'primevue/inputgroup';
 import DatePicker from 'primevue/datepicker';
+import InputNumber from 'primevue/inputnumber';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import programingService from '@/system/services/programingService';
 import type Form from '@/system/type/programingType'
@@ -193,9 +199,8 @@ const calcProgramming = () => {
 
   wires.value.forEach((ele) => {
     weight_for_daily += ((ele.lfa * ele.feeders * 0.59 * calcEfficiency(form.value.efficiency) * form.value.rpm) / ele.title)
-    console.log(weight_for_daily)
   })
-  form.value.weight_daily = weight_for_daily.toFixed(2)
+  form.value.weight_daily = parseInt(weight_for_daily.toFixed(2))
   form.value.days_for_done = parseInt(((op.value.total_weight - form.value.weight_daily) / form.value.weight_daily).toFixed(0)) + 1
 
   
@@ -208,6 +213,7 @@ const calcEfficiency = (value) => {
 const formatValuesForSaveRelations = () => {
   form.value.tear = form.value.tear.id
   form.value.op = form.value.op.id
+  form.value.wires = wires.value
 }
 
 </script>
