@@ -13,8 +13,8 @@ const api: AxiosInstance = axios.create({
 })
 
 // Configuração global do Axios para CORS
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+// axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
 
 // Interceptor para adicionar o token no cabeçalho de requisições
 api.interceptors.request.use(function (config) {

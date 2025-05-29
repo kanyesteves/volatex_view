@@ -201,8 +201,7 @@ const calcProgramming = () => {
     weight_for_daily += ((ele.lfa * ele.feeders * 0.59 * calcEfficiency(form.value.efficiency) * form.value.rpm) / ele.title)
   })
   form.value.weight_daily = parseInt(weight_for_daily.toFixed(2))
-  form.value.days_for_done = parseInt(((op.value.total_weight - form.value.weight_daily) / form.value.weight_daily).toFixed(0)) + 1
-
+  form.value.days_for_done = parseInt((op.value.total_weight / form.value.weight_daily).toFixed(0)) + 1
   
 }
 
