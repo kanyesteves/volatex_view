@@ -6,15 +6,16 @@
       <GlobalStaticMenu
         :class="$style.sidebar" />
 
+      <ToolbarCustomer
+        :class="$style.toolbar_customer"
+        v-model="setVisibleToolbar"
+        @onNewCustomer="onNewCustomer" 
+        @onEditCustomer="onEditCustomer" 
+        @onRemoveCustomer="onRemoveCustomer" />
       <Card :class="$style.mainContent" class="card">
         <template #content>
-          <ToolbarCustomer
-            v-model="setVisibleToolbar"
-            @onNewCustomer="onNewCustomer" 
-            @onEditCustomer="onEditCustomer" 
-            @onRemoveCustomer="onRemoveCustomer" />
-    
           <ListCustomer
+            :class="$style.list_customer"
             @selected="rowSelected" 
             @unselected="rowUnSelected" />
         </template>
@@ -128,19 +129,31 @@ const getCustomerById = debounce(async () => {
 <style module>
 .container {
   display: flex;
-  /* height: 100vh; */
+  margin-top: 7rem;
+  height: calc(100% - 3rem);
+}
+
+.toolbar_customer {
+  height: auto;
+  flex-shrink: 0;
+}
+
+.list_customer {
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .sidebar {
-  margin-top: 1rem;
   width: 260px;
   background-color: #f5f5f5;
 }
 
 .mainContent {
-  margin-top: 1rem;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  margin-left: 10px;
+  overflow: hidden;
 }
 
 </style>

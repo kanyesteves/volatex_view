@@ -6,15 +6,17 @@
       <GlobalStaticMenu
         :class="$style.sidebar" />
 
+      <ToolbarTear
+        :class="$style.toolbar_tear"
+        v-model="setVisibleToolbar"
+        @onNewTear="onNewTear" 
+        @onEditTear="onEditTear" 
+        @onRemoveTear="onRemoveTear" />
+
       <Card :class="$style.mainContent" class="card">
-        <template #content>
-          <ToolbarTear
-            v-model="setVisibleToolbar"
-            @onNewTear="onNewTear" 
-            @onEditTear="onEditTear" 
-            @onRemoveTear="onRemoveTear" />
-      
-          <ListTear 
+        <template #content>      
+          <ListTear
+            :class="$style.list_tear"
             @selected="rowSelected" 
             @unselected="rowUnSelected" />
         </template>
@@ -130,19 +132,31 @@ const getTearById = debounce(async () => {
 <style module>
 .container {
   display: flex;
-  /* height: 100vh; */
+  margin-top: 7rem;
+  height: calc(100% - 3rem);
+}
+
+.toolbar_tear {
+  height: auto;
+  flex-shrink: 0;
+}
+
+.list_tear {
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .sidebar {
-  margin-top: 1rem;
   width: 260px;
   background-color: #f5f5f5;
 }
 
 .mainContent {
-  margin-top: 1rem;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  margin-left: 10px;
+  overflow: hidden;
 }
 
 </style>

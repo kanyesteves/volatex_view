@@ -146,7 +146,6 @@ const onSaveOP = async () => {
     if (response.status === 201) {
       visible.value = false
       use_refresh_table.setRefresh(true)
-      // location.reload()
     }
   }).catch((error) => {
     console.log(error)

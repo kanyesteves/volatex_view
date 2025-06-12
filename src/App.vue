@@ -2,9 +2,9 @@
   <router-view/>
 </template>
 
-<style>
+<style lang="scss">
 #app {
-  padding: 0.8rem;
+  /* padding: 0.8rem; */
   height: 100vh;
   background-color: #a4a4a41f;
   font-family: Avenir, Helvetica, sans-serif;
@@ -12,6 +12,11 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
+  .p-menu-submenu-label {
+    color: rgb(43, 43, 43);
+    display: flex;
+  }
 }
 
 body {

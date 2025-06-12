@@ -2,7 +2,7 @@
   <div class="card">
     <DataTable 
       stripedRows scrollable
-      paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
+      paginator :rows="50" :rowsPerPageOptions="[5, 10, 20, 50]"
       v-model="input_output_of_wires_selected"
       :scroll-height="screenHeight"
       :value="input_output_of_wires"

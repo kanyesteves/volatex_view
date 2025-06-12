@@ -2,10 +2,9 @@
   <div class="card">
     <DataTable
       stripedRows scrollable
-      paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
+      paginator :rows="50" :rowsPerPageOptions="[5, 10, 20, 50]"
       v-model:selection="opSelected"
       v-model:filters="filters"
-      :scroll-height="screenHeight"
       :value="ops"
       :metaKeySelection="false"
       @rowSelect="onRowSelect"
@@ -49,7 +48,7 @@
             <Skeleton></Skeleton>
         </template>
       </Column>
-      <Column field="weight_per_piece" header="Peso por peça">
+      <Column field="weight_per_piece" header="Média">
         <template #body v-if="refresh">
             <Skeleton></Skeleton>
         </template>
@@ -60,11 +59,6 @@
         </template>
       </Column>
       <Column field="article" header="Artigo">
-        <template #body v-if="refresh">
-            <Skeleton></Skeleton>
-        </template>
-      </Column>
-      <Column field="wires" header="Fios">
         <template #body v-if="refresh">
             <Skeleton></Skeleton>
         </template>
@@ -108,12 +102,9 @@ const use_refresh_table = useRefreshTable()
 
 onMounted(() => {
   onLoadOps()
-  responsiveScreen();
 })
 
 const refresh = ref(false)
-const windowHeight = ref(window.innerHeight);
-const screenHeight = ref()
 const opSelected = ref();
 const ops = ref([]);
 const filters = ref({
@@ -163,10 +154,6 @@ const onLoadOps = debounce(async () => {
         if (ele.article != null) {
           ele.article = ele.article.map(item => item.name).join(', ');
         }
-
-        if (ele.wires != null) {
-          ele.wires = ele.wires.map(item => item.name).join(', ');
-        }
       })
     }
   })
@@ -187,14 +174,6 @@ const getSeverity = (element) => {
       return null;
   }
 };
-
-const responsiveScreen = () => {
-  screenHeight.value = calcHeight(windowHeight.value) + 'px'
-};
-
-const calcHeight = (height) => {
-  return height - 285
-}
 
 </script>
 

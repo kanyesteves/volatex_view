@@ -6,15 +6,17 @@
       <GlobalStaticMenu
         :class="$style.sidebar" />
 
+      <ToolbarOperator
+        :class="$style.toolbar_operator"
+        v-model="setVisibleToolbar"
+        @onNewOperator="onNewOperator"
+        @onEditOperator="onEditOperator"
+        @onRemoveOperator="onRemoveOperator" />
+
       <Card :class="$style.mainContent" class="card">
         <template #content>
-          <ToolbarOperator
-            v-model="setVisibleToolbar"
-            @onNewOperator="onNewOperator" 
-            @onEditOperator="onEditOperator" 
-            @onRemoveOperator="onRemoveOperator" />
-      
           <ListOperator
+            :class="$style.list_operator"
             @selected="rowSelected" 
             @unselected="rowUnSelected" />
         </template>
@@ -146,19 +148,31 @@ const formatDataTurn = (turn) => {
 <style module>
 .container {
   display: flex;
-  /* height: 100vh; */
+  margin-top: 7rem;
+  height: calc(100% - 3rem);
+}
+
+.toolbar_operator {
+  height: auto;
+  flex-shrink: 0;
+}
+
+.list_operator {
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .sidebar {
-  margin-top: 1rem;
   width: 260px;
   background-color: #f5f5f5;
 }
 
 .mainContent {
-  margin-top: 1rem;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  margin-left: 10px;
+  overflow: hidden;
 }
 
 </style>

@@ -2,9 +2,8 @@
   <div class="card">
     <DataTable 
       stripedRows scrollable
-      paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
+      paginator :rows="50" :rowsPerPageOptions="[5, 10, 20, 50]"
       v-model:selection="operatorSelected"
-      :scroll-height="screenHeight" 
       :value="operators" 
       :metaKeySelection="false"
       @rowSelect="onRowSelect" 
@@ -40,12 +39,9 @@ const emit = defineEmits(['selected', 'unselected'])
 
 onMounted(() => {
   onLoadOperators()
-  responsiveScreen();
 })
 
 const use_refresh_table = useRefreshTable()
-const windowHeight = ref(window.innerHeight);
-const screenHeight = ref()
 const operatorSelected = ref();
 const operators = ref([]);
 const refresh = ref(false)
@@ -83,13 +79,5 @@ const onLoadOperators = debounce(async () => {
     }
   })
 });
-
-const responsiveScreen = () => {
-  screenHeight.value = calcHeight(windowHeight.value) + 'px'
-};
-
-const calcHeight = (height) => {
-  return height - 285
-}
 
 </script>

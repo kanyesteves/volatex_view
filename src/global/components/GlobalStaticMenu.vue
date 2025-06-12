@@ -1,8 +1,8 @@
 <template>
   <div class="menu">
-    <Card>
+    <Card :class="$style.card">
       <template #content>
-        <Menu :model="menuItems">
+        <Menu :model="menuItems" :class="$style.menu">
           <template #item="{ item, props }">
             <router-link v-slot="{ href, navigate }" :to="item.route" custom>
               <a v-ripple :href="href" v-bind="props.action" @click="navigate">
@@ -35,8 +35,20 @@ watch(menuItems, (newVal) => {
 
 <style module>
 
- .p-menu-submenu-label {
-  color: black;
- }
+.card {
+  border-radius: 0;
+  height: calc(100vh - 4rem);
+  position: fixed;
+  top: 4rem;
+  left: 0;
+  width: 260px;
+  overflow-y: auto;
+  z-index: 999;
+}
+
+.menu {
+  border: 0;
+  display: flex;
+}
 
 </style>

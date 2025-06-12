@@ -6,15 +6,17 @@
       <GlobalStaticMenu
         :class="$style.sidebar" />
 
+      <ToolbarArticle
+        :class="$style.toolbar_article"
+        v-model="setVisibleToolbar"
+        @onNewArticle="onNewArticle" 
+        @onEditArticle="onEditArticle" 
+        @onRemoveArticle="onRemoveArticle" />
+
       <Card :class="$style.mainContent" class="article">
         <template #content>
-          <ToolbarArticle
-            v-model="setVisibleToolbar"
-            @onNewArticle="onNewArticle" 
-            @onEditArticle="onEditArticle" 
-            @onRemoveArticle="onRemoveArticle" />
-      
           <ListArticle
+            :class="$style.list_article"
             @selected="rowSelected" 
             @unselected="rowUnSelected" />
         </template>
@@ -129,19 +131,31 @@ const getArticleById = debounce(async () => {
 <style module>
 .container {
   display: flex;
-  /* height: 100vh; */
+  margin-top: 7rem;
+  height: calc(100% - 3rem);
+}
+
+.toolbar_artcle {
+  height: auto;
+  flex-shrink: 0;
+}
+
+.list_artcle {
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .sidebar {
-  margin-top: 1rem;
   width: 260px;
   background-color: #f5f5f5;
 }
 
 .mainContent {
-  margin-top: 1rem;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  margin-left: 10px;
+  overflow: hidden;
 }
 
 </style>

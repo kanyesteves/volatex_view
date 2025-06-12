@@ -1,10 +1,14 @@
 <template>
   <div class=" card">
-    <Toolbar>
+    <Toolbar :class="$style['p-toolbar']">
       <template #start>
         <Button size="small" label="Novo" severity="success" raised @click="emit('onNewGroup')" />
         <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Editar" severity="success" raised @click="emit('onEditGroup')" />
         <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Remover" severity="success" raised @click="emit('onRemoveGroup')" />
+      </template>
+
+      <template #center>
+        <b>Grupos</b>
       </template>
 
       <template #end>
@@ -29,4 +33,25 @@ const emit = defineEmits(['onNewGroup', 'onEditGroup', 'onRemoveGroup'])
     margin-left: 1rem;
   }
 
+  .p-toolbar {
+    border-radius: 0;
+    overflow-y: auto;
+    z-index: 999;
+    top: 4.6rem;
+    position: fixed;
+    margin-left: 0.8rem;
+    width: calc(100% - 260px);
+  }
+
+  @media (min-width: 1583px) {
+    .p-toolbar {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 1583px) {
+    .p-toolbar {
+      margin-left: 1.4rem;
+    }
+  }
 </style>

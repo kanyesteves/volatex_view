@@ -6,14 +6,16 @@
       <GlobalStaticMenu
         :class="$style.sidebar" />
 
+      <ToolbarPrograming
+        :class="$style.toolbar_programming"
+        v-model="setVisibleToolbar"
+        @onNewPrograming="onNewPrograming" 
+        @onRemovePrograming="onRemovePrograming" />
+
       <Card :class="$style.mainContent" class="card">
         <template #content>
-          <ToolbarPrograming
-            v-model="setVisibleToolbar"
-            @onNewPrograming="onNewPrograming" 
-            @onRemovePrograming="onRemovePrograming" />
-      
           <ListPrograming
+            :class="$style.list_programing"
             @selected="rowSelected" 
             @unselected="rowUnSelected" />
         </template>
@@ -126,19 +128,38 @@ const getAllOps = debounce(async () => {
 <style module>
 .container {
   display: flex;
-  /* height: 100vh; */
+  margin-left: 2rem;
+  margin-top: 7rem;
+  height: calc(100% - 3rem);
+}
+
+@media (min-width: 1583px) {
+  .container {
+    margin-left: 0;
+  }
+}
+
+.toolbar_programming {
+  height: auto;
+  flex-shrink: 0;
+}
+
+.list_programing {
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .sidebar {
-  margin-top: 1rem;
   width: 260px;
   background-color: #f5f5f5;
 }
 
 .mainContent {
-  margin-top: 1rem;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  margin-left: 10px;
+  overflow: hidden;
 }
 
 </style>

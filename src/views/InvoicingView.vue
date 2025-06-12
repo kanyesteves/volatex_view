@@ -347,24 +347,27 @@ const calcHeight = (height) => {
 </script>
 
 <style module>
-.container {
-  display: flex;
-  /* height: 100vh; */
-}
+  .container {
+    display: flex;
+    margin-top: 4.5rem;
+    height: 100vh;
+  }
 
-.sidebar {
-  margin-top: 1rem;
-  width: 260px;
-  background-color: #f5f5f5;
-}
+  .sidebar {
+    margin-top: 1rem;
+    width: 260px;
+    background-color: #f5f5f5;
+  }
 
-.mainContent {
-  margin-top: 1rem;
-  flex-grow: 1;
-  margin-left: 10px;
-}
+  .mainContent {
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+  }
 
-.box_invoiced {
-  display: flex;
-}
+  .box_invoiced {
+    display: flex;
+  }
 </style>

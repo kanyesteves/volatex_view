@@ -2,9 +2,8 @@
   <div class="card">
     <DataTable 
       stripedRows scrollable
-      paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
+      paginator :rows="50" :rowsPerPageOptions="[5, 10, 20, 50]"
       v-model:selection="groupSelected"
-      :scroll-height="screenHeight" 
       :value="groups" 
       :metaKeySelection="false"
       @rowSelect="onRowSelect" 
@@ -41,11 +40,8 @@ const emit = defineEmits(['selected', 'unselected'])
 
 onMounted(() => {
   onLoadGroup()
-  responsiveScreen();
 })
 
-const windowHeight = ref(window.innerHeight);
-const screenHeight = ref()
 const groupSelected = ref();
 const groups = ref([]);
 const refresh = ref(false)
@@ -92,14 +88,6 @@ const onLoadGroup = debounce(async () => {
     }
   })
 });
-
-const responsiveScreen = () => {
-  screenHeight.value = calcHeight(windowHeight.value) + 'px'
-};
-
-const calcHeight = (height) => {
-  return height - 285
-}
 
 </script>
 

@@ -6,15 +6,16 @@
       <GlobalStaticMenu
         :class="$style.sidebar" />
 
+      <ToolbarGroup
+        :class="$style.toolbar_group"
+        v-model="setVisibleToolbar"
+        @onNewGroup="onNewGroup" 
+        @onEditGroup="onEditGroup" 
+        @onRemoveGroup="onRemoveGroup" />
       <Card :class="$style.mainContent" class="card">
         <template #content>
-          <ToolbarGroup
-            v-model="setVisibleToolbar"
-            @onNewGroup="onNewGroup" 
-            @onEditGroup="onEditGroup" 
-            @onRemoveGroup="onRemoveGroup" />
-    
           <ListGroup
+            :class="$style.lit_group"
             @selected="rowSelected" 
             @unselected="rowUnSelected" />
         </template>
@@ -153,19 +154,36 @@ const getAllUsers = debounce(async () => {
 <style module>
 .container {
   display: flex;
-  /* height: 100vh; */
+  margin-top: 7rem;
+  height: calc(100% - 3rem);
+}
+
+.toolbar_group {
+  height: auto;
+  flex-shrink: 0;
+}
+
+.list_group {
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .sidebar {
-  margin-top: 1rem;
-  width: 300px;
+  width: 260px;
   background-color: #f5f5f5;
 }
 
 .mainContent {
-  margin-top: 1rem;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  margin-left: 10px;
+  overflow: hidden;
 }
 
+@media (max-width: 1583px) {
+  .mainContent {
+    margin-left: 1rem;
+  }
+}
 </style>

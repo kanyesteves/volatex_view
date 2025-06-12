@@ -6,15 +6,17 @@
       <GlobalStaticMenu
         :class="$style.sidebar" />
 
+      <ToolbarOrderOfOperation
+        :class="$style.toolbar_op"
+        v-model="setVisibleToolbar"
+        @onNewOp="onNewOp" 
+        @onEditOp="onEditOp" 
+        @onDoneOp="onDoneOp" />
+
       <Card :class="$style.mainContent" class="card">
         <template #content>
-          <ToolbarOrderOfOperation
-            v-model="setVisibleToolbar"
-            @onNewOp="onNewOp" 
-            @onEditOp="onEditOp" 
-            @onDoneOp="onDoneOp" />
-      
           <ListOrderOfOperation
+            :class="$style.list_op"
             @selected="rowSelected" 
             @unselected="rowUnSelected" />
         </template>
@@ -214,19 +216,37 @@ const formatDateClosed = (date_closed: any) => {
 <style module>
 .container {
   display: flex;
-  /* height: 100vh; */
+  margin-top: 7rem;
+  height: 100%;
+}
+
+.toolbar_op {
+  height: auto;
+  flex-shrink: 0;
+}
+
+.list_op {
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .sidebar {
-  margin-top: 1rem;
-  width: 308px;
+  width: 260px;
   background-color: #f5f5f5;
 }
 
 .mainContent {
-  margin-top: 1rem;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  margin-left: 10px;
+  overflow: hidden;
 }
 
+
+@media (max-width: 1483px) {
+  .mainContent {
+    margin-left: 1rem;
+  }
+}
 </style>

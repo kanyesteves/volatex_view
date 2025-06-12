@@ -113,10 +113,10 @@ const decodeToken = () => {
 };
 
 const generateMenuItems = () => {
-  items_config.value = [
+  const rawItemsConfig = [
     {
       label: 'Operações',
-      items: filterItems(['Faturamento', 'Produção', 'Programações', 'Ordens de Operação'])
+      items: filterItems(['Ordens de Operação', 'Programações', 'Produção', 'Faturamento' ])
     },
     {
       label: 'Configurações',
@@ -127,6 +127,8 @@ const generateMenuItems = () => {
       items: filterItems(['Grupos', 'Usuários'])
     }
   ];
+
+  items_config.value = rawItemsConfig.filter(config => config.items.length > 0);
 
   menuStore.setItemsConfig(items_config.value)
 }
@@ -177,8 +179,8 @@ const getIcon = (name) => {
   .card {
     display: flex;
     justify-content: center;
-    top: -1rem;
-    left: -1rem;
+    /* top: -1rem;
+    left: -1rem; */
 
     height: 100vh;
     width: 100vw;

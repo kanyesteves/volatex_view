@@ -2,9 +2,8 @@
   <div class="card">
     <DataTable 
       stripedRows scrollable
-      paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
+      paginator :rows="50" :rowsPerPageOptions="[5, 10, 20, 50]"
       v-model:selection="tearSelected"
-      :scroll-height="screenHeight" 
       :value="teares" 
       :metaKeySelection="false"
       @rowSelect="onRowSelect" 
@@ -51,12 +50,9 @@ const emit = defineEmits(['selected', 'unselected'])
 
 onMounted(() => {
   onLoadTeares()
-  responsiveScreen();
 })
 
 const use_refresh_table = useRefreshTable()
-const windowHeight = ref(window.innerHeight);
-const screenHeight = ref()
 const tearSelected = ref();
 const teares = ref([]);
 const refresh = ref(false)
@@ -102,13 +98,5 @@ const getSeverity = (status) => {
       return null;
   }
 };
-
-const responsiveScreen = () => {
-  screenHeight.value = calcHeight(windowHeight.value) + 'px'
-};
-
-const calcHeight = (height) => {
-  return height - 285
-}
 
 </script>

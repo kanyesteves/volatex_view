@@ -1,9 +1,13 @@
 <template>
   <div class="card">
-    <Toolbar>
+    <Toolbar :class="$style['p-toolbar']">
       <template #start>
         <Button size="small" label="Novo" severity="success" raised @click="emit('onNewPrograming')" />
         <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Remover" severity="success" raised @click="emit('onRemovePrograming')" />
+      </template>
+
+      <template #center>
+        <b>Programações</b>
       </template>
 
       <template #end>
@@ -26,6 +30,15 @@ const emit = defineEmits(['onNewPrograming', 'onRemovePrograming'])
 <style module>
   .buttons {
     margin-left: 1rem;
+  }
+
+  .p-toolbar {
+    border-radius: 0;
+    overflow-y: auto;
+    z-index: 999;
+    top: 4.6rem;
+    position: fixed;
+    width: calc(100% - 260px);
   }
 
 </style>

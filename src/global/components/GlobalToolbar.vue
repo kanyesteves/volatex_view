@@ -1,16 +1,12 @@
 <template>
   <div class="card">
     <GlobalMenu v-model="visible" />
-    <Toolbar>
+    <Toolbar :class="$style['p-toolbar']">
       <template #start>
         <!-- <Button icon="pi pi-bars" severity="success" @click="onMenuClick" /> -->
         <div :class="$style.logo">
-          <img src="../../assets/auratextil.png" width="25px" height="33px" alt="AuraTêxtil">
+          <img src="../../assets/logo_horizontal.png" width="150px" height="37px" alt="AuraTêxtil">
         </div>
-      </template>
-
-      <template #center>
-        <h3><span>Aura Têxtil</span></h3>
       </template>
 
       <template #end>
@@ -46,8 +42,16 @@ const removeSession = () => {
 <style module>
 
 .logo {
-  padding: 5px;
+  padding: 3px 2px 2px 10px;
   margin-left: 0.1rem;
+}
+
+.p-toolbar {
+  border-radius: 0 !important;
+  top: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
 }
 
 </style>

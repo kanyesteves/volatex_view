@@ -8,7 +8,7 @@
         :class="$style.sidebar" />
 
       <Card :class="$style.mainContent" class="card">
-        <template #title>Registro de rolos</template>
+        <template #title>Produção</template>
         <template #content>
 
           <div class="card flex justify-center">
@@ -235,22 +235,26 @@ const getCodePerPieceOfOp = async (op_name) => {
     flex-direction: row;
     margin: 10px;
   }
+
   .container {
     display: flex;
-    /* height: 100vh; */
+    margin-top: 4.5rem;
+    height: 100vh;
   }
 
   .sidebar {
-    margin-top: 1rem;
     width: 260px;
     background-color: #f5f5f5;
   }
 
   .mainContent {
-    margin-top: 1rem;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
-    margin-left: 10px;
+    overflow: hidden;
   }
+
   .customborder {
     display: flex;
     flex-direction: row;

@@ -122,7 +122,7 @@
 
         <div :class="$style.space_bottons">
           <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-          <Button v-if="!checkStatus()" :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" severity="success" @click="onUpdateOP"></Button>
+          <Button v-if="!checkStatusKg()" :style="{ 'margin-left': '1rem' }" type="button" label="Salvar" severity="success" @click="onUpdateOP"></Button>
         </div>
 
       </Dialog>
@@ -203,7 +203,6 @@ const onUpdateOP = async () => {
       visible.value = false
       use_refresh_table.setRefresh(true)
       onSelectRestore()
-      // location.reload()
     }
 
   }).catch(async (response) => {
