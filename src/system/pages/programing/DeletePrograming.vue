@@ -14,10 +14,8 @@ import { defineModel, defineProps } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import programingService from '@/system/services/programingService';
-import { useToast } from 'primevue/usetoast';
 import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
-const toast = useToast();
 const visible = defineModel()
 const props = defineProps(['programing'])
 const emit = defineEmits(['selectrestore'])
@@ -30,7 +28,6 @@ const onSelectRestore = () => {
 
 const onRemovePrograming = () => {
   programingService.remove(props.programing.id).then((response) => {
-    toast.add({ severity: 'success', summary: 'Sucesso',  detail: response.data, life: 2000 })
     visible.value = false
     use_refresh_table.setRefresh(true)
     onSelectRestore()

@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <DataTable 
+    <!-- <DataTable 
       stripedRows scrollable
       paginator :rows="50" :rowsPerPageOptions="[5, 10, 20, 50]"
       v-model:selection="programingSelected"
@@ -22,7 +22,23 @@
         </template>
       </Column>
 
-    </DataTable>
+    </DataTable> -->
+
+    <Card :class="$style.card_list" v-for="programming in programings" :key="programming.id">
+      <template #title>
+        <div :class="$style.card_title">
+            {{programming.tear}}
+          <Button v-tooltip.bottom="'Remover'" icon="pi pi-trash" severity="danger" :style="{'width': '30px', 'height': '30px'}"></Button>
+        </div>
+      </template>
+
+      <template #content>
+        <div :class="$style.card_content">
+            {{ programming.name }}
+        </div>
+      </template>
+    </Card>
+    
   </div>
 </template>
 
@@ -30,6 +46,8 @@
 import { ref, onMounted, defineEmits, watch } from 'vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Card from 'primevue/card';
+import Button from 'primevue/button';
 import { debounce } from 'lodash';
 import Skeleton from 'primevue/skeleton';
 import programingService from '@/system/services/programingService';
@@ -42,8 +60,6 @@ onMounted(() => {
   onLoadPrograming()
 })
 
-const windowHeight = ref(window.innerHeight);
-const screenHeight = ref()
 const programingSelected = ref();
 const programings = ref([]);
 const refresh = ref(false)
@@ -99,3 +115,23 @@ const onLoadPrograming = debounce(async () => {
 });
 
 </script>
+
+<style lang="scss" module>
+
+.card_list {
+  display: flex;
+  margin-top: 1rem;
+  border: 1px solid #e0e0e0;
+  color: #46494e;
+}
+
+.card_title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card_content {
+  display: flex;
+}
+
+</style>
