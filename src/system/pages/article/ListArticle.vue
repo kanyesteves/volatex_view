@@ -21,6 +21,11 @@
             <Skeleton></Skeleton>
         </template>
       </Column>
+      <Column field="price" header="Preço" style="width: 15%">
+        <template #body v-if="refresh">
+            <Skeleton></Skeleton>
+        </template>
+      </Column>
       <Column field="description" header="Descrição">
         <template #body v-if="refresh">
             <Skeleton></Skeleton>
