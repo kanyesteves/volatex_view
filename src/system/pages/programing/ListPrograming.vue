@@ -27,14 +27,27 @@
     <Card :class="$style.card_list" v-for="programming in programings" :key="programming.id">
       <template #title>
         <div :class="$style.card_title">
-            {{programming.tear}}
+            {{programming.tear}} - {{ programming.name }}
           <Button v-tooltip.bottom="'Remover'" icon="pi pi-trash" severity="danger" :style="{'width': '30px', 'height': '30px'}"></Button>
         </div>
       </template>
 
       <template #content>
         <div :class="$style.card_content">
-            {{ programming.name }}
+          <div :class="$style.card_content_body">
+            <p><b>RPM: </b>{{ programming.rpm }}</p>
+            <p><b>Eficiência: </b>{{ programming.efficiency }} %</p>
+          </div>
+          <div :class="$style.card_content_body">
+            <p><b>Peso por dia: </b>{{ programming.weight_daily }} kg</p>
+            <p><b>Peso por dia: </b>{{ programming.days_for_done }} dias</p>
+          </div>
+        </div>
+      </template>
+
+      <template #footer>
+        <div :class="$style.card_footer">
+          <i>{{ programming.date_start + ' - ' + programming.date_end }}</i>
         </div>
       </template>
     </Card>
@@ -44,8 +57,8 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, defineEmits, watch } from 'vue'
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
+// import DataTable from 'primevue/datatable';
+// import Column from 'primevue/column';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 import { debounce } from 'lodash';
@@ -132,6 +145,23 @@ const onLoadPrograming = debounce(async () => {
 
 .card_content {
   display: flex;
+  align-items: center;
+  
+  
+  .card_content_body {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-right: 15rem;
+
+    p {
+     margin: 5px; 
+    }
+  }
 }
 
+.card_footer {
+  display: flex;
+  justify-content: center;
+}
 </style>
