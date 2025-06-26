@@ -3,7 +3,6 @@
     <Toolbar :class="$style['p-toolbar']">
       <template #start>
         <Button size="small" label="Novo" severity="success" raised @click="emit('onNewPrograming')" />
-        <Button :disabled="setVisibleToolbar.length != 1" :class="$style.buttons" size="small" label="Remover" severity="success" raised @click="emit('onRemovePrograming')" />
       </template>
 
       <template #center>
@@ -22,8 +21,7 @@ import { defineModel, defineEmits } from 'vue';
 import Button from 'primevue/button';
 import Toolbar from 'primevue/toolbar';
 
-const setVisibleToolbar = defineModel()
-const emit = defineEmits(['onNewPrograming', 'onRemovePrograming'])
+const emit = defineEmits(['onNewPrograming'])
 
 </script>
 

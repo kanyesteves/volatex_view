@@ -189,6 +189,8 @@ const onSavePrograming = async () => {
     if (response.status === 201) {
       visible.value = false
       use_refresh_table.setRefresh(true)
+      form.value = {}
+      wires.value = []
     }
   })
 

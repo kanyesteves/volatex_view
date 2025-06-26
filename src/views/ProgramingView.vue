@@ -8,16 +8,13 @@
 
       <ToolbarPrograming
         :class="$style.toolbar_programming"
-        v-model="setVisibleToolbar"
-        @onNewPrograming="onNewPrograming" 
-        @onRemovePrograming="onRemovePrograming" />
+        @onNewPrograming="onNewPrograming" />
 
       <Card :class="$style.mainContent" class="card">
         <template #content>
           <ListPrograming
             :class="$style.list_programing"
-            @selected="rowSelected" 
-            @unselected="rowUnSelected" />
+            @onRemovePrograming="onRemovePrograming" />
         </template>
       </Card>
     </div>
@@ -29,8 +26,8 @@
   
     <DeletePrograming
       v-model="remove_programing" 
-      :programing="programing_selected" 
-      @selectrestore="selectRestore" />
+      :programing="programing_selected"
+      @removePrograming="getAllTeares" />
   </div>
 </template>
 
@@ -48,8 +45,6 @@ import DeletePrograming from '@/system/pages/programing/DeletePrograming.vue'
 import tearService from '@/system/services/tearService';
 import { useMenuStore } from '@/global/storages/authStorage';
 import router from '@/router';
-
-const setVisibleToolbar = ref([])
 
 onMounted(() => {
   getAllTeares()
@@ -80,28 +75,15 @@ const programing_selected = ref({
   name: ''
 });
 
-const rowSelected = (event) => {
-  programing_selected.value.id = event.data.id
-  programing_selected.value.name = event.data.name
-  setVisibleToolbar.value.push(event.data.id)
-}
-
-const rowUnSelected = (event) => {
-  const index = setVisibleToolbar.value.indexOf(event.data.id);
-  setVisibleToolbar.value.splice(index, 1)
-}
-
-const selectRestore = (event) => {
-  setVisibleToolbar.value = event
-}
-
 const new_programing = ref(false)
 const onNewPrograming = () => {
   new_programing.value = true
 }
 
 const remove_programing = ref(false)
-const onRemovePrograming = () => {
+const onRemovePrograming = (event) => {
+  programing_selected.value.id = event.id
+  programing_selected.value.name = event.name
   remove_programing.value = true
 }
 
@@ -133,7 +115,7 @@ const getAllOps = debounce(async () => {
   height: calc(100% - 3rem);
 }
 
-@media (min-width: 1583px) {
+@media (max-width: 1693px) {
   .container {
     margin-left: 0;
   }

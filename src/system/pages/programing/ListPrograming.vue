@@ -1,44 +1,26 @@
 <template>
   <div class="card">
-    <!-- <DataTable 
-      stripedRows scrollable
-      paginator :rows="50" :rowsPerPageOptions="[5, 10, 20, 50]"
-      v-model:selection="programingSelected"
-      :value="programings" 
-      :metaKeySelection="false"
-      @rowSelect="onRowSelect" 
-      @rowUnselect="onRowUnSelect" 
-      dataKey="id" 
-      tableStyle="min-width: 50rem">
-
-      <Column selectionMode="multiple" headerStyle="width: 3rem">
-        <template #body v-if="refresh">
-            <Skeleton></Skeleton>
-        </template>
-      </Column>
-      <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header">
-        <template #body v-if="refresh">
-            <Skeleton></Skeleton>
-        </template>
-      </Column>
-
-    </DataTable> -->
 
     <Card :class="$style.card_list" v-for="programming in programings" :key="programming.id">
       <template #title>
         <div :class="$style.card_title">
             {{programming.tear}} - {{ programming.name }}
-          <Button v-tooltip.bottom="'Remover'" icon="pi pi-trash" severity="danger" :style="{'width': '30px', 'height': '30px'}"></Button>
+          <Button 
+            v-tooltip.bottom="'Remover'"
+            icon="pi pi-trash"
+            severity="danger"
+            :style="{'width': '30px', 'height': '30px'}"
+            @click="onOnRemovePrograming(programming)"></Button>
         </div>
       </template>
 
       <template #content>
         <div :class="$style.card_content">
-          <div :class="$style.card_content_body">
+          <div v-if="programming.rpm && programming.efficiency" :class="$style.card_content_body">
             <p><b>RPM: </b>{{ programming.rpm }}</p>
             <p><b>Eficiência: </b>{{ programming.efficiency }} %</p>
           </div>
-          <div :class="$style.card_content_body">
+          <div v-if="programming.weight_daily && programming.days_for_done" :class="$style.card_content_body">
             <p><b>Peso por dia: </b>{{ programming.weight_daily }} kg</p>
             <p><b>Peso por dia: </b>{{ programming.days_for_done }} dias</p>
           </div>
@@ -46,27 +28,25 @@
       </template>
 
       <template #footer>
-        <div :class="$style.card_footer">
+        <div v-if="programming.date_start || programming.date_end" :class="$style.card_footer">
           <i>{{ programming.date_start + ' - ' + programming.date_end }}</i>
         </div>
       </template>
     </Card>
-    
+
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted, defineEmits, watch } from 'vue'
-// import DataTable from 'primevue/datatable';
-// import Column from 'primevue/column';
 import Card from 'primevue/card';
-import Button from 'primevue/button';
 import { debounce } from 'lodash';
-import Skeleton from 'primevue/skeleton';
+import Button from 'primevue/button';
+import Message from 'primevue/message';
 import programingService from '@/system/services/programingService';
 import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
-const emit = defineEmits(['selected', 'unselected'])
+const emit = defineEmits(['onRemovePrograming'])
 const use_refresh_table = useRefreshTable()
 
 onMounted(() => {
@@ -77,23 +57,8 @@ const programingSelected = ref();
 const programings = ref([]);
 const refresh = ref(false)
 
-const columns = [
-  { field: 'tear',          header: 'Tear' },
-  { field: 'name',          header: 'Nome' },
-  { field: 'op',            header: 'Ordem de Operação' },
-  { field: 'rpm',           header: 'RPM' },
-  { field: 'weight_daily',  header: 'Peso diário' },
-  { field: 'days_for_done', header: 'Dias para conclusão' },
-  { field: 'date_start',    header: 'Data Inicial' },
-  { field: 'date_end',      header: 'Data Final' },
-];
-
-const onRowSelect = (event) => {
-  emit('selected', event)
-};
-
-const onRowUnSelect = (event) => {
-  emit('unselected', event)
+const onOnRemovePrograming = (event) => {
+  emit('onRemovePrograming', event)
 };
 
 watch(() => use_refresh_table.getRefresh(), (newValue) => {

@@ -10,28 +10,23 @@
 </template>
 
 <script lang="ts" setup>
-import { defineModel, defineProps } from 'vue'
+import { defineModel, defineProps, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import programingService from '@/system/services/programingService';
 import { useRefreshTable } from '@/global/storages/refreshTableStore';
 
 const visible = defineModel()
+const emit = defineEmits(['removePrograming'])
 const props = defineProps(['programing'])
-const emit = defineEmits(['selectrestore'])
 const use_refresh_table = useRefreshTable()
-
-const onSelectRestore = () => {
-  emit('selectrestore', [])
-}
 
 
 const onRemovePrograming = () => {
   programingService.remove(props.programing.id).then((response) => {
     visible.value = false
     use_refresh_table.setRefresh(true)
-    onSelectRestore()
-    // location.reload()
+    emit('removePrograming');
   })
 }
 
