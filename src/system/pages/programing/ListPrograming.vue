@@ -29,7 +29,8 @@
 
       <template #footer>
         <div v-if="programming.date_start || programming.date_end" :class="$style.card_footer">
-          <i>{{ programming.date_start + ' - ' + programming.date_end }}</i>
+          <i><b>Inicio: </b>{{ programming.date_start }}</i>
+          <i><b>Fim: </b>{{ programming.date_end }}</i>
         </div>
       </template>
     </Card>
@@ -127,6 +128,6 @@ const onLoadPrograming = debounce(async () => {
 
 .card_footer {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 </style>
