@@ -20,6 +20,14 @@ class productionService {
   }
 
   /**
+   * Busca os últimos 3 registros da produção.
+   * @return {Array} Data: Lista com os 3 últimos registros.
+   */
+  getLast3Records(): Promise<any>{
+      return api.get(`/productions/getLast3Records`)
+  }
+
+  /**
    * Busca de todos os registros por ordem de operação
    * @return {Array} Data: Lista com todos as registros por ordem de operação
    */

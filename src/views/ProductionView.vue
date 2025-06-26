@@ -97,6 +97,16 @@
           </div>
 
         </template>
+        <template #footer>
+          <h3>Últimos registros</h3>
+          <DataTable :value="last3_records" resizableColumns columnResizeMode="expand" showGridlines tableStyle="min-width: 50rem">
+            <Column field="tear" header="Tear"></Column>
+            <Column field="op" header="Ordem de Operação"></Column>
+            <Column field="weight" header="Peso"></Column>
+            <Column field="operator" header="Tecelão"></Column>
+            <Column field="date" header="Data"></Column>
+          </DataTable>
+        </template>
       </Card>
     </div>
   </div>
@@ -108,11 +118,13 @@ import { ref, onMounted } from 'vue'
 import Step from 'primevue/step';
 import Card from 'primevue/card';
 import Toast from 'primevue/toast';
+import Column from 'primevue/column';
 import Select from 'primevue/select';
 import Button from 'primevue/button';
 import Stepper from 'primevue/stepper';
 import Message from 'primevue/message';
 import StepList from 'primevue/steplist';
+import DataTable from 'primevue/datatable';
 import InputText from 'primevue/inputtext';
 import StepPanel from 'primevue/steppanel';
 import { useToast } from 'primevue/usetoast';
@@ -142,6 +154,8 @@ const onSaveRecord = debounce(async () => {
     if (response.status == 201) {
       toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Peça registrada no sistema !!', life: 3500 });
       console.log(response.data)
+      getLast3Records()
+
     }
   })
 
@@ -155,6 +169,7 @@ const clearForm = () => {
 onMounted(() => {
   getAllProgramings()
   getAllOperators()
+  getLast3Records()
   validMenu()
 })
 
@@ -175,7 +190,7 @@ const validMenu = () => {
 
 const programings = ref([])
 const has_programings = ref(false)
-const getAllProgramings = debounce(async () => {
+const getAllProgramings = async () => {
   await programingService.getAll().then((response) => {
     if (response.status == 200) {
       programings.value = response.data
@@ -184,16 +199,16 @@ const getAllProgramings = debounce(async () => {
         has_programings.value = true
     }
   })
-})
+}
 
 const operators = ref([])
-const getAllOperators = debounce(async () => {
+const getAllOperators = async () => {
   await operatorService.getAll().then((response) => {
     if (response.status == 200) {
       operators.value = response.data
     }
   })
-})
+}
 
 const programing_name = ref()
 const getTearAndOp = (programing) => {
@@ -222,6 +237,15 @@ const getCodePerPieceOfOp = async (op_name) => {
       }
 
     }
+  })
+}
+
+const last3_records = ref([])
+const getLast3Records = async () => {
+  await productionService.getLast3Records().then((response) => {
+      console.log(response.data)
+      last3_records.value = response.data
+
   })
 }
 

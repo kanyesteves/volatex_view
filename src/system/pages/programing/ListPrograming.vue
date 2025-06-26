@@ -22,7 +22,7 @@
           </div>
           <div v-if="programming.weight_daily && programming.days_for_done" :class="$style.card_content_body">
             <p><b>Peso por dia: </b>{{ programming.weight_daily }} kg</p>
-            <p><b>Peso por dia: </b>{{ programming.days_for_done }} dias</p>
+            <p><b>Dias para concluir: </b>{{ programming.days_for_done }} dias</p>
           </div>
         </div>
       </template>
