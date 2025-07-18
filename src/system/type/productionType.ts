@@ -8,4 +8,5 @@ export interface Form {
   operator: string | undefined
   total_weight: number | undefined
   review: string | undefined
+  second_quality: string | undefined
 }

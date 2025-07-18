@@ -17,6 +17,7 @@
       <template #content>
         <div :class="$style.card_content">
           <div v-if="programming.rpm && programming.efficiency" :class="$style.card_content_body">
+            <p><b>OP: </b>{{ programming.op }}</p>
             <p><b>RPM: </b>{{ programming.rpm }}</p>
             <p><b>Eficiência: </b>{{ programming.efficiency }} %</p>
           </div>

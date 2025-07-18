@@ -71,6 +71,10 @@
                       <span :style="{'font-size': '18px'}">{{ form.code_per_piece }}</span>
                     </div>
                     <div :class="$style.customborderStep4">
+                      <InputGroup :style="{'width': '5rem'}">
+                        <SelectButton v-model="form.second_quality" :options="options" size="small"/>
+                      </InputGroup>
+
                       <InputGroup :style="{ 'max-width': '360px', 'margin-left': '10px'}">
                         <InputText placeholder="Revisão" id="review" v-model="form.review" />
                       </InputGroup>
@@ -131,6 +135,7 @@ import { useToast } from 'primevue/usetoast';
 import StepPanels from 'primevue/steppanels';
 import InputGroup from 'primevue/inputgroup';
 import InputNumber from 'primevue/inputnumber';
+import SelectButton from 'primevue/selectbutton';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import GlobalToolbar from '../global/components/GlobalToolbar.vue';
 import programingService from '@/system/services/programingService';
@@ -143,6 +148,7 @@ import { useMenuStore } from '@/global/storages/authStorage';
 const menuStore = useMenuStore();
 const toast = useToast();
 const items_config = menuStore.items_config
+const options = ref(['1º', '2º'])
 
 const only_production = ref(false)
 const form = ref<Form>({})
@@ -153,7 +159,6 @@ const onSaveRecord = debounce(async () => {
   await productionService.save(form.value).then((response) => {
     if (response.status == 201) {
       toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Peça registrada no sistema !!', life: 3500 });
-      console.log(response.data)
       getLast3Records()
 
     }
@@ -171,6 +176,7 @@ onMounted(() => {
   getAllOperators()
   getLast3Records()
   validMenu()
+  form.value.second_quality = '1º'
 })
 
 const validMenu = () => {
@@ -243,9 +249,8 @@ const getCodePerPieceOfOp = async (op_name) => {
 const last3_records = ref([])
 const getLast3Records = async () => {
   await productionService.getLast3Records().then((response) => {
-      console.log(response.data)
-      last3_records.value = response.data
-
+    last3_records.value = response.data
+    form.value.second_quality = '1º'
   })
 }
 
