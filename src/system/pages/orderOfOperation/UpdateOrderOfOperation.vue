@@ -110,9 +110,14 @@
   
             <div :class="$style.div_box_graphs">
               <Knob v-model="graphs.total_weight" :max="form.total_weight" :size="120" readonly />
-              <label for="total_weight">Peso total</label>
+              <label for="total_weight">1º Qualidade</label>
             </div>
   
+            <div :class="$style.div_box_graphs">
+              <Knob v-model="graphs.total_second_quality" :size="120" :max="form.total_weight" readonly />
+              <label for="invoicing">2º Qualidade</label>
+            </div>
+
             <div :class="$style.div_box_graphs">
               <Knob v-model="graphs.total_invoiced" valueTemplate="{value}%" :size="120" :max="100" readonly />
               <label for="invoicing">Faturamento</label>
@@ -181,6 +186,7 @@ watch(() => props.graphs, (newValue) => {
   graphs.value = newValue
   graphs.value.total_weight = graphs.value.total_weight.toFixed(1)
   graphs.value.total_invoiced = (graphs.value.total_invoiced > 0) ? ((graphs.value.total_invoiced / graphs.value.total_pieces) * 100).toFixed(0) : 0
+  graphs.value.total_second_quality = graphs.value.total_second_quality.toFixed(2)
 })
 
 const form = ref<Form>(props.op)

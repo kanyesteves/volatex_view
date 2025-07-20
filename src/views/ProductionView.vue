@@ -105,6 +105,7 @@
           <h3>Últimos registros</h3>
           <DataTable :value="last3_records" resizableColumns columnResizeMode="expand" showGridlines tableStyle="min-width: 50rem">
             <Column field="tear" header="Tear"></Column>
+            <Column field="second_quality" header="Qualidade"></Column>
             <Column field="op" header="Ordem de Operação"></Column>
             <Column field="weight" header="Peso"></Column>
             <Column field="operator" header="Tecelão"></Column>
