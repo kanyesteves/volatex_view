@@ -1,2 +1,3 @@
 #!/bin/bash
-npx serve -s dist
+
+PORT=$PORT npx serve -s dist
