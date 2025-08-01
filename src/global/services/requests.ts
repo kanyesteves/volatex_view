@@ -4,9 +4,9 @@ import type { AxiosInstance } from "axios"
 
 const apiPort = process.env.VUE_APP_BACKEND_PORT
 const api: AxiosInstance = axios.create({
-  // baseURL: "http://192.168.1.14:8000",
+  baseURL: "http://145.223.29.176:" + apiPort,
   // baseURL: "http://145.223.29.176:8000",
-  baseURL: "http://localhost:8000",
+  // baseURL: "http://localhost:8000",
   headers: {
     'Content-Type': 'application/json'
   },
