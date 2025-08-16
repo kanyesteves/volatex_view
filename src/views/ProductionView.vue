@@ -145,6 +145,8 @@ import operatorService from '@/system/services/operatorService';
 import productionService from '@/system/services/productionService'
 import type Form from '@/system/type/productionType'
 import { useMenuStore } from '@/global/storages/authStorage';
+import { jwtDecode as jwt_decode } from 'jwt-decode';
+import router from '@/router';
 
 const menuStore = useMenuStore();
 const toast = useToast();
@@ -178,7 +180,22 @@ onMounted(() => {
   getLast3Records()
   validMenu()
   form.value.second_quality = '1º'
+  checkExpToken()
 })
+
+const checkExpToken = () => {
+  const interval = setInterval(() => {
+    const token = localStorage.getItem('token')
+    const decoded = jwt_decode(token)
+    const expTime = decoded.exp * 1000
+
+    if (Date.now() >= expTime) {
+      clearInterval(interval)
+      localStorage.removeItem('token');
+      router.push('/login')
+    }
+  }, 30000)
+}
 
 const validMenu = () => {
   items_config.forEach((section) => {
