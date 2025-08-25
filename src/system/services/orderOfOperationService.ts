@@ -7,8 +7,8 @@ class orderOfOperationService {
    * Busca de todos as OPs
    * @return {Array} Data: Lista com todos as OPs
    */
-  getAll(): Promise<any>{
-    return api.get('/orderOfOperatios/getAll')
+  getAllClosed(): Promise<any>{
+    return api.get('/orderOfOperatios/getAllClosed')
   }
 
   /**

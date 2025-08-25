@@ -125,7 +125,7 @@ watch(() => use_refresh_table.getRefresh(), (newValue) => {
 })
 
 const onLoadOps = debounce(async () => {
-  await orderOfOperationService.getAll().then((response) => {
+  await orderOfOperationService.getAllOpenAndInProgress().then((response) => {
     if (response.status === 200) {
       ops.value = response.data
       opSelected.value = null
