@@ -116,7 +116,7 @@ const generateMenuItems = () => {
   const rawItemsConfig = [
     {
       label: 'Operações',
-      items: filterItems(['Ordens de Operação', 'Programações', 'Produção', 'Faturamento' ])
+      items: filterItems(['Ordens de Operação', 'Programações', 'Produção', 'Faturamento', 'Relatórios' ])
     },
     {
       label: 'Configurações',
@@ -150,6 +150,7 @@ const filterItems = (itemLabels) => {
 const getIcon = (name) => {
   const icons = {
     'Faturamento': 'dollar',
+    'Relatórios': 'book',
     'Produção': 'clipboard',
     'Programações': 'tags',
     'Ordens de Operação': 'stopwatch',

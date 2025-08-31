@@ -66,6 +66,7 @@ const form = ref<Form>(props.group)
 
 const listPermissions = [
   {name: 'Faturamento',        component: 'Invoicing'},
+  {name: 'Relatórios',         component: 'Reports'},
   {name: 'Produção',           component: 'Production'},
   {name: 'Clientes',           component: 'Customer'},
   {name: 'Teares',             component: 'Tear'},

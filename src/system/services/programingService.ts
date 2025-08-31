@@ -22,16 +22,11 @@ class programingService {
 
   /**
    * Envia os campos para salvar no banco de dados
-   * Utilizado na Edição e também no cadastro de nova programação
    * @param {Object} form: campos com os dados para serem salvo no banco de dados
    * @return {Array} Data: informações complementares e código de sucesso ou erro
    */
   async save(data: Form): Promise<any>{
-    return (data.id === undefined || data.id === null)
-      // Novo
-      ? await api.post("/programings/register/", data)
-      // Atualização
-      : await api.put(`/programings/update/${data.id}`, data)
+    return await api.post("/programings/register/", data)
   }
 
   /**
