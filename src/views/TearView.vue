@@ -147,7 +147,8 @@ const getTearById = debounce(async () => {
 }
 
 .sidebar {
-  width: 260px;
+  width: var(--sidebar-width);
+  transition: width 0.2s ease;
   background-color: #f5f5f5;
 }
 

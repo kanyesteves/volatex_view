@@ -9,7 +9,7 @@
       @rowSelect="onRowSelect" 
       @rowUnselect="onRowUnSelect" 
       dataKey="id" 
-      tableStyle="min-width: 50rem">
+      tableStyle="min-width: 30rem">
 
       <Column selectionMode="multiple" headerStyle="width: 3rem">
         <template #body v-if="refresh">

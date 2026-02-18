@@ -1,5 +1,5 @@
 <template>
-  <Dialog v-model:visible="visible" modal header="Visualizar faturamento" :style="{ width: '60rem' }">
+  <Dialog v-model:visible="visible" modal header="Visualizar faturamento" :style="{ width: '60rem' }" :breakpoints="{ '1280px': '90vw', '640px': '95vw' }">
 
     <DataTable :value="props.records" scrollable scrollHeight="14.8rem" showGridlines tableStyle="min-width: 50rem">
       <Column field="code_per_piece" header="Código"></Column>
@@ -135,6 +135,8 @@ watch(() => props.weight_per_wire, (newValue) => {
   }
   .infos_of_op {
     display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
   .space_bottons {
     display: flex;

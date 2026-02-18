@@ -3,6 +3,17 @@
 </template>
 
 <style lang="scss">
+:root {
+  --sidebar-width: 260px;
+  --toolbar-height: 4rem;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --sidebar-width: 0px;
+  }
+}
+
 #app {
   /* padding: 0.8rem; */
   height: 100vh;

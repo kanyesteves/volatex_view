@@ -1,5 +1,5 @@
 <template>
-  <div class="menu">
+  <div v-show="sidebarStore.isOpen" class="menu">
     <Card :class="$style.card">
       <template #content>
         <Menu :model="menuItems" :class="$style.menu">
@@ -23,8 +23,10 @@ import { watch, computed } from 'vue';
 import Card from 'primevue/card';
 import Menu from 'primevue/menu';
 import { useMenuStore } from '@/global/storages/authStorage';
+import { useSidebarStore } from '@/global/storages/sidebarStore';
 
 const menuStore = useMenuStore();
+const sidebarStore = useSidebarStore();
 const menuItems = computed(() => menuStore.items_config);
 
 watch(menuItems, (newVal) => {
@@ -41,7 +43,7 @@ watch(menuItems, (newVal) => {
   position: fixed;
   top: 4rem;
   left: 0;
-  width: 260px;
+  width: var(--sidebar-width);
   overflow-y: auto;
   z-index: 999;
 }

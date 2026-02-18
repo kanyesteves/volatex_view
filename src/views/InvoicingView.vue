@@ -24,11 +24,17 @@
                     </InputGroupAddon>
                     <Select v-model="op" :options="ops" optionLabel="code" v-on:change="getProductionByOp(op)" filter placeholder="Ordens de Operação" class="w-full md:w-80" />
                   </InputGroup>
+                  <InputGroup :style="{'max-width': '140px', 'margin-left': '10px'}">
+                    <InputGroupAddon>
+                      <i class="pi pi-check" />
+                    </InputGroupAddon>
+                    <InputNumber v-model="pieces_select" placeholder="Selecionar peças" />
+                  </InputGroup>
                   <InputGroup :style="{'max-width': '250px', 'margin-left': '10px'}">
                     <InputGroupAddon>
                       <i class="pi pi-filter" />
                     </InputGroupAddon>
-                    <InputText v-model="filters['global'].value" placeholder="Filtrar" />
+                    <InputText v-model="filters['global'].value" placeholder="Filtro" />
                   </InputGroup>
                   <Button :disabled="records_for_invoice.length < 1" :style="{ 'margin-left': '2rem' }" type="button" @click="calcRecords()" label="Faturar peças" severity="success"></Button>
                 </div>
@@ -128,7 +134,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { debounce } from 'lodash'
 import Tab from 'primevue/tab';
 import Tag from 'primevue/tag';
@@ -143,6 +149,7 @@ import Divider from 'primevue/divider';
 import TabPanel from 'primevue/tabpanel';
 import TabPanels from 'primevue/tabpanels';
 import InputText from 'primevue/inputtext';
+import InputNumber from 'primevue/inputnumber';
 import DataTable from 'primevue/datatable';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
@@ -183,6 +190,8 @@ const validMenu = () => {
   })
 }
 
+const pieces_select = ref(0)
+
 const visible = ref(false)
 const visible_record = ref(false)
 const op = ref()
@@ -197,6 +206,31 @@ const invoicing_view = ref([])
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
+
+watch(pieces_select, (value) => {
+  if (!productions.value || !value || value <= 0) {
+    records_for_invoice.value = []
+    recordSelected.value = []
+    total_weight.value = 0
+    count_registers.value = 0
+    return
+  }
+
+  records_for_invoice.value = []
+  total_weight.value = 0
+  count_registers.value = 0
+
+  const not_invoiced = productions.value.filter(item => item.invoiced === 'Não')
+  const selected = not_invoiced.slice(0, value)
+
+  selected.forEach(item => {
+    records_for_invoice.value.push(item)
+    total_weight.value += item.weight
+    count_registers.value += 1
+  })
+
+  recordSelected.value = selected
+})
 
 const getAllOps = debounce(async () => {
   await orderOfOperationService.getAllOpenAndInProgress().then((response) => {
@@ -355,7 +389,8 @@ const calcHeight = (height) => {
 
   .sidebar {
     margin-top: 1rem;
-    width: 260px;
+    width: var(--sidebar-width);
+    transition: width 0.2s ease;
     background-color: #f5f5f5;
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <Dialog v-model:visible="visible" modal header="Aviso de confirmação" :style="{ width: '25rem' }">
+  <Dialog v-model:visible="visible" modal header="Aviso de confirmação" :style="{ width: '25rem' }" :breakpoints="{ '640px': '90vw' }">
     <span>Tem certeza que deseja remover o fio <b>{{ props.wire.name }}</b>?</span>
     <Message :class="$style.messageWarn" severity="warn"><b>Ao remover esse fio você estará excluíndo todos vinculos criado com ele.</b></Message>
 

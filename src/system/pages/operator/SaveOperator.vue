@@ -1,7 +1,7 @@
 <template>
   <div class=" card">
     <div class="card flex justify-center">
-      <Dialog v-model:visible="visible" modal header="Novo operador" :style="{ width: '45rem' }">
+      <Dialog v-model:visible="visible" modal header="Novo operador" :style="{ width: '45rem' }" :breakpoints="{ '960px': '90vw', '640px': '95vw' }">
 
         <div :class="$style.div_box_" class="flex items-center">
           <InputGroup>
@@ -116,6 +116,8 @@ const formValid = (loc) => {
 
  .div_box {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   justify-content: space-around;
   margin-top: 2rem;
  }

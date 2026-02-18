@@ -1,5 +1,5 @@
 <template>
-  <Dialog v-model:visible="visible" modal header="Aviso de confirmação" :style="{ width: '25rem' }">
+  <Dialog v-model:visible="visible" modal header="Aviso de confirmação" :style="{ width: '25rem' }" :breakpoints="{ '640px': '90vw' }">
     <Message :class="$style.messageWarn" severity="warn"><b>Verique <Button v-ripple  severity="warn" as="router-link" to="/programing">aqui</Button> se o tear {{ props.tear.name }} está em alguma programação antes de remover !!</b></Message>
     <span>Tem certeza que deseja remover o tear <b>{{ props.tear.name }}</b>?</span>
 

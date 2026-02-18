@@ -1,7 +1,7 @@
 <template>
   <div class=" card">
     <div class="card flex justify-center">
-      <Dialog v-model:visible="visible" modal header="Editar usuário" :style="{ width: '45rem' }">
+      <Dialog v-model:visible="visible" modal header="Editar usuário" :style="{ width: '45rem' }" :breakpoints="{ '960px': '90vw', '640px': '95vw' }">
 
         <div :class="$style.div_box" class="flex items-center">
           <InputGroup>
@@ -92,6 +92,8 @@ const onSaveUser = async () => {
 
  .div_box {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-top: 1rem;
  }
 

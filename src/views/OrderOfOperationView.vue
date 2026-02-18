@@ -231,7 +231,8 @@ const formatDateClosed = (date_closed: any) => {
 }
 
 .sidebar {
-  width: 260px;
+  width: var(--sidebar-width);
+  transition: width 0.2s ease;
   background-color: #f5f5f5;
 }
 
@@ -241,12 +242,5 @@ const formatDateClosed = (date_closed: any) => {
   flex-direction: column;
   flex-grow: 1;
   overflow: hidden;
-}
-
-
-@media (max-width: 1483px) {
-  .mainContent {
-    margin-left: 1rem;
-  }
 }
 </style>

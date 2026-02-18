@@ -3,9 +3,9 @@
     <GlobalMenu v-model="visible" />
     <Toolbar :class="$style['p-toolbar']">
       <template #start>
-        <!-- <Button icon="pi pi-bars" severity="success" @click="onMenuClick" /> -->
+        <Button :class="$style.hamburger" icon="pi pi-bars" severity="secondary" text @click="sidebarStore.toggle()" />
         <div :class="$style.logo">
-          <img src="../../assets/logo_horizontal.png" width="150px" height="37px" alt="AuraTêxtil">
+          <img src="../../assets/logo_horizontal.png" :class="$style.logoImg" alt="AuraTêxtil">
         </div>
       </template>
 
@@ -18,18 +18,25 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import Button from 'primevue/button';
 import GlobalMenu from './GlobalMenu.vue';
 import Toolbar from 'primevue/toolbar';
 import { useMenuStore } from '@/global/storages/authStorage';
+import { useSidebarStore } from '@/global/storages/sidebarStore';
 
 const menuStore = useMenuStore()
+const sidebarStore = useSidebarStore()
 const visible = ref(false)
 
-const onMenuClick = () => {
-  visible.value = true
-}
+onMounted(() => {
+  sidebarStore.updateCSSVariable();
+  window.addEventListener('resize', sidebarStore.handleResize);
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', sidebarStore.handleResize);
+})
 
 const removeSession = () => {
   localStorage.removeItem('token')
@@ -41,9 +48,25 @@ const removeSession = () => {
 
 <style module>
 
+.hamburger {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .hamburger {
+    display: inline-flex;
+  }
+}
+
 .logo {
   padding: 3px 2px 2px 10px;
   margin-left: 0.1rem;
+}
+
+.logoImg {
+  max-width: 150px;
+  width: auto;
+  height: auto;
 }
 
 .p-toolbar {

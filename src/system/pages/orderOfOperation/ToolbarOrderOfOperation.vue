@@ -38,26 +38,9 @@ const emit = defineEmits(['onNewOp', 'onEditOp', 'onDoneOp'])
     overflow-y: auto;
     z-index: 999;
     top: 4.6rem;
-    margin-left: 0.8rem;
     position: fixed;
-    width: calc(100% - 260px);
-  }
-
-  @media (min-width: 1583px) {
-    .p-toolbar {
-      margin-left: 0;
-    }
-  }
-
-  @media (max-width: 1583px) {
-    .p-toolbar {
-      margin-left: 1.8rem;
-    }
-  }
-
-  @media (min-width: 1483px) {
-    .p-toolbar {
-      margin-left: 0;
-    }
+    left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    transition: left 0.2s ease, width 0.2s ease;
   }
 </style>

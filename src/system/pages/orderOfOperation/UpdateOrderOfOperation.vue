@@ -1,7 +1,7 @@
 <template>
   <div class=" card">
     <div class="card flex justify-center">
-      <Dialog v-model:visible="visible" modal header="Editar Ordem de Operação" :style="{ width: '45rem' }">
+      <Dialog v-model:visible="visible" modal header="Editar Ordem de Operação" :style="{ width: '45rem' }" :breakpoints="{ '960px': '90vw', '640px': '95vw' }">
 
         <div :class="$style.div_box" class="flex items-center">
           <InputGroup :style="{ 'max-width': '430px'  }">
@@ -282,6 +282,8 @@ const updatePorcentage = (event) => {
  }
  .div_box {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-top: 1rem;
 
   max-width: 560px;
@@ -289,6 +291,8 @@ const updatePorcentage = (event) => {
  }
  .div_box_2 {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-top: 1rem;
 
   max-width: 650px;
@@ -296,6 +300,8 @@ const updatePorcentage = (event) => {
  }
  .div_box_3 {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-top: 1rem;
 
   max-width: 600px;
@@ -303,6 +309,8 @@ const updatePorcentage = (event) => {
  }
  .div_box_4 {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-top: 1rem;
 
   max-width: 640px;
@@ -316,6 +324,8 @@ const updatePorcentage = (event) => {
  }
  .div_box_porcentages {
   display: flex !important;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   justify-content: space-around;
   align-items: center !important;
  }

@@ -290,7 +290,8 @@ const getLast3Records = async () => {
   }
 
   .sidebar {
-    width: 260px;
+    width: var(--sidebar-width);
+    transition: width 0.2s ease;
     background-color: #f5f5f5;
   }
 
@@ -305,6 +306,8 @@ const getLast3Records = async () => {
   .customborder {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     height: 100%;
     border-radius: 7px;
     justify-content: center;
@@ -313,6 +316,8 @@ const getLast3Records = async () => {
   .customborderStep4 {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     height: 100%;
     border-radius: 7px;
     justify-content: center;

@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card flex justify-center">
 
-      <Dialog v-model:visible="visible" modal header="Nova programação" :style="{ width: '45rem' }">
+      <Dialog v-model:visible="visible" modal header="Nova programação" :style="{ width: '45rem' }" :breakpoints="{ '960px': '90vw', '640px': '95vw' }">
 
         <div :class="$style.div_box" class="flex items-center">
           <InputGroup :style="{ 'max-width': '330px' }">
@@ -222,6 +222,8 @@ const formatValuesForSaveRelations = () => {
 <style module>
  .div_box {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-top: 1rem;
 
   max-width: 700px;
@@ -230,6 +232,8 @@ const formatValuesForSaveRelations = () => {
 
 .div_box_2 {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-top: 1rem;
 
   max-width: 700px;

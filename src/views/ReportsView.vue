@@ -320,7 +320,8 @@ const loadAllOps = async () => {
 
   .sidebar {
     margin-top: 1rem;
-    width: 260px;
+    width: var(--sidebar-width);
+    transition: width 0.2s ease;
     background-color: #f5f5f5;
   }
 

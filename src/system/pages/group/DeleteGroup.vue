@@ -1,5 +1,5 @@
 <template>
-  <Dialog v-model:visible="visible" modal header="Aviso de confirmação" :style="{ width: '25rem' }">
+  <Dialog v-model:visible="visible" modal header="Aviso de confirmação" :style="{ width: '25rem' }" :breakpoints="{ '640px': '90vw' }">
     <span>Tem certeza que deseja remover o grupo <b>{{ props.group.name }}</b>?</span>
 
     <div :class="$style.space_bottons">

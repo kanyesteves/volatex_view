@@ -110,15 +110,8 @@ const getAllOps = debounce(async () => {
 <style module>
 .container {
   display: flex;
-  margin-left: 2rem;
   margin-top: 7rem;
   height: calc(100% - 3rem);
-}
-
-@media (max-width: 1693px) {
-  .container {
-    margin-left: 0;
-  }
 }
 
 .toolbar_programming {
@@ -132,7 +125,8 @@ const getAllOps = debounce(async () => {
 }
 
 .sidebar {
-  width: 260px;
+  width: var(--sidebar-width);
+  transition: width 0.2s ease;
   background-color: #f5f5f5;
 }
 

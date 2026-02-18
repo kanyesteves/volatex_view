@@ -36,7 +36,9 @@ const emit = defineEmits(['onNewPrograming'])
     z-index: 999;
     top: 4.6rem;
     position: fixed;
-    width: calc(100% - 260px);
+    left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    transition: left 0.2s ease, width 0.2s ease;
   }
 
 </style>

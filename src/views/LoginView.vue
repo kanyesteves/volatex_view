@@ -171,7 +171,9 @@ const getIcon = (name) => {
 
   .box_login {
     display: flex;
-    width: 20rem;
+    width: 100%;
+    max-width: 20rem;
+    padding: 0 1rem;
     margin-top: 5rem;
     flex-direction: column;
     justify-content: center;

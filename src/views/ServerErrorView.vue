@@ -18,10 +18,8 @@ import Message from 'primevue/message';
 
 <style module>
   .messageError {
-    position: absolute;
-    top: 10%;
-    left: 40%;
-    margin-top: 1rem;
+    margin: 2rem auto;
     max-width: 20rem;
+    width: 90%;
   }
 </style>
